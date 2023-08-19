@@ -1,11 +1,11 @@
 ﻿using System;
 using CineBox.Model.Requests;
+using CineBox.Model.SearchObjects;
 
 namespace CineBox.Services.Users
 {
-	public interface IUserService
+	public interface IUserService: IService<Model.ViewModels.User, UserSearchObject>
 	{
-		List<Model.ViewModels.User> Get();
 		Model.ViewModels.User Insert(UserInsertRequest request);
 		Model.ViewModels.User Update(int id, UserUpdateRequest request);
 	}

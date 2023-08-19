@@ -1,4 +1,6 @@
 ﻿using CineBox.Model.Requests;
+using CineBox.Model.SearchObjects;
+using CineBox.Services;
 using CineBox.Services.Database;
 using CineBox.Services.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -6,32 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace CineBox.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class UsersController : ControllerBase
+public class UsersController : BaseController<Model.ViewModels.User, UserSearchObject>
 {
-    private readonly IUserService _service;
-
-    public UsersController(IUserService service)
+    public UsersController(IUserService service) : base(service)
     {
-        _service = service;
     }
 
-    [HttpGet()]
-    public IEnumerable<Model.ViewModels.User> Get()
-    {
-        return _service.Get();
-    }
+    //[HttpPost]
+    //public Model.ViewModels.User Insert(UserInsertRequest request)
+    //{
+    //    return _service.Insert(request);
+    //}
 
-    [HttpPost]
-    public Model.ViewModels.User Insert(UserInsertRequest request)
-    {
-        return _service.Insert(request);
-    }
-
-    [HttpPut("{id}")]
-    public Model.ViewModels.User Update(int id, UserUpdateRequest request)
-    {
-        return _service.Update(id, request);
-    }
+    //[HttpPut("{id}")]
+    //public Model.ViewModels.User Update(int id, UserUpdateRequest request)
+    //{
+    //    return _service.Update(id, request);
+    //}
 }
 

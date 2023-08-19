@@ -18,19 +18,15 @@ namespace CineBox.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<PagedResult<T>> Get(TSearch? search = null)
+        public virtual async Task<PagedResult<T>> Get(TSearch search)
         {
             var query = _context.Set<TDb>().AsQueryable();
 
             PagedResult<T> result = new PagedResult<T>();
 
-
+            result.Count = await query.CountAsync();
 
             query = AddFilter(query, search);
-
-            query = AddInclude(query, search);
-
-            result.Count = await query.CountAsync();
 
             if (search?.Page.HasValue == true && search?.PageSize.HasValue == true)
             {
@@ -39,27 +35,14 @@ namespace CineBox.Services
 
             var list = await query.ToListAsync();
 
-            var tmp = _mapper.Map<List<T>>(list);
-            result.Result = tmp;
+            result.Result = _mapper.Map<List<T>>(list);
 
             return result;
         }
 
-        public virtual IQueryable<TDb> AddInclude(IQueryable<TDb> query, TSearch? search = null)
+        public virtual IQueryable<TDb> AddFilter(IQueryable<TDb> query, TSearch search)
         {
             return query;
-        }
-
-        public virtual IQueryable<TDb> AddFilter(IQueryable<TDb> query, TSearch? search = null)
-        {
-            return query;
-        }
-
-        public virtual async Task<T> GetById(int id)
-        {
-            var entity = await _context.Set<TDb>().FindAsync(id);
-
-            return _mapper.Map<T>(entity);
         }
     }
 }

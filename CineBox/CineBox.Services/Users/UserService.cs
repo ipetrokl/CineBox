@@ -3,26 +3,33 @@ using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using CineBox.Model.Requests;
+using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace CineBox.Services.Users
 {
-    public class UserService : IUserService
+    public class UserService : BaseService<Model.ViewModels.User, Database.User, UserSearchObject>, IUserService
     {
-        CineBoxV1Context _context;
-        public IMapper _mapper { get; set; }
 
         public UserService(CineBoxV1Context context, IMapper mapper)
+            : base(context,mapper)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-        public List<Model.ViewModels.User> Get()
+        public override IQueryable<User> AddFilter(IQueryable<User> query, UserSearchObject search)
         {
-            var entityList = _context.Users.ToList();
+            if (!string.IsNullOrEmpty(search.Name))
+            {
+                query = query.Where(x => x.Name.StartsWith(search.Name));
+            }
 
-            return _mapper.Map<List<Model.ViewModels.User>>(entityList);
+            if (!string.IsNullOrEmpty(search.FTS))
+            {
+                query = query.Where(x => x.Name.Contains(search.FTS));
+            }
+
+            return base.AddFilter(query, search);
         }
 
         public Model.ViewModels.User Insert(UserInsertRequest request)
