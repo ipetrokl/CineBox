@@ -1,0 +1,12 @@
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/bin/Debug/net6.0/CineBox.Model.deps.json
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/bin/Debug/net6.0/CineBox.Model.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/bin/Debug/net6.0/CineBox.Model.pdb
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.csproj.AssemblyReference.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.AssemblyInfoInputs.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.AssemblyInfo.cs
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.csproj.CoreCompileInputs.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/refint/CineBox.Model.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/CineBox.Model.pdb
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Model/obj/Debug/net6.0/ref/CineBox.Model.dll

@@ -1,0 +1,42 @@
+﻿<Properties StartupConfiguration="{2F4A5B7B-1433-4909-8505-4545C677F804}|Default">
+  <MonoDevelop.Ide.ItemProperties.CineBox.Model FirstBuild="True" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../CineBox.Model/Requests/ActorInsertRequest.cs">
+    <Files>
+      <File FileName="../CineBox.Services/Iservice.cs" Line="13" Column="1" IsPinned="True" />
+      <File FileName="../CineBox.Model/PagedResult.cs" Line="7" Column="40" IsPinned="True" />
+      <File FileName="../CineBox.Services/Database/Actor.cs" />
+      <File FileName="../CineBox.Model/Actor.cs" />
+      <File FileName="../CineBox.Services/MappingProfile.cs" />
+      <File FileName="../CineBox.Services/ActorService.cs" Line="15" Column="1" />
+      <File FileName="../CineBox.Model/SearchObjects/BaseSearchObject.cs" />
+      <File FileName="../CineBox.Services/BaseService.cs" />
+      <File FileName="../CineBox.Services/BaseCRUDService.cs" />
+      <File FileName="../CineBox.Services/ICRUDService.cs" />
+      <File FileName="../CineBox.Model/SearchObjects/ActorSearchObject.cs" />
+      <File FileName="../CineBox.Model/Requests/ActorInsertRequest.cs" Line="10" Column="1" />
+      <File FileName="../CineBox.Model/Requests/ActorUpdateRequest.cs" Line="6" Column="41" />
+      <File FileName="../CineBox.Services/IActorService.cs" />
+      <File FileName="../CineBox.Services/StateMachine/BaseState.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CineBox" expanded="True">
+            <Node name="CineBox.Model">
+              <Node name="Requests" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.CineBox.Services FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.CineBox PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

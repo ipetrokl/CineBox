@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cinebox:
+    image: ${DOCKER_REGISTRY-}cinebox
+    build:
+      context: .
+      dockerfile: ./Dockerfile

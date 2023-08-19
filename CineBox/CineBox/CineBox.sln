@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineBox", "CineBox.csproj", "{2F4A5B7B-1433-4909-8505-4545C677F804}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{35DB8DC3-02F1-4B61-AB93-C7523B1BE250}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineBox.Model", "..\CineBox.Model\CineBox.Model.csproj", "{7BF1E8E8-E26F-482D-9FC3-908D440EA965}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineBox.Services", "..\CineBox.Services\CineBox.Services.csproj", "{86C41571-9FE1-42E1-93AB-98A230010E80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F4A5B7B-1433-4909-8505-4545C677F804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4A5B7B-1433-4909-8505-4545C677F804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4A5B7B-1433-4909-8505-4545C677F804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4A5B7B-1433-4909-8505-4545C677F804}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35DB8DC3-02F1-4B61-AB93-C7523B1BE250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DB8DC3-02F1-4B61-AB93-C7523B1BE250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DB8DC3-02F1-4B61-AB93-C7523B1BE250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DB8DC3-02F1-4B61-AB93-C7523B1BE250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BF1E8E8-E26F-482D-9FC3-908D440EA965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF1E8E8-E26F-482D-9FC3-908D440EA965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF1E8E8-E26F-482D-9FC3-908D440EA965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF1E8E8-E26F-482D-9FC3-908D440EA965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C41571-9FE1-42E1-93AB-98A230010E80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C41571-9FE1-42E1-93AB-98A230010E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C41571-9FE1-42E1-93AB-98A230010E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C41571-9FE1-42E1-93AB-98A230010E80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AD32BA0-8FF2-46AE-B80E-2A46A199BD6A}
+	EndGlobalSection
+EndGlobal

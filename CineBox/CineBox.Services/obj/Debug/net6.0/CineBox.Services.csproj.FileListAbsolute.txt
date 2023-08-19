@@ -1,0 +1,17 @@
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Services.deps.json
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Services.runtimeconfig.json
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Services.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Services.pdb
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Model.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/bin/Debug/net6.0/CineBox.Model.pdb
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.csproj.AssemblyReference.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.AssemblyInfoInputs.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.AssemblyInfo.cs
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.csproj.CoreCompileInputs.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.csproj.CopyComplete
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/refint/CineBox.Services.dll
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.pdb
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/CineBox.Services.genruntimeconfig.cache
+/Users/ivanpetrovic/Documents/App_Seminarski/CineBox/CineBox/CineBox.Services/obj/Debug/net6.0/ref/CineBox.Services.dll
