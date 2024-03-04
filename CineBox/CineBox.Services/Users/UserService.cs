@@ -17,21 +17,6 @@ namespace CineBox.Services.Users
         {
         }
 
-        public override IQueryable<User> AddFilter(IQueryable<User> query, UserSearchObject search)
-        {
-            if (!string.IsNullOrEmpty(search.Name))
-            {
-                query = query.Where(x => x.Name.StartsWith(search.Name));
-            }
-
-            if (!string.IsNullOrEmpty(search.FTS))
-            {
-                query = query.Where(x => x.Name.Contains(search.FTS));
-            }
-
-            return base.AddFilter(query, search);
-        }
-
         public Model.ViewModels.User Insert(UserInsertRequest request)
         {
             var entity = new User();
@@ -77,6 +62,30 @@ namespace CineBox.Services.Users
             _context.SaveChanges();
 
             return _mapper.Map<Model.ViewModels.User>(entity);
+        }
+
+        public override IQueryable<User> AddFilter(IQueryable<User> query, UserSearchObject search)
+        {
+            if (!string.IsNullOrEmpty(search.Name))
+            {
+                query = query.Where(x => x.Name.StartsWith(search.Name));
+            }
+
+            if (!string.IsNullOrEmpty(search.FTS))
+            {
+                query = query.Where(x => x.Name.Contains(search.FTS));
+            }
+
+            return base.AddFilter(query, search);
+        }
+
+        public override IQueryable<User> AddInclude(IQueryable<User> query, UserSearchObject search)
+        {
+            if (search?.isRoleIncluded == true)
+            {
+                query = query.Include("UsersRoles.Role");
+            }
+            return base.AddInclude(query, search);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace CineBox.Controllers
     [Route("[controller]")]
     public class BaseController<T, TSearch> : ControllerBase where T : class where TSearch : class
     {
-        private readonly IService<T, TSearch> _service;
+        protected readonly IService<T, TSearch> _service;
 
         public BaseController(IService<T, TSearch> service)
         {
@@ -22,6 +22,12 @@ namespace CineBox.Controllers
         public async Task<PagedResult<T>> Get([FromQuery]TSearch search)
         {
             return await _service.Get(search);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<T> GetById(int id)
+        {
+            return await _service.GetById(id);
         }
     }
 }
