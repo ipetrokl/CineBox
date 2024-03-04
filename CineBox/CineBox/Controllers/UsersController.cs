@@ -5,15 +5,15 @@ using CineBox.Services.Database;
 using CineBox.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CineBox.Controllers;
-
-[ApiController]
-public class UsersController : BaseCRUDController<Model.ViewModels.User, UserSearchObject, UserInsertRequest, UserUpdateRequest>
+namespace CineBox.Controllers
 {
-
-    public UsersController(IUserService service) : base(service)
+    [ApiController]
+    public class UsersController : BaseCRUDController<Model.ViewModels.User, UserSearchObject, UserInsertRequest, UserUpdateRequest>
     {
 
+        public UsersController(IUserService service) : base(service)
+        {
+
+        }
     }
 }
-

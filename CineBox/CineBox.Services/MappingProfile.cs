@@ -8,11 +8,17 @@ namespace CineBox.Services
 	{
 		public MappingProfile()
 		{
+			//User
 			CreateMap<Database.User, Model.ViewModels.User>();
 			CreateMap<UserInsertRequest, Database.User>();
 			CreateMap<UserUpdateRequest, Database.User>();
+			//Roles
             CreateMap<Database.UsersRole, Model.ViewModels.UsersRole>();
             CreateMap<Database.Role, Model.ViewModels.Role>();
+			//Movie
+			CreateMap<Database.Movie, Model.ViewModels.Movie>();
+            CreateMap<MovieInsertRequest, Database.Movie>();
+            CreateMap<MovieUpdateRequest, Database.Movie>();
 
 
         }

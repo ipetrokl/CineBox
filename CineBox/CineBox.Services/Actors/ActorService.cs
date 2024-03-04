@@ -2,7 +2,6 @@
 using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
-using CineBox.Services.CRUD;
 using CineBox.Services.Database;
 
 namespace CineBox.Services.Actors
