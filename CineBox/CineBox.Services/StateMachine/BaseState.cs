@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CineBox.Model.Exceptios;
 using CineBox.Model.Requests;
 using CineBox.Services.Database;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,27 +22,27 @@ namespace CineBox.Services.StateMachine
 
         public virtual Task<Model.ViewModels.Movie> Insert(MovieInsertRequest request)
 		{
-			throw new Exception("Not Allowed");
+			throw new UserException("Not Allowed");
 		}
 
         public virtual Task<Model.ViewModels.Movie> Update(int id, MovieUpdateRequest request)
         {
-            throw new Exception("Not Allowed");
+            throw new UserException("Not Allowed");
         }
 
         public virtual Task<Model.ViewModels.Movie> Activate(int id)
         {
-            throw new Exception("Not Allowed");
+            throw new UserException("Not Allowed");
         }
 
         public virtual Task<Model.ViewModels.Movie> Hide(int id)
         {
-            throw new Exception("Not Allowed");
+            throw new UserException("Not Allowed");
         }
 
         public virtual Task<Model.ViewModels.Movie> Delete(int id)
         {
-            throw new Exception("Not Allowed");
+            throw new UserException("Not Allowed");
         }
 
         public BaseState CreateState(string stateName)
@@ -59,7 +60,7 @@ namespace CineBox.Services.StateMachine
                     return _serviceProvider.GetService<ActiveMovieState>();
                     break;
                 default:
-                    throw new Exception("Not Allowed");
+                    throw new UserException("Not Allowed");
             }
         }
 

@@ -10,10 +10,12 @@
     <None Remove="SearchObjects\" />
     <None Remove="Requests\" />
     <None Remove="ViewModels\" />
+    <None Remove="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SearchObjects\" />
     <Folder Include="Requests\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 </Project>

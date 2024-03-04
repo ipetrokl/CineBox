@@ -1,4 +1,5 @@
-﻿using CineBox.Services.Database;
+﻿using CineBox.Filters;
+using CineBox.Services.Database;
 using CineBox.Services.Movie;
 using CineBox.Services.StateMachine;
 using CineBox.Services.Users;
@@ -15,7 +16,11 @@ builder.Services.AddTransient<InitialMovieState>();
 builder.Services.AddTransient<DraftMovieState>();
 builder.Services.AddTransient<ActiveMovieState>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(x =>
+{
+    x.Filters.Add<ErrorFilter>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
