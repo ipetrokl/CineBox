@@ -4,10 +4,8 @@ using CineBox.Model.SearchObjects;
 
 namespace CineBox.Services.Users
 {
-	public interface IUserService: IService<Model.ViewModels.User, UserSearchObject>
+	public interface IUserService: ICRUDService<Model.ViewModels.User, UserSearchObject, UserInsertRequest, UserUpdateRequest>
 	{
-		Model.ViewModels.User Insert(UserInsertRequest request);
-		Model.ViewModels.User Update(int id, UserUpdateRequest request);
 	}
 }
 

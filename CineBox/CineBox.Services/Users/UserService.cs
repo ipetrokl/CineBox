@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using Azure.Core;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CineBox.Services.Users
 {
-    public class UserService : BaseService<Model.ViewModels.User, Database.User, UserSearchObject>, IUserService
+    public class UserService : BaseCRUDService<Model.ViewModels.User, Database.User, UserSearchObject, UserInsertRequest, UserUpdateRequest>, IUserService
     {
 
         public UserService(CineBoxContext context, IMapper mapper)
@@ -17,18 +18,10 @@ namespace CineBox.Services.Users
         {
         }
 
-        public Model.ViewModels.User Insert(UserInsertRequest request)
+        public override async Task BeforeInsert(User entity, UserInsertRequest request)
         {
-            var entity = new User();
-            _mapper.Map(request, entity);
-
             entity.PasswordSalt = GenerateSalt();
             entity.PasswordHash = GenerateHash(entity.PasswordSalt, request.Password);
-
-            _context.Users.Add(entity);
-            _context.SaveChanges();
-
-            return _mapper.Map<Model.ViewModels.User>(entity);
         }
 
         public static string GenerateSalt()
@@ -52,16 +45,6 @@ namespace CineBox.Services.Users
             HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
             byte[] inArray = algorithm.ComputeHash(dst);
             return Convert.ToBase64String(inArray);
-        }
-
-        public Model.ViewModels.User Update(int id, UserUpdateRequest request)
-        {
-            var entity = _context.Users.Find(id);
-            _mapper.Map(request, entity);
-
-            _context.SaveChanges();
-
-            return _mapper.Map<Model.ViewModels.User>(entity);
         }
 
         public override IQueryable<User> AddFilter(IQueryable<User> query, UserSearchObject search)
