@@ -4,6 +4,7 @@ using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
 using CineBox.Services.StateMachine;
+using Microsoft.Extensions.Logging;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CineBox.Services.Movie
@@ -12,7 +13,7 @@ namespace CineBox.Services.Movie
     {
         public BaseState _baseState { get; set; }
 
-        public MovieService(BaseState baseState, CineBoxContext context, IMapper mapper) : base(context, mapper)
+        public MovieService(ILogger<BaseService<Model.ViewModels.Movie, Database.Movie, MovieSearchObject>> logger, BaseState baseState, CineBoxContext context, IMapper mapper) : base(logger, context, mapper)
         {
             _baseState = baseState;
         }

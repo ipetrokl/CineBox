@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Services.Database;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.StateMachine
 {
 	public class InitialMovieState : BaseState
 	{
-        public InitialMovieState(IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
+        protected ILogger<InitialMovieState> _logger;
+
+        public InitialMovieState(ILogger<InitialMovieState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
         {
+            _logger = logger;
         }
 
         public override async Task<Model.ViewModels.Movie> Insert(MovieInsertRequest request)

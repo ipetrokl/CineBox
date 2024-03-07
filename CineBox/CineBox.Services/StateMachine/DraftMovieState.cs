@@ -3,14 +3,17 @@ using AutoMapper;
 using Azure.Core;
 using CineBox.Model.Requests;
 using CineBox.Services.Database;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.StateMachine
 {
     public class DraftMovieState : BaseState
     {
-        public DraftMovieState(IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
+        protected ILogger<DraftMovieState> _logger; 
+
+        public DraftMovieState(ILogger<DraftMovieState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
         {
+            _logger = logger;
         }
 
         public override async Task<Model.ViewModels.Movie> Update(int id, MovieUpdateRequest request)

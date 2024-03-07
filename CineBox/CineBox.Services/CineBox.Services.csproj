@@ -23,11 +23,13 @@
     <None Remove="Users\" />
     <None Remove="Actors\" />
     <None Remove="Movie\" />
+    <None Remove="Cinema\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
     <Folder Include="Users\" />
     <Folder Include="Actors\" />
     <Folder Include="Movie\" />
+    <Folder Include="Cinema\" />
   </ItemGroup>
 </Project>

@@ -2,12 +2,13 @@
 using AutoMapper;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services
 {
     public class BaseCRUDService<T, TDb, TSearch, TInsert, TUpdate> : BaseService<T, TDb, TSearch> where T : class where TDb : class where TSearch : BaseSearchObject
     {
-        public BaseCRUDService(CineBoxContext context, IMapper mapper) : base(context, mapper)
+        public BaseCRUDService(ILogger<BaseService<T, TDb, TSearch>> logger, CineBoxContext context, IMapper mapper) : base(logger, context, mapper)
         {
         }
 

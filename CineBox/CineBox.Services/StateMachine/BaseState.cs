@@ -4,17 +4,20 @@ using CineBox.Model.Exceptios;
 using CineBox.Model.Requests;
 using CineBox.Services.Database;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.StateMachine
 {
 	public class BaseState
 	{
+        protected ILogger<BaseState> _logger;
         protected IMapper _mapper { get; set; }
         protected CineBoxContext _context;
         public IServiceProvider _serviceProvider { get; set; }
 
-        public BaseState(IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper)
+        public BaseState(ILogger<BaseState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper)
         {
+            _logger = logger;
             _context = context;
             _mapper = mapper;
             _serviceProvider = serviceProvider;

@@ -6,15 +6,16 @@ using Azure.Core;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using CineBox.Services.StateMachine;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.Users
 {
     public class UserService : BaseCRUDService<Model.ViewModels.User, Database.User, UserSearchObject, UserInsertRequest, UserUpdateRequest>, IUserService
     {
-
-        public UserService(CineBoxContext context, IMapper mapper)
-            : base(context,mapper)
+        public UserService(ILogger<BaseService<Model.ViewModels.User, Database.User, UserSearchObject>> logger, CineBoxContext context, IMapper mapper)
+            : base(logger, context,mapper)
         {
         }
 

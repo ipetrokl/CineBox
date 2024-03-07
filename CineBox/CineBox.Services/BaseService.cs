@@ -3,17 +3,21 @@ using AutoMapper;
 using CineBox.Model;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using CineBox.Services.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services
 {
 	public class BaseService<T, TDb, TSearch> : IService<T, TSearch> where TDb : class where T : class where TSearch : BaseSearchObject
 	{
+        protected ILogger<BaseService<T, TDb, TSearch>> _logger;
         protected IMapper _mapper { get; set; }
         protected CineBoxContext _context;
 
-        public BaseService(CineBoxContext context, IMapper mapper)
+        public BaseService(ILogger<BaseService<T, TDb, TSearch>> logger, CineBoxContext context, IMapper mapper)
         {
+            _logger = logger;
             _context = context;
             _mapper = mapper;
         }

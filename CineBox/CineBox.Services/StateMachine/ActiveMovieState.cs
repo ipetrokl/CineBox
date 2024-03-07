@@ -1,13 +1,17 @@
 ﻿using System;
 using AutoMapper;
 using CineBox.Services.Database;
+using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.StateMachine
 {
     public class ActiveMovieState : BaseState
     {
-        public ActiveMovieState(IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
+        protected ILogger<ActiveMovieState> _logger;
+
+        public ActiveMovieState(ILogger<ActiveMovieState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
         {
+            _logger = logger;
         }
 
         public override async Task<Model.ViewModels.Movie> Hide(int id)
