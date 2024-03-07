@@ -28,6 +28,19 @@ namespace CineBox.Controllers
         {
             return await _service.Update(id, update);
         }
+
+        [HttpDelete("{id}")]
+        public virtual async Task<IActionResult> Delete(int id)
+        {
+            if (await _service.Delete(id))
+            {
+                return Ok(new { Message = "Entity deleted successfully." });
+            }
+            else
+            {
+                return NotFound(new { Message = "Entity not found or deletion failed." });
+            }    
+        }
     }
 }
 
