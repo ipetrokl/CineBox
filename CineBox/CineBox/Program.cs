@@ -1,6 +1,7 @@
 ﻿using CineBox.Filters;
 using CineBox.Services.Cinema;
 using CineBox.Services.Database;
+using CineBox.Services.Genre;
 using CineBox.Services.Movie;
 using CineBox.Services.Screening;
 using CineBox.Services.StateMachine;
@@ -19,6 +20,7 @@ builder.Services.AddTransient<DraftMovieState>();
 builder.Services.AddTransient<ActiveMovieState>();
 builder.Services.AddTransient<ICinemaService, CinemaService>();
 builder.Services.AddTransient<IScreeningService, ScreeningService>();
+builder.Services.AddTransient<IGenreService, GenreService>();
 
 builder.Services.AddControllers(x =>
 {

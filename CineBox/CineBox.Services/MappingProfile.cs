@@ -27,7 +27,10 @@ namespace CineBox.Services
             CreateMap<Database.Screening, Model.ViewModels.Screening>();
             CreateMap<ScreeningInsertRequest, Database.Screening>();
             CreateMap<ScreeningUpdateRequest, Database.Screening>();
-
+            //Genre
+            CreateMap<Database.Genre, Model.ViewModels.Genre>();
+            CreateMap<GenreInsertRequest, Database.Genre>();
+            CreateMap<GenreUpdateRequest, Database.Genre>();
 
         }
     }
