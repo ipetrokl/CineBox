@@ -1,7 +1,7 @@
 ﻿using System;
 namespace CineBox.Model.ViewModels
 {
-	public class Actor
+	public partial class Actor
 	{
         public int Id { get; set; }
 

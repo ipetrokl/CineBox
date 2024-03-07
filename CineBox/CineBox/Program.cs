@@ -3,6 +3,7 @@ using CineBox.Services.Actors;
 using CineBox.Services.Cinema;
 using CineBox.Services.Database;
 using CineBox.Services.Genre;
+using CineBox.Services.Hall;
 using CineBox.Services.Movie;
 using CineBox.Services.Screening;
 using CineBox.Services.StateMachine;
@@ -23,6 +24,7 @@ builder.Services.AddTransient<ICinemaService, CinemaService>();
 builder.Services.AddTransient<IScreeningService, ScreeningService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<IActorService, ActorService>();
+builder.Services.AddTransient<IHallService, HallService>();
 
 builder.Services.AddControllers(x =>
 {

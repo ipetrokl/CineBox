@@ -26,6 +26,7 @@
     <None Remove="Cinema\" />
     <None Remove="Screening\" />
     <None Remove="Genre\" />
+    <None Remove="Hall\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -35,5 +36,6 @@
     <Folder Include="Cinema\" />
     <Folder Include="Screening\" />
     <Folder Include="Genre\" />
+    <Folder Include="Hall\" />
   </ItemGroup>
 </Project>
