@@ -1,7 +1,7 @@
 ﻿using System;
 namespace CineBox.Services.Cinema
 {
-	public interface ICinemaService : IService<>
+	public interface ICinemaService
 	{
 		
 	}

@@ -11,7 +11,7 @@ namespace CineBox.Services.StateMachine
     {
         protected ILogger<DraftMovieState> _logger; 
 
-        public DraftMovieState(ILogger<DraftMovieState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(serviceProvider, context, mapper)
+        public DraftMovieState(ILogger<DraftMovieState> logger, IServiceProvider serviceProvider, CineBoxContext context, IMapper mapper) : base(logger, serviceProvider, context, mapper)
         {
             _logger = logger;
         }
