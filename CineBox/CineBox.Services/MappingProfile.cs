@@ -19,6 +19,10 @@ namespace CineBox.Services
 			CreateMap<Database.Movie, Model.ViewModels.Movie>();
             CreateMap<MovieInsertRequest, Database.Movie>();
             CreateMap<MovieUpdateRequest, Database.Movie>();
+            //Cinema
+            CreateMap<Database.Cinema, Model.ViewModels.Cinema>();
+            CreateMap<CinemaInsertRequest, Database.Cinema>();
+            CreateMap<CinemaUpdateRequest, Database.Cinema>();
 
 
         }
