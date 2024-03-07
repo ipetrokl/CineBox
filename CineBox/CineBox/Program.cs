@@ -2,6 +2,7 @@
 using CineBox.Services.Cinema;
 using CineBox.Services.Database;
 using CineBox.Services.Movie;
+using CineBox.Services.Screening;
 using CineBox.Services.StateMachine;
 using CineBox.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ builder.Services.AddTransient<InitialMovieState>();
 builder.Services.AddTransient<DraftMovieState>();
 builder.Services.AddTransient<ActiveMovieState>();
 builder.Services.AddTransient<ICinemaService, CinemaService>();
+builder.Services.AddTransient<IScreeningService, ScreeningService>();
 
 builder.Services.AddControllers(x =>
 {
