@@ -5,7 +5,7 @@ using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
 using Microsoft.Extensions.Logging;
 
-namespace CineBox.Services.Actors
+namespace CineBox.Services.Actor
 {
     public class ActorService : BaseCRUDService<Model.ViewModels.Actor, Database.Actor, ActorSearchObject, ActorInsertRequest, ActorUpdateRequest>, IActorService
     {

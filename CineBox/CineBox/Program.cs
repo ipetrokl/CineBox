@@ -1,5 +1,5 @@
 ﻿using CineBox.Filters;
-using CineBox.Services.Actors;
+using CineBox.Services.Actor;
 using CineBox.Services.Booking;
 using CineBox.Services.BookingSeat;
 using CineBox.Services.Cinema;

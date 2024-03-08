@@ -1,7 +1,6 @@
 ﻿using System;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
-using CineBox.Services.Actors;
 using CineBox.Services.Hall;
 using Microsoft.AspNetCore.Mvc;
 

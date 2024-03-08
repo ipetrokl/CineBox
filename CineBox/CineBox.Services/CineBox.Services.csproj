@@ -21,7 +21,6 @@
   <ItemGroup>
     <None Remove="StateMachine\" />
     <None Remove="Users\" />
-    <None Remove="Actors\" />
     <None Remove="Movie\" />
     <None Remove="Cinema\" />
     <None Remove="Screening\" />
@@ -33,11 +32,11 @@
     <None Remove="Ticket\" />
     <None Remove="Payment\" />
     <None Remove="Review\" />
+    <None Remove="Actor\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
     <Folder Include="Users\" />
-    <Folder Include="Actors\" />
     <Folder Include="Movie\" />
     <Folder Include="Cinema\" />
     <Folder Include="Screening\" />
@@ -49,5 +48,6 @@
     <Folder Include="Ticket\" />
     <Folder Include="Payment\" />
     <Folder Include="Review\" />
+    <Folder Include="Actor\" />
   </ItemGroup>
 </Project>
