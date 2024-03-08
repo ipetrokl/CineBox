@@ -67,6 +67,10 @@ namespace CineBox.Services
             CreateMap<Database.Review, Model.ViewModels.Review>();
             CreateMap<ReviewInsertRequest, Database.Review>();
             CreateMap<ReviewUpdateRequest, Database.Review>();
+            //MovieActor
+            CreateMap<Database.MovieActor, Model.ViewModels.MovieActor>();
+            CreateMap<MovieActorInsertRequest, Database.MovieActor>();
+            CreateMap<MovieActorUpdateRequest, Database.MovieActor>();
 
 
         }

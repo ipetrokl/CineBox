@@ -7,6 +7,7 @@ using CineBox.Services.Database;
 using CineBox.Services.Genre;
 using CineBox.Services.Hall;
 using CineBox.Services.Movie;
+using CineBox.Services.MovieActor;
 using CineBox.Services.Payment;
 using CineBox.Services.Promotion;
 using CineBox.Services.Review;
@@ -39,6 +40,7 @@ builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddTransient<IMovieActorService, MovieActorService>();
 
 
 builder.Services.AddControllers(x =>

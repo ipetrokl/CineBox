@@ -33,6 +33,7 @@
     <None Remove="Payment\" />
     <None Remove="Review\" />
     <None Remove="Actor\" />
+    <None Remove="MovieActor\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -49,5 +50,6 @@
     <Folder Include="Payment\" />
     <Folder Include="Review\" />
     <Folder Include="Actor\" />
+    <Folder Include="MovieActor\" />
   </ItemGroup>
 </Project>
