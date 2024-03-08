@@ -11,6 +11,7 @@ using CineBox.Services.Promotion;
 using CineBox.Services.Screening;
 using CineBox.Services.Seat;
 using CineBox.Services.StateMachine;
+using CineBox.Services.Ticket;
 using CineBox.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,7 @@ builder.Services.AddTransient<ISeatService, SeatService>();
 builder.Services.AddTransient<IPromotionService, PromotionService>();
 builder.Services.AddTransient<IBookingSeatService, BookingSeatService>();
 builder.Services.AddTransient<IBookingService, BookingService>();
+builder.Services.AddTransient<ITicketService, TicketService>();
 
 
 builder.Services.AddControllers(x =>
