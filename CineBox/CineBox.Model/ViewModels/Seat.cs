@@ -1,7 +1,7 @@
 
 namespace CineBox.Model.ViewModels
 {
-    public class Seat
+    public partial class Seat
     {
         public int Id { get; set; }
 

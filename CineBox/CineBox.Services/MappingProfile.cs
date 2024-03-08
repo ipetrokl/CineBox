@@ -43,6 +43,14 @@ namespace CineBox.Services
             CreateMap<Database.Seat, Model.ViewModels.Seat>();
             CreateMap<SeatInsertRequest, Database.Seat>();
             CreateMap<SeatUpdateRequest, Database.Seat>();
+            //Promotion
+            CreateMap<Database.Promotion, Model.ViewModels.Promotion>();
+            CreateMap<PromotionInsertRequest, Database.Promotion>();
+            CreateMap<PromotionUpdateRequest, Database.Promotion>();
+            //BookingSeat
+            CreateMap<Database.BookingSeat, Model.ViewModels.BookingSeat>();
+            CreateMap<BookingSeatInsertRequest, Database.BookingSeat>();
+            CreateMap<BookingSeatUpdateRequest, Database.BookingSeat>();
 
 
         }

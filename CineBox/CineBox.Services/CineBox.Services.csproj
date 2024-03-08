@@ -27,6 +27,8 @@
     <None Remove="Screening\" />
     <None Remove="Genre\" />
     <None Remove="Hall\" />
+    <None Remove="Promotion\" />
+    <None Remove="BookingSeat\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -37,5 +39,7 @@
     <Folder Include="Screening\" />
     <Folder Include="Genre\" />
     <Folder Include="Hall\" />
+    <Folder Include="Promotion\" />
+    <Folder Include="BookingSeat\" />
   </ItemGroup>
 </Project>

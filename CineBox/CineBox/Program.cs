@@ -1,10 +1,12 @@
 ﻿using CineBox.Filters;
 using CineBox.Services.Actors;
+using CineBox.Services.BookingSeat;
 using CineBox.Services.Cinema;
 using CineBox.Services.Database;
 using CineBox.Services.Genre;
 using CineBox.Services.Hall;
 using CineBox.Services.Movie;
+using CineBox.Services.Promotion;
 using CineBox.Services.Screening;
 using CineBox.Services.Seat;
 using CineBox.Services.StateMachine;
@@ -27,7 +29,8 @@ builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<IActorService, ActorService>();
 builder.Services.AddTransient<IHallService, HallService>();
 builder.Services.AddTransient<ISeatService, SeatService>();
-
+builder.Services.AddTransient<IPromotionService, PromotionService>();
+builder.Services.AddTransient<IBookingSeatService, BookingSeatService>();
 
 
 builder.Services.AddControllers(x =>
