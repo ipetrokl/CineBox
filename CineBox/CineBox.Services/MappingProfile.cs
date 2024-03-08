@@ -63,6 +63,10 @@ namespace CineBox.Services
             CreateMap<Database.Payment, Model.ViewModels.Payment>();
             CreateMap<PaymentInsertRequest, Database.Payment>();
             CreateMap<PaymentUpdateRequest, Database.Payment>();
+            //Review
+            CreateMap<Database.Review, Model.ViewModels.Review>();
+            CreateMap<ReviewInsertRequest, Database.Review>();
+            CreateMap<ReviewUpdateRequest, Database.Review>();
 
 
         }

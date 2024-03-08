@@ -32,6 +32,7 @@
     <None Remove="Booking\" />
     <None Remove="Ticket\" />
     <None Remove="Payment\" />
+    <None Remove="Review\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -47,5 +48,6 @@
     <Folder Include="Booking\" />
     <Folder Include="Ticket\" />
     <Folder Include="Payment\" />
+    <Folder Include="Review\" />
   </ItemGroup>
 </Project>
