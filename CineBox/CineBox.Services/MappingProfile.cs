@@ -39,6 +39,11 @@ namespace CineBox.Services
             CreateMap<Database.Hall, Model.ViewModels.Hall>();
             CreateMap<HallInsertRequest, Database.Hall>();
             CreateMap<HallUpdateRequest, Database.Hall>();
+            //Seat
+            CreateMap<Database.Seat, Model.ViewModels.Seat>();
+            CreateMap<SeatInsertRequest, Database.Seat>();
+            CreateMap<SeatUpdateRequest, Database.Seat>();
+
 
         }
     }

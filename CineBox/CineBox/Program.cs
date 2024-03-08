@@ -6,6 +6,7 @@ using CineBox.Services.Genre;
 using CineBox.Services.Hall;
 using CineBox.Services.Movie;
 using CineBox.Services.Screening;
+using CineBox.Services.Seat;
 using CineBox.Services.StateMachine;
 using CineBox.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,9 @@ builder.Services.AddTransient<IScreeningService, ScreeningService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<IActorService, ActorService>();
 builder.Services.AddTransient<IHallService, HallService>();
+builder.Services.AddTransient<ISeatService, SeatService>();
+
+
 
 builder.Services.AddControllers(x =>
 {
