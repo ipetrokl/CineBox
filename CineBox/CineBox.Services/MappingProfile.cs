@@ -51,6 +51,10 @@ namespace CineBox.Services
             CreateMap<Database.BookingSeat, Model.ViewModels.BookingSeat>();
             CreateMap<BookingSeatInsertRequest, Database.BookingSeat>();
             CreateMap<BookingSeatUpdateRequest, Database.BookingSeat>();
+            //Booking
+            CreateMap<Database.Booking, Model.ViewModels.Booking>();
+            CreateMap<BookingInsertRequest, Database.Booking>();
+            CreateMap<BookingUpdateRequest, Database.Booking>();
 
 
         }

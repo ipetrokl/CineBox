@@ -29,6 +29,7 @@
     <None Remove="Hall\" />
     <None Remove="Promotion\" />
     <None Remove="BookingSeat\" />
+    <None Remove="Booking\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -41,5 +42,6 @@
     <Folder Include="Hall\" />
     <Folder Include="Promotion\" />
     <Folder Include="BookingSeat\" />
+    <Folder Include="Booking\" />
   </ItemGroup>
 </Project>
