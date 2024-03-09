@@ -1,4 +1,6 @@
-﻿using CineBox.Filters;
+﻿using CineBox;
+using CineBox.Filters;
+using CineBox.Services;
 using CineBox.Services.Actor;
 using CineBox.Services.Booking;
 using CineBox.Services.BookingSeat;
@@ -16,7 +18,9 @@ using CineBox.Services.Seat;
 using CineBox.Services.StateMachine;
 using CineBox.Services.Ticket;
 using CineBox.Services.Users;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,13 +54,33 @@ builder.Services.AddControllers(x =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( c =>
+{
+    c.AddSecurityDefinition("basicAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme()
+    {
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "basic"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference{Type = ReferenceType.SecurityScheme, Id = "basicAuth"}
+            },
+            new String[]{}
+        }
+    });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CineBoxContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddAutoMapper(typeof(IUserService));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 var app = builder.Build();
 
@@ -69,6 +93,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

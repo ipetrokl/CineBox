@@ -71,6 +71,25 @@ namespace CineBox.Services.Users
             }
             return base.AddInclude(query, search);
         }
+
+        public async Task<Model.ViewModels.User> Login(string username, string password)
+        {
+            var entity = await _context.Users.Include("UsersRoles.Role").FirstOrDefaultAsync(x => x.Username == username);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var hash = GenerateHash(entity.PasswordSalt, password);
+
+            if (hash != entity.PasswordHash)
+            {
+                return null;
+            }
+
+            return _mapper.Map<Model.ViewModels.User>(entity);
+        }
     }
 }
 
