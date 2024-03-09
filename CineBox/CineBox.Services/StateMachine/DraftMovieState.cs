@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Text;
 using AutoMapper;
 using Azure.Core;
 using CineBox.Model.Requests;
 using CineBox.Services.Database;
+using EasyNetQ;
 using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
 
 namespace CineBox.Services.StateMachine
 {
@@ -37,7 +40,33 @@ namespace CineBox.Services.StateMachine
             entity.StateMachine = "active";
 
             await _context.SaveChangesAsync();
-            return _mapper.Map<Model.ViewModels.Movie>(entity);
+
+            //RabbitMQ
+            //var factory = new ConnectionFactory { HostName = "localhost" };
+            //using var connection = factory.CreateConnection();
+            //using var channel = connection.CreateModel();
+
+            //channel.QueueDeclare(queue: "movie_added",
+            //                     durable: false,
+            //                     exclusive: false,
+            //                     autoDelete: false,
+            //                     arguments: null);
+
+            //const string message = "Hello World!";
+            //var body = Encoding.UTF8.GetBytes(message);
+
+            //channel.BasicPublish(exchange: string.Empty,
+            //                     routingKey: "movie_added",
+            //                     basicProperties: null,
+            //                     body: body);
+
+            var mappedEntity = _mapper.Map<Model.ViewModels.Movie>(entity);
+
+            //EasyNetQ
+            using var bus = RabbitHutch.CreateBus("host=localhost");
+            bus.PubSub.Publish(mappedEntity);
+            
+            return mappedEntity;
         }
 
         public override async Task<List<string>> AllowedActions()
