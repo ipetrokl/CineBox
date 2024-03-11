@@ -20,7 +20,7 @@ services:
     build:
       context: .
     environment:
-      - ConnectionStrings:DefaultConnection=Server=cinebox-sql,1433;Database=CineBox;User=sa;Password=Av@ntur@;ConnectRetryCount=0;TrustServerCertificate=True
+      - ConnectionStrings:DefaultConnection=Server=${DB_SERVER},${DB_PORT};Database=${DB_NAME};User=${DB_USER};Password=${DB_PASSWORD};ConnectRetryCount=0;TrustServerCertificate=True
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 7137:7137
