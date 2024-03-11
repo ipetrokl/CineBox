@@ -98,5 +98,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<CineBoxContext>();
+    dataContext.Database.EnsureCreated();
+    dataContext.Database.Migrate();
+}
+
 app.Run();
 
