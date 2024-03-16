@@ -1,3 +1,4 @@
+import './screens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -140,7 +141,10 @@ class MyMaterialApp extends StatelessWidget {
 }
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  TextEditingController _usernameController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +165,7 @@ class LoginPage extends StatelessWidget {
                 TextField(
                   decoration: InputDecoration(
                       labelText: "Username", prefixIcon: Icon(Icons.person)),
+                  controller: _usernameController,
                 ),
                 SizedBox(
                   height: 8,
@@ -168,13 +173,20 @@ class LoginPage extends StatelessWidget {
                 TextField(
                   decoration: InputDecoration(
                       labelText: "Password", prefixIcon: Icon(Icons.password)),
+                  controller: _passwordController,
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      print("Sign In proceed");
+                      var username = _usernameController.text;
+                      var password = _passwordController.text;
+                      print("Sign In proceed $username, $password");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const MovieListScreen()),
+                      );
                     },
                     child: Text("Sign In"))
               ]),
