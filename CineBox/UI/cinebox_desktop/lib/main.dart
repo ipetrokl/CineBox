@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyMaterialApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -124,3 +124,64 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class MyMaterialApp extends StatelessWidget {
+  const MyMaterialApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Cinebox Material app',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.light(primary: Colors.blue)),
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Login"), backgroundColor: Colors.blue),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 500, maxHeight: 600),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Column(children: [
+                Image.asset(
+                  "assets/images/CineBoxLogo.jpeg",
+                  height: 150,
+                  width: 150,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      labelText: "Username", prefixIcon: Icon(Icons.person)),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      labelText: "Password", prefixIcon: Icon(Icons.password)),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      print("Sign In proceed");
+                    },
+                    child: Text("Sign In"))
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
