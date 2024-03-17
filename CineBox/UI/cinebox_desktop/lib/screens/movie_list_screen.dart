@@ -52,7 +52,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   print("data: ${data.result[0].title}");
                 },
                 child: Text("Back")),
-            DataTable(
+                Expanded(child: SingleChildScrollView(child: 
+                DataTable(
                 columns: const [
                   DataColumn(
                       label: Expanded(
@@ -115,7 +116,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                               DataCell(Text(e.director?.toString() ?? "")),
                             ]))
                         .toList() ??
-                    [])
+                    []),))
           ],
         ),
       ),
