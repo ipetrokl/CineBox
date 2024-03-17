@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cinebox_desktop/models/movie.dart';
+import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +16,7 @@ class MovieProvider with ChangeNotifier {
         defaultValue: "http://localhost:7137/");
   }
 
-  Future<dynamic> get() async {
+  Future<SearchResult<Movie>> get() async {
     var url = "$_baseURL$_endPoint";
 
     var uri = Uri.parse(url);
@@ -23,7 +25,24 @@ class MovieProvider with ChangeNotifier {
 
     if (isValidResponse(response)) {
       var data = jsonDecode(response.body);
-      return data;
+
+      var result = SearchResult<Movie>();
+
+      result.count = data['count'];
+
+      for (var item in data['result']) {
+        result.result.add(Movie.fromJson(item));
+      }
+
+      // "id": 1,
+      // "title": "Brzi i Zestoki",
+      // "description": "super film",
+      // "releaseDate": "2024-03-17T00:00:00",
+      // "duration": 3,
+      // "genre": "Action",
+      // "director": "Ante Antic",
+
+      return result;
     } else {
       throw new Exception("Unknown error");
     }

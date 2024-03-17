@@ -42,7 +42,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   // );
 
                   var data = await _movieProvider.get();
-                  print("data: $data");
+                  print("data: ${data.result[0].title}");
                 },
                 child: Text("Back"))
           ],
