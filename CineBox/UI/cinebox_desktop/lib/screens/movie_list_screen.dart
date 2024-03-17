@@ -1,3 +1,5 @@
+import 'package:cinebox_desktop/models/movie.dart';
+import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/widgets/master_screen.dart';
@@ -13,6 +15,7 @@ class MovieListScreen extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListScreen> {
   late MovieProvider _movieProvider;
+  SearchResult<Movie>? result;
 
   @override
   void didChangeDependencies() {
@@ -42,9 +45,77 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   // );
 
                   var data = await _movieProvider.get();
+
+                  setState(() {
+                    result = data;
+                  });
                   print("data: ${data.result[0].title}");
                 },
-                child: Text("Back"))
+                child: Text("Back")),
+            DataTable(
+                columns: const [
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'ID',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Title',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Description',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Release Date',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Duration',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Genre',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  )),
+                  DataColumn(
+                      label: Expanded(
+                    child: Text(
+                      'Director',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ))
+                ],
+                rows: result?.result
+                        .map((Movie e) => DataRow(cells: [
+                              DataCell(Text(e.id?.toString() ?? "")),
+                              DataCell(Text(e.title?.toString() ?? "")),
+                              DataCell(Text(e.description?.toString() ?? "")),
+                              DataCell(Text(e.releaseDate?.toString() ?? "")),
+                              DataCell(Text(e.duration?.toString() ?? "")),
+                              DataCell(Text(e.genre?.toString() ?? "")),
+                              DataCell(Text(e.director?.toString() ?? "")),
+                            ]))
+                        .toList() ??
+                    [])
           ],
         ),
       ),
