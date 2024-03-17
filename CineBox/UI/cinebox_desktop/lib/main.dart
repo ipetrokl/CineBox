@@ -1,8 +1,15 @@
+import 'package:cinebox_desktop/providers/movie_provider.dart';
+import 'package:cinebox_desktop/utils/util.dart';
+import 'package:provider/provider.dart';
+
 import './screens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyMaterialApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => MovieProvider())],
+    child: const MyMaterialApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -145,9 +152,12 @@ class LoginPage extends StatelessWidget {
 
   TextEditingController _usernameController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+  late MovieProvider _movieProvider;
 
   @override
   Widget build(BuildContext context) {
+    _movieProvider = context.read<MovieProvider>();
+
     return Scaffold(
       appBar: AppBar(title: Text("Login"), backgroundColor: Colors.blue),
       body: Center(
@@ -179,14 +189,30 @@ class LoginPage extends StatelessWidget {
                   height: 30,
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       var username = _usernameController.text;
                       var password = _passwordController.text;
                       print("Sign In proceed $username, $password");
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MovieListScreen()),
-                      );
+
+                      Authorization.username = username;
+                      Authorization.password = password;
+
+                      try {
+                        await _movieProvider.get();
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const MovieListScreen()),
+                        );
+                      } on Exception catch (e) {
+                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text(e.toString()),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))
+                          ],
+                        ));
+                      }
                     },
                     child: Text("Sign In"))
               ]),

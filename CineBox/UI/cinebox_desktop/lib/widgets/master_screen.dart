@@ -1,3 +1,4 @@
+import 'package:cinebox_desktop/main.dart';
 import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/screens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,32 +16,36 @@ class _MasterScreenWidgetState extends State<MasterScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.title ?? ""), backgroundColor: Colors.blue),
+        appBar: AppBar(
+            title: Text(widget.title ?? ""), backgroundColor: Colors.blue),
         drawer: Drawer(
           child: ListView(
             children: [
               ListTile(
-                title: Text("Back"),
-                onTap: (){
-                  Navigator.of(context).pop();
+                title: Text("LOGIN"),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()),
+                  );
                 },
               ),
               ListTile(
                 title: Text("Movies"),
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MovieListScreen()),
-                      );
+                    MaterialPageRoute(
+                        builder: (context) => const MovieListScreen()),
+                  );
                 },
               ),
               ListTile(
                 title: Text("MovieDetails"),
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MovieDetailScreen()),
-                      );
+                    MaterialPageRoute(
+                        builder: (context) => const MovieDetailScreen()),
+                  );
                 },
               )
             ],
