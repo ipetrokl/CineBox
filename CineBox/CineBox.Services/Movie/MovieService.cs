@@ -27,9 +27,9 @@ namespace CineBox.Services.Movie
                 filteredQuery = filteredQuery.Where(x => x.Title.Contains(search.FTS) || x.Description.Contains(search.FTS));
             }
 
-            if (!string.IsNullOrWhiteSpace(search?.Desctiption))
+            if (!string.IsNullOrWhiteSpace(search?.Description))
             {
-                filteredQuery = filteredQuery.Where(x => x.Description == search.Desctiption);
+                filteredQuery = filteredQuery.Where(x => x.Description == search.Description);
             }
 
             return filteredQuery;
