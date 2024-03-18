@@ -16,8 +16,13 @@ class MovieProvider with ChangeNotifier {
         defaultValue: "http://localhost:7137/");
   }
 
-  Future<SearchResult<Movie>> get() async {
+  Future<SearchResult<Movie>> get({dynamic filter}) async {
     var url = "$_baseURL$_endPoint";
+
+    if (filter != null) {
+      var queryString = getQueryString(filter);
+      url = "$url?$queryString";
+    }
 
     var uri = Uri.parse(url);
     var headers = createHeaders();
@@ -34,14 +39,6 @@ class MovieProvider with ChangeNotifier {
         result.result.add(Movie.fromJson(item));
       }
 
-      // "id": 1,
-      // "title": "Brzi i Zestoki",
-      // "description": "super film",
-      // "releaseDate": "2024-03-17T00:00:00",
-      // "duration": 3,
-      // "genre": "Action",
-      // "director": "Ante Antic",
-
       return result;
     } else {
       throw new Exception("Unknown error");
@@ -54,6 +51,7 @@ class MovieProvider with ChangeNotifier {
     } else if (response.statusCode == 401) {
       throw new Exception("Unauthorized");
     } else {
+      print(response.body);
       throw new Exception("Something had happened please try again");
     }
   }
@@ -71,5 +69,37 @@ class MovieProvider with ChangeNotifier {
     };
 
     return headers;
+  }
+
+  String getQueryString(Map params,
+      {String prefix = '&', bool inRecursion = false}) {
+    String query = '';
+    params.forEach((key, value) {
+      if (inRecursion) {
+        if (key is int) {
+          key = '[$key]';
+        } else if (value is List || value is Map) {
+          key = '.$key';
+        } else {
+          key = '.$key';
+        }
+      }
+      if (value is String || value is int || value is double || value is bool) {
+        var encoded = value;
+        if (value is String) {
+          encoded = Uri.encodeComponent(value);
+        }
+        query += '$prefix$key=$encoded';
+      } else if (value is DateTime) {
+        query += '$prefix$key=${(value as DateTime).toIso8601String()}';
+      } else if (value is List || value is Map) {
+        if (value is List) value = value.asMap();
+        value.forEach((k, v) {
+          query +=
+              getQueryString({k: v}, prefix: '$prefix$key', inRecursion: true);
+        });
+      }
+    });
+    return query;
   }
 }

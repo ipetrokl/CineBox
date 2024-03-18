@@ -15,6 +15,8 @@ public partial class Booking
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
+    public virtual ICollection<PromotionBooking> PromotionBookings { get; set; } = new List<PromotionBooking>();
+
     public virtual Screening Screening { get; set; } = null!;
 
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();

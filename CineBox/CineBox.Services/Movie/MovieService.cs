@@ -18,6 +18,23 @@ namespace CineBox.Services.Movie
             _baseState = baseState;
         }
 
+        public override IQueryable<Database.Movie> AddFilter(IQueryable<Database.Movie> query, MovieSearchObject search)
+        {
+            var filteredQuery = base.AddFilter(query, search);
+
+            if (!string.IsNullOrWhiteSpace(search?.FTS))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Title.Contains(search.FTS) || x.Description.Contains(search.FTS));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search?.Desctiption))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Description == search.Desctiption);
+            }
+
+            return filteredQuery;
+        }
+
         public override Task<Model.ViewModels.Movie> Insert(MovieInsertRequest insert)
         {
             var state = _baseState.CreateState("initial");

@@ -12,4 +12,6 @@ public partial class Promotion
     public decimal Discount { get; set; }
 
     public DateTime ExpirationDate { get; set; }
+
+    public virtual ICollection<PromotionBooking> PromotionBookings { get; set; } = new List<PromotionBooking>();
 }

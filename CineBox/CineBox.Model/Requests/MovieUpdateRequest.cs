@@ -11,8 +11,6 @@ namespace CineBox.Model.Requests
 
         public int Duration { get; set; }
 
-        public string Genre { get; set; } = null!;
-
         public string Director { get; set; } = null!;
 
         public byte[]? Picture { get; set; }

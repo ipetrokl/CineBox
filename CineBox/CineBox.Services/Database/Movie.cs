@@ -15,8 +15,6 @@ public partial class Movie
 
     public int Duration { get; set; }
 
-    public string Genre { get; set; } = null!;
-
     public string Director { get; set; } = null!;
 
     public byte[]? Picture { get; set; }
@@ -26,6 +24,8 @@ public partial class Movie
     public string? StateMachine { get; set; }
 
     public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+
+    public virtual ICollection<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
