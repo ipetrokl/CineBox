@@ -2,6 +2,7 @@ import 'package:cinebox_desktop/models/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
+import 'package:cinebox_desktop/utils/util.dart';
 import 'package:cinebox_desktop/widgets/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 setState(() {
                   result = data;
                 });
-                print("data: ${data.result[0].title}");
+                // print("data: ${data.result[0].title}");
               },
               child: const Text("Search")),
         ],
@@ -141,18 +142,43 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 'Director',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
+            )),
+            DataColumn(
+                label: Expanded(
+              child: Text(
+                'Picture',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
             ))
           ],
           rows: result?.result
-                  .map((Movie e) => DataRow(cells: [
-                        DataCell(Text(e.id?.toString() ?? "")),
-                        DataCell(Text(e.title?.toString() ?? "")),
-                        DataCell(Text(e.description?.toString() ?? "")),
-                        DataCell(Text(e.releaseDate?.toString() ?? "")),
-                        DataCell(Text(e.duration?.toString() ?? "")),
-                        DataCell(Text(e.genre?.toString() ?? "")),
-                        DataCell(Text(e.director?.toString() ?? "")),
-                      ]))
+                  .map((Movie e) => DataRow(
+                          onSelectChanged: (selected) => {
+                                if (selected == true)
+                                  {
+                                    print('selected: ${e.id}'),
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MovieDetailScreen(movie: e,)),
+                                    )
+                                  }
+                              },
+                          cells: [
+                            DataCell(Text(e.id?.toString() ?? "")),
+                            DataCell(Text(e.title?.toString() ?? "")),
+                            DataCell(Text(e.description?.toString() ?? "")),
+                            DataCell(Text(e.releaseDate?.toString() ?? "")),
+                            DataCell(Text(e.duration?.toString() ?? "")),
+                            DataCell(Text(e.genre?.toString() ?? "")),
+                            DataCell(Text(e.director?.toString() ?? "")),
+                            DataCell(e.picture != ""
+                                ? Container(
+                                    width: 100,
+                                    height: 100,
+                                    child: imageFromBase64String(e.picture!))
+                                : Text("")),
+                          ]))
                   .toList() ??
               []),
     ));

@@ -14,9 +14,10 @@ class Movie {
   int? duration;
   String? genre;
   String? director;
+  String? picture;
 
   Movie(this.id, this.title, this.description, this.releaseDate, this.duration,
-      this.genre, this.director);
+      this.genre, this.director, this.picture);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
