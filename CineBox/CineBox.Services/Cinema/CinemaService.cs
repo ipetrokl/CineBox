@@ -14,6 +14,23 @@ namespace CineBox.Services.Cinema
         {
             
         }
+
+        public override IQueryable<Database.Cinema> AddFilter(IQueryable<Database.Cinema> query, CinemaSearchObject? search = null)
+        {
+            var filteredQuery = base.AddFilter(query, search);
+
+            if (!string.IsNullOrWhiteSpace(search?.FTS))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Name.Contains(search.FTS) || x.Location.Contains(search.FTS));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search?.Name))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Name == search.Name);
+            }
+
+            return filteredQuery;
+        }
     }
 }
 

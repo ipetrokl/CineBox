@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.1.2
   json_annotation: ^4.8.1
   flutter_form_builder: ^9.2.1
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   flutter_test:

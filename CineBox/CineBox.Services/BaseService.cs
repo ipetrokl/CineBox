@@ -22,17 +22,17 @@ namespace CineBox.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<PagedResult<T>> Get(TSearch search)
+        public virtual async Task<PagedResult<T>> Get(TSearch? search = null)
         {
             var query = _context.Set<TDb>().AsQueryable();
 
             PagedResult<T> result = new PagedResult<T>();
 
-            result.Count = await query.CountAsync();
-
             query = AddFilter(query, search);
 
             query = AddInclude(query, search);
+
+            result.Count = await query.CountAsync();
 
             if (search?.Page.HasValue == true && search?.PageSize.HasValue == true)
             {

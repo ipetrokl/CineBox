@@ -1,4 +1,6 @@
+import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
+import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +9,11 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => MovieProvider())],
+    providers: [
+      ChangeNotifierProvider(create: (_) => MovieProvider()),
+      ChangeNotifierProvider(create: (_) => CinemaProvider()),
+      ChangeNotifierProvider(create: (_) => ScreeningProvider())
+    ],
     child: const MyMaterialApp(),
   ));
 }

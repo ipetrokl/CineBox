@@ -19,7 +19,7 @@ namespace CineBox.Controllers
         }
 
         [HttpGet()]
-        public async Task<PagedResult<T>> Get([FromQuery]TSearch search)
+        public async Task<PagedResult<T>> Get([FromQuery]TSearch? search = null)
         {
             return await _service.Get(search);
         }

@@ -49,11 +49,22 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         initialValue: _initialValue,
         child: Column(
           children: [
-            FormBuilderTextField(
-              name: 'title',
-            ),
-            FormBuilderTextField(
-              name: 'description',
+            Row(
+              children: [
+                Expanded(
+                  child: FormBuilderTextField(
+                    decoration: InputDecoration(labelText: "Title"),
+                    name: 'title',
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                  child: FormBuilderTextField(
+                    decoration: InputDecoration(labelText: "Description"),
+                    name: 'description',
+                  ),
+                ),
+              ],
             ),
           ],
         ));

@@ -18,7 +18,7 @@ namespace CineBox.Services.Movie
             _baseState = baseState;
         }
 
-        public override IQueryable<Database.Movie> AddFilter(IQueryable<Database.Movie> query, MovieSearchObject search)
+        public override IQueryable<Database.Movie> AddFilter(IQueryable<Database.Movie> query, MovieSearchObject? search = null)
         {
             var filteredQuery = base.AddFilter(query, search);
 

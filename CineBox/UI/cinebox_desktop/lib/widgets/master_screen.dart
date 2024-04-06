@@ -1,6 +1,8 @@
 import 'package:cinebox_desktop/main.dart';
 import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/screens/movie_list_screen.dart';
+import 'package:cinebox_desktop/screens/screening_detail_screen.dart';
+import 'package:cinebox_desktop/screens/screening_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class MasterScreenWidget extends StatefulWidget {
@@ -45,6 +47,24 @@ class _MasterScreenWidgetState extends State<MasterScreenWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => MovieDetailScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text("ScreeningList"),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => ScreeningListScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text("ScreeningDetails"),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => ScreeningDetailScreen()),
                   );
                 },
               )
