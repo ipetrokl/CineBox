@@ -10,6 +10,8 @@ namespace CineBox.Model.ViewModels
         public string TicketCode { get; set; } = null!;
 
         public string QrCode { get; set; } = null!;
+
+        public decimal Price { get; set; }
     }
 }
 

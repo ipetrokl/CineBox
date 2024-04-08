@@ -8,16 +8,16 @@ part 'movie.g.dart';
 @JsonSerializable()
 class Movie {
   int? id;
+  int? genreId;
   String? title;
   String? description;
-  String? releaseDate;
+  DateTime? releaseDate;
   int? duration;
-  String? genre;
   String? director;
   String? picture;
 
-  Movie(this.id, this.title, this.description, this.releaseDate, this.duration,
-      this.genre, this.director, this.picture);
+  Movie(this.id, this.genreId, this.title, this.description, this.releaseDate,
+      this.duration, this.director, this.picture);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
@@ -29,24 +29,3 @@ class Movie {
   /// helper method `_$UserToJson`.
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 }
-
-
-// public int Id { get; set; }
-
-//         public string Title { get; set; } = null!;
-
-//         public string Description { get; set; } = null!;
-
-//         public DateTime ReleaseDate { get; set; }
-
-//         public int Duration { get; set; }
-
-//         public string Genre { get; set; } = null!;
-
-//         public string Director { get; set; } = null!;
-
-//         public byte[]? Picture { get; set; }
-
-//         public byte[]? PictureThumb { get; set; }
-
-//         public string? StateMachine { get; set; }

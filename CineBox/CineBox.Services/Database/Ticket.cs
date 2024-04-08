@@ -13,5 +13,7 @@ public partial class Ticket
 
     public string QrCode { get; set; } = null!;
 
+    public decimal Price { get; set; }
+
     public virtual Booking Booking { get; set; } = null!;
 }

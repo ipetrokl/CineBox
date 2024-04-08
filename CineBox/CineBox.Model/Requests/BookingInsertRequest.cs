@@ -6,6 +6,8 @@ namespace CineBox.Model.Requests
         public int UserId { get; set; }
 
         public int ScreeningId { get; set; }
+
+        public decimal Price { get; set; }
     }
 }
 

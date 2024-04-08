@@ -5,6 +5,8 @@ namespace CineBox.Model.ViewModels
     {
         public int Id { get; set; }
 
+        public int GenreId { get; set; }
+
         public string Title { get; set; } = null!;
 
         public string Description { get; set; } = null!;

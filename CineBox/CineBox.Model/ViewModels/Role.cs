@@ -8,6 +8,8 @@ namespace CineBox.Model.ViewModels
         public string Name { get; set; } = null!;
 
         public string? Descripotion { get; set; }
+
+        public virtual ICollection<UsersRole> UsersRoles { get; set; } = new List<UsersRole>();
     }
 }
 

@@ -1,5 +1,7 @@
+import 'package:cinebox_desktop/models/genre.dart';
 import 'package:cinebox_desktop/models/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
+import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
@@ -17,16 +19,18 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  late MovieProvider _movieProvider;
   SearchResult<Movie>? result;
   TextEditingController _ftsController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  late MovieProvider _movieProvider;
+  late GenreProvider _genreProvider;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _movieProvider = context.read<MovieProvider>();
+    _genreProvider = context.read<GenreProvider>();
   }
 
   @override
@@ -84,6 +88,19 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 // print("data: ${data.result[0].title}");
               },
               child: const Text("Search")),
+          SizedBox(
+            width: 20,
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => MovieDetailScreen(
+                            movie: null,
+                          )),
+                );
+              },
+              child: const Text("Add"))
         ],
       ),
     );
@@ -160,7 +177,9 @@ class _MovieListScreenState extends State<MovieListScreen> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              MovieDetailScreen(movie: e,)),
+                                              MovieDetailScreen(
+                                                movie: e,
+                                              )),
                                     )
                                   }
                               },
@@ -170,7 +189,18 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             DataCell(Text(e.description?.toString() ?? "")),
                             DataCell(Text(e.releaseDate?.toString() ?? "")),
                             DataCell(Text(e.duration?.toString() ?? "")),
-                            DataCell(Text(e.genre?.toString() ?? "")),
+                            DataCell(
+                              FutureBuilder<Genre?>(
+                                future: _genreProvider.getById(e.genreId!),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data?.name ?? '');
+                                  } else {
+                                    return CircularProgressIndicator();
+                                  }
+                                },
+                              ),
+                            ),
                             DataCell(Text(e.director?.toString() ?? "")),
                             DataCell(e.picture != ""
                                 ? Container(

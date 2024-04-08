@@ -11,6 +11,8 @@ public partial class Booking
 
     public int ScreeningId { get; set; }
 
+    public decimal Price { get; set; }
+
     public virtual ICollection<BookingSeat> BookingSeats { get; set; } = new List<BookingSeat>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

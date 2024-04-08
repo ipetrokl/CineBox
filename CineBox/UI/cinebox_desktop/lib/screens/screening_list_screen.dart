@@ -158,6 +158,13 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                 'End Time',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
+            )),
+            DataColumn(
+                label: Expanded(
+              child: Text(
+                'Price',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
             ))
           ],
           rows: result?.result
@@ -204,6 +211,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                             DataCell(Text(e.category?.toString() ?? "")),
                             DataCell(Text(e.startTime?.toString() ?? "")),
                             DataCell(Text(e.endTime?.toString() ?? "")),
+                            DataCell(Text(e.price?.toString() ?? "")),
                           ]))
                   .toList() ??
               []),

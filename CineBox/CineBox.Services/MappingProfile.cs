@@ -72,7 +72,6 @@ namespace CineBox.Services
             CreateMap<MovieActorInsertRequest, Database.MovieActor>();
             CreateMap<MovieActorUpdateRequest, Database.MovieActor>();
 
-
         }
     }
 }

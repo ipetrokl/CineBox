@@ -1,4 +1,5 @@
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
+import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/utils/util.dart';
@@ -12,7 +13,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => MovieProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
-      ChangeNotifierProvider(create: (_) => ScreeningProvider())
+      ChangeNotifierProvider(create: (_) => ScreeningProvider()),
+      ChangeNotifierProvider(create: (_) => GenreProvider())
     ],
     child: const MyMaterialApp(),
   ));

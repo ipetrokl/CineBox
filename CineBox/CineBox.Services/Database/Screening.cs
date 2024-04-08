@@ -17,6 +17,8 @@ public partial class Screening
 
     public DateTime EndTime { get; set; }
 
+    public decimal Price { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual Cinema Cinema { get; set; } = null!;

@@ -7,6 +7,8 @@ public partial class Movie
 {
     public int Id { get; set; }
 
+    public int GenreId { get; set; }
+
     public string Title { get; set; } = null!;
 
     public string Description { get; set; } = null!;
@@ -23,9 +25,9 @@ public partial class Movie
 
     public string? StateMachine { get; set; }
 
-    public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+    public virtual Genre Genre { get; set; } = null!;
 
-    public virtual ICollection<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+    public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 

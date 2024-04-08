@@ -3,6 +3,8 @@ namespace CineBox.Model.Requests
 {
     public partial class MovieInsertRequest
     {
+        public int GenreId { get; set; }
+
         public string Title { get; set; } = null!;
 
         public string Description { get; set; } = null!;

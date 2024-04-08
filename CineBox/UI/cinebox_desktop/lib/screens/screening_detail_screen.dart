@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cinebox_desktop/models/cinema.dart';
 import 'package:cinebox_desktop/models/movie.dart';
 import 'package:cinebox_desktop/models/screening.dart';
@@ -6,6 +9,7 @@ import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/widgets/master_screen.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +41,8 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
       'cinemaId': widget.screening?.cinemaId.toString(),
       'category': widget.screening?.category,
       'startTime': widget.screening?.startTime,
-      'endTime': widget.screening?.endTime
+      'endTime': widget.screening?.endTime,
+      'price': widget.screening?.price.toString()
     };
 
     _movieProvider = context.read<MovieProvider>();
@@ -105,7 +110,7 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                     },
                     child: Text("Save"))
               ],
-            )
+            ),
           ],
         ));
   }
@@ -195,6 +200,15 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                     name: "endTime",
                     inputType: InputType.both,
                     decoration: const InputDecoration(labelText: "End Time"),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: FormBuilderTextField(
+                    decoration: InputDecoration(labelText: "Price"),
+                    name: 'price',
                   ),
                 ),
               ],
