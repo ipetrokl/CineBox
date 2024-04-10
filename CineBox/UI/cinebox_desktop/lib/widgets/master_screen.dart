@@ -19,7 +19,23 @@ class _MasterScreenWidgetState extends State<MasterScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(widget.title ?? ""), backgroundColor: Colors.blue),
+          title: Text(widget.title ?? ""),
+          backgroundColor: Colors.blue,
+          actions: [
+            if (Navigator.canPop(context))
+              Container(
+                child: SizedBox(
+                  width: 100,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ),
+          ],
+        ),
         drawer: Drawer(
           child: ListView(
             children: [
@@ -27,8 +43,7 @@ class _MasterScreenWidgetState extends State<MasterScreenWidget> {
                 title: Text("LOGIN"),
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()),
+                    MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 },
               ),

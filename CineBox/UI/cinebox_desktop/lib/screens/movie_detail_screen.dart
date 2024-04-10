@@ -90,6 +90,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           await _movieProvider.update(
                               widget.movie!.id!, request);
                         }
+
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text("Success"),
+                            content: Text("Screening saved successfully."),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("OK"),
+                              )
+                            ],
+                          ),
+                        );
                       } on Exception catch (e) {
                         showDialog(
                             context: context,
@@ -113,108 +127,100 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   FormBuilder _buildForm() {
     return FormBuilder(
-        key: _formKey,
-        initialValue: _initialValue,
-        child: Column(
-          children: [
-            Row(
+      key: _formKey,
+      initialValue: _initialValue,
+      child: Center(
+        child: Container(
+          width: 800,
+          padding: EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Title"),
-                    name: 'title',
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Title"),
+                  name: 'title',
+                ),
+                SizedBox(height: 20),
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Description"),
+                  name: 'description',
+                ),
+                SizedBox(height: 20),
+                FormBuilderDateTimePicker(
+                  name: "releaseDate",
+                  inputType: InputType.both,
+                  decoration: const InputDecoration(labelText: "Release Date"),
+                ),
+                SizedBox(height: 20),
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Duration"),
+                  name: 'duration',
+                ),
+                SizedBox(height: 20),
+                FormBuilderDropdown<String>(
+                  name: 'genreId',
+                  decoration: InputDecoration(
+                    labelText: 'Genre',
+                    suffix: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _formKey.currentState!.fields['genreId']?.reset();
+                      },
+                    ),
                   ),
+                  items: genreResult?.result
+                          .map((item) => DropdownMenuItem(
+                                alignment: AlignmentDirectional.center,
+                                value: item.id.toString(),
+                                child: Text(item.name ?? ""),
+                              ))
+                          .toList() ??
+                      [],
                 ),
-                SizedBox(
-                  width: 10,
+                SizedBox(height: 20),
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Director"),
+                  name: 'director',
                 ),
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Description"),
-                    name: 'description',
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderDateTimePicker(
-                    name: "releaseDate",
-                    inputType: InputType.both,
-                    decoration:
-                        const InputDecoration(labelText: "Release Date"),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Duration"),
-                    name: 'duration',
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: FormBuilderDropdown<String>(
-                    name: 'genreId',
-                    decoration: InputDecoration(
-                      labelText: 'Genre',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          _formKey.currentState!.fields['genreId']?.reset();
+                SizedBox(height: 20),
+                FormBuilderField(
+                  name: "imageId",
+                  builder: (field) {
+                    return InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: "Choose image",
+                        errorText: field.errorText,
+                      ),
+                      child: ListTile(
+                        leading: _image != null
+                            ? Image.file(_image!, width: 50, height: 50)
+                            : Icon(Icons.photo),
+                        title: Text("Select image"),
+                        trailing: Icon(Icons.file_upload),
+                        onTap: () async {
+                          var result = await FilePicker.platform
+                              .pickFiles(type: FileType.image);
+
+                          if (result != null &&
+                              result.files.single.path != null) {
+                            setState(() {
+                              _image = File(result.files.single.path!);
+                              _base64Image =
+                                  base64Encode(_image!.readAsBytesSync());
+                            });
+                          }
                         },
                       ),
-                      hintText: 'Select Genre',
-                    ),
-                    items: genreResult?.result
-                            .map((item) => DropdownMenuItem(
-                                  alignment: AlignmentDirectional.center,
-                                  value: item.id.toString(),
-                                  child: Text(item.name ?? ""),
-                                ))
-                            .toList() ??
-                        [],
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Director"),
-                    name: 'director',
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderField(
-                    name: "imageId",
-                    builder: ((field) {
-                      return InputDecorator(
-                        decoration: InputDecoration(
-                            label: Text("Choose image"),
-                            errorText: field.errorText),
-                        child: ListTile(
-                          leading: Icon(Icons.photo),
-                          title: Text("Select image"),
-                          trailing: Icon(Icons.file_upload),
-                          onTap: getImage,
-                        ),
-                      );
-                    }),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
-          ],
-        ));
+          ),
+        ),
+      ),
+    );
   }
 
   File? _image;
@@ -224,8 +230,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     var result = await FilePicker.platform.pickFiles(type: FileType.image);
 
     if (result != null && result.files.single.path != null) {
-      _image = File(result.files.single.path!);
-      _base64Image = base64Encode(_image!.readAsBytesSync());
+      setState(() {
+        _image = File(result.files.single.path!);
+        _base64Image = base64Encode(_image!.readAsBytesSync());
+      });
     }
   }
 }

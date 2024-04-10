@@ -8,6 +8,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
+import 'package:cinebox_desktop/screens/screening_list_screen.dart';
 import 'package:cinebox_desktop/widgets/master_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +95,20 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                           await _screeningProvider.update(widget.screening!.id!,
                               _formKey.currentState?.value);
                         }
+                        
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text("Success"),
+                            content: Text("Screening saved successfully."),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("OK"),
+                              )
+                            ],
+                          ),
+                        );
                       } on Exception catch (e) {
                         showDialog(
                             context: context,
@@ -117,103 +132,96 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
 
   FormBuilder _buildForm() {
     return FormBuilder(
-        key: _formKey,
-        initialValue: _initialValue,
-        child: Column(
-          children: [
-            Row(
+      key: _formKey,
+      initialValue: _initialValue,
+      child: Center(
+        child: Container(
+          width: 600,
+          padding: EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: FormBuilderDropdown<String>(
-                    name: 'movieId',
-                    decoration: InputDecoration(
-                      labelText: 'Movies',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          _formKey.currentState!.fields['movieId']?.reset();
-                        },
-                      ),
-                      hintText: 'Select Movie',
+                FormBuilderDropdown<String>(
+                  name: 'movieId',
+                  decoration: InputDecoration(
+                    labelText: 'Movies',
+                    suffix: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _formKey.currentState!.fields['movieId']?.reset();
+                      },
                     ),
-                    items: movieResult?.result
-                            .map((item) => DropdownMenuItem(
-                                  alignment: AlignmentDirectional.center,
-                                  value: item.id.toString(),
-                                  child: Text(item.title ?? ""),
-                                ))
-                            .toList() ??
-                        [],
+                    hintText: 'Select Movie',
                   ),
+                  items: movieResult?.result
+                          .map((item) => DropdownMenuItem(
+                                alignment: AlignmentDirectional.center,
+                                value: item.id.toString(),
+                                child: Text(item.title ?? ""),
+                              ))
+                          .toList() ??
+                      [],
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderDropdown<String>(
-                    name: 'cinemaId',
-                    decoration: InputDecoration(
-                      labelText: 'Cinemas',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          _formKey.currentState!.fields['cinemaId']?.reset();
-                        },
-                      ),
-                      hintText: 'Select Cinema',
+                SizedBox(height: 20),
+                FormBuilderDropdown<String>(
+                  name: 'cinemaId',
+                  decoration: InputDecoration(
+                    labelText: 'Cinemas',
+                    suffix: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _formKey.currentState!.fields['cinemaId']?.reset();
+                      },
                     ),
-                    items: cinemaResult?.result
-                            .map((item) => DropdownMenuItem(
-                                  alignment: AlignmentDirectional.center,
-                                  value: item.id.toString(),
-                                  child: Text(item.name ?? ""),
-                                ))
-                            .toList() ??
-                        [],
+                    hintText: 'Select Cinema',
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Category"),
-                    name: 'category',
-                  ),
+                  items: cinemaResult?.result
+                          .map((item) => DropdownMenuItem(
+                                alignment: AlignmentDirectional.center,
+                                value: item.id.toString(),
+                                child: Text(item.name ?? ""),
+                              ))
+                          .toList() ??
+                      [],
                 ),
-                SizedBox(
-                  width: 10,
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FormBuilderDateTimePicker(
+                        name: "startTime",
+                        inputType: InputType.both,
+                        decoration:
+                            const InputDecoration(labelText: "Start Time"),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: FormBuilderDateTimePicker(
+                        name: "endTime",
+                        inputType: InputType.both,
+                        decoration:
+                            const InputDecoration(labelText: "End Time"),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: FormBuilderDateTimePicker(
-                    name: "startTime",
-                    inputType: InputType.both,
-                    decoration: const InputDecoration(labelText: "Start Time"),
-                  ),
+                SizedBox(height: 20),
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Category"),
+                  name: 'category',
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderDateTimePicker(
-                    name: "endTime",
-                    inputType: InputType.both,
-                    decoration: const InputDecoration(labelText: "End Time"),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormBuilderTextField(
-                    decoration: InputDecoration(labelText: "Price"),
-                    name: 'price',
-                  ),
+                SizedBox(height: 20),
+                FormBuilderTextField(
+                  decoration: InputDecoration(labelText: "Price"),
+                  name: 'price',
                 ),
               ],
             ),
-          ],
-        ));
+          ),
+        ),
+      ),
+    );
   }
 }
