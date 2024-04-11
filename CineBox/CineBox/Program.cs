@@ -13,10 +13,12 @@ using CineBox.Services.MovieActor;
 using CineBox.Services.Payment;
 using CineBox.Services.Promotion;
 using CineBox.Services.Review;
+using CineBox.Services.Role;
 using CineBox.Services.Screening;
 using CineBox.Services.Seat;
 using CineBox.Services.StateMachine;
 using CineBox.Services.Ticket;
+using CineBox.Services.UserRole;
 using CineBox.Services.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +47,8 @@ builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IMovieActorService, MovieActorService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<IUsersRoleService, UsersRoleService>();
 
 
 builder.Services.AddControllers(x =>

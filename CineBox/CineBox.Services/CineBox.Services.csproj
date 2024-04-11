@@ -37,6 +37,8 @@
     <None Remove="Review\" />
     <None Remove="Actor\" />
     <None Remove="MovieActor\" />
+    <None Remove="Role\" />
+    <None Remove="UserRole\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -54,5 +56,7 @@
     <Folder Include="Review\" />
     <Folder Include="Actor\" />
     <Folder Include="MovieActor\" />
+    <Folder Include="Role\" />
+    <Folder Include="UserRole\" />
   </ItemGroup>
 </Project>

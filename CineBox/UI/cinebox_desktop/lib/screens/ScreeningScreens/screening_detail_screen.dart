@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/Screening/screening.dart';
@@ -8,9 +5,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
-import 'package:cinebox_desktop/screens/ScreeningScreens/screening_list_screen.dart';
 import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';

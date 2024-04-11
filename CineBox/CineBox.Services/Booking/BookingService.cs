@@ -3,6 +3,7 @@ using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.Booking
@@ -11,6 +12,21 @@ namespace CineBox.Services.Booking
     {
         public BookingService(ILogger<BaseService<Model.ViewModels.Booking, Database.Booking, BookingSearchObject>> logger, CineBoxContext context, IMapper mapper) : base(logger, context, mapper)
         {
+        }
+
+        public override IQueryable<Database.Booking> AddFilter(IQueryable<Database.Booking> query, BookingSearchObject? search = null)
+        {
+            var filteredQuery = base.AddFilter(query, search);
+
+            if (!string.IsNullOrWhiteSpace(search?.FTS))
+            {
+                filteredQuery = filteredQuery
+                    .Include(x => x.User)
+                    .Include(x => x.Screening)
+                    .Where(x => x.User.Name.Contains(search.FTS) || x.Screening.Cinema.Name.Contains(search.FTS));
+            }
+
+            return filteredQuery;
         }
     }
 }

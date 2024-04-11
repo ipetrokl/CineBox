@@ -1,4 +1,3 @@
-
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/screens/master_screen.dart';

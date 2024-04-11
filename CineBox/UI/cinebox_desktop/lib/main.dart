@@ -1,9 +1,20 @@
 import 'dart:io';
 
+import 'package:cinebox_desktop/providers/actor_provider.dart';
+import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
+import 'package:cinebox_desktop/providers/hall_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
+import 'package:cinebox_desktop/providers/payment_provider.dart';
+import 'package:cinebox_desktop/providers/promotion_provider.dart';
+import 'package:cinebox_desktop/providers/review_provider.dart';
+import 'package:cinebox_desktop/providers/role_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
+import 'package:cinebox_desktop/providers/seat_provider.dart';
+import 'package:cinebox_desktop/providers/ticket_provider.dart';
+import 'package:cinebox_desktop/providers/usersRole_provider.dart';
+import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +27,18 @@ void main() {
       ChangeNotifierProvider(create: (_) => MovieProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
       ChangeNotifierProvider(create: (_) => ScreeningProvider()),
-      ChangeNotifierProvider(create: (_) => GenreProvider())
+      ChangeNotifierProvider(create: (_) => GenreProvider()),
+      ChangeNotifierProvider(create: (_) => ActorProvider()),
+      ChangeNotifierProvider(create: (_) => BookingProvider()),
+      ChangeNotifierProvider(create: (_) => HallProvider()),
+      ChangeNotifierProvider(create: (_) => PaymentProvider()),
+      ChangeNotifierProvider(create: (_) => PromotionProvider()),
+      ChangeNotifierProvider(create: (_) => ReviewProvider()),
+      ChangeNotifierProvider(create: (_) => SeatProvider()),
+      ChangeNotifierProvider(create: (_) => TicketProvider()),
+      ChangeNotifierProvider(create: (_) => UsersProvider()),
+      ChangeNotifierProvider(create: (_) => RoleProvider()),
+      ChangeNotifierProvider(create: (_) => UsersRoleProvider()),
     ],
     child: const MyMaterialApp(),
   ));
@@ -194,6 +216,7 @@ class LoginPage extends StatelessWidget {
                   decoration: InputDecoration(
                       labelText: "Password", prefixIcon: Icon(Icons.password)),
                   controller: _passwordController,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 30,

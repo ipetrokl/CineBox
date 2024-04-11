@@ -71,6 +71,14 @@ namespace CineBox.Services
             CreateMap<Database.MovieActor, Model.ViewModels.MovieActor>();
             CreateMap<MovieActorInsertRequest, Database.MovieActor>();
             CreateMap<MovieActorUpdateRequest, Database.MovieActor>();
+            //Role
+            CreateMap<Database.Role, Model.ViewModels.Role>();
+            CreateMap<RoleInsertRequest, Database.Role>();
+            CreateMap<RoleUpdateRequest, Database.Role>();
+            //UsersRole
+            CreateMap<Database.UsersRole, Model.ViewModels.UsersRole>();
+            CreateMap<UsersRoleInsertRequest, Database.UsersRole>();
+            CreateMap<UsersRoleUpdateRequest, Database.UsersRole>();
 
         }
     }

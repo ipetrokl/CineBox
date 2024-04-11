@@ -48,19 +48,22 @@ namespace CineBox.Services.Users
             return Convert.ToBase64String(inArray);
         }
 
-        public override IQueryable<User> AddFilter(IQueryable<User> query, UserSearchObject search)
+        public override IQueryable<Database.User> AddFilter(IQueryable<Database.User> query, UserSearchObject? search = null)
         {
-            if (!string.IsNullOrEmpty(search.Name))
+            var filteredQuery = base.AddFilter(query, search);
+
+            if (!string.IsNullOrWhiteSpace(search?.FTS))
             {
-                query = query.Where(x => x.Name.StartsWith(search.Name));
+                filteredQuery = filteredQuery
+                    .Where(x =>
+                    x.Name.Contains(search.FTS)
+                    || x.Username.Contains(search.FTS)
+                    || x.Surname.Contains(search.FTS)
+                    || x.Email.Contains(search.FTS)
+                    || x.Phone.Contains(search.FTS));
             }
 
-            if (!string.IsNullOrEmpty(search.FTS))
-            {
-                query = query.Where(x => x.Name.Contains(search.FTS));
-            }
-
-            return base.AddFilter(query, search);
+            return filteredQuery;
         }
 
         public override IQueryable<User> AddInclude(IQueryable<User> query, UserSearchObject search)
