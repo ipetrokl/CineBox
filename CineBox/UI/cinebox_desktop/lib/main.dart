@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
@@ -5,7 +7,7 @@ import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:provider/provider.dart';
 
-import './screens/movie_list_screen.dart';
+import 'screens/MovieScreens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

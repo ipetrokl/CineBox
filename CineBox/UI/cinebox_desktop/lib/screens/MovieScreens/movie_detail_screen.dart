@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cinebox_desktop/models/genre.dart';
-import 'package:cinebox_desktop/models/movie.dart';
+import 'package:cinebox_desktop/models/Genre/genre.dart';
+import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:cinebox_desktop/widgets/master_screen.dart';
+import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -67,7 +67,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreenWidget(
+    return MasterScreen(
         title: widget.movie?.title ?? "Movie Details",
         child: Column(
           children: [

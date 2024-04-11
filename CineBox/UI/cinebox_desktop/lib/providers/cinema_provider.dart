@@ -1,5 +1,5 @@
 
-import 'package:cinebox_desktop/models/cinema.dart';
+import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/providers/base_provider.dart';
 
 

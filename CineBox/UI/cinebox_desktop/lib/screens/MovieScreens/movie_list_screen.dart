@@ -1,48 +1,42 @@
-import 'package:cinebox_desktop/models/cinema.dart';
-import 'package:cinebox_desktop/models/movie.dart';
-import 'package:cinebox_desktop/models/screening.dart';
+import 'package:cinebox_desktop/models/Genre/genre.dart';
+import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
-import 'package:cinebox_desktop/providers/cinema_provider.dart';
+import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:cinebox_desktop/providers/screening_provider.dart';
-import 'package:cinebox_desktop/screens/movie_detail_screen.dart';
-import 'package:cinebox_desktop/screens/screening_detail_screen.dart';
+import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
-import 'package:cinebox_desktop/widgets/master_screen.dart';
+import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-class ScreeningListScreen extends StatefulWidget {
-  const ScreeningListScreen({super.key});
+class MovieListScreen extends StatefulWidget {
+  const MovieListScreen({super.key});
 
   @override
-  State<ScreeningListScreen> createState() => _ScreeningListScreenState();
+  State<MovieListScreen> createState() => _MovieListScreenState();
 }
 
-class _ScreeningListScreenState extends State<ScreeningListScreen> {
-  late ScreeningProvider _screeningProvider;
-  SearchResult<Screening>? result;
+class _MovieListScreenState extends State<MovieListScreen> {
+  SearchResult<Movie>? result;
   TextEditingController _ftsController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   late MovieProvider _movieProvider;
-  late CinemaProvider _cinemaProvider;
+  late GenreProvider _genreProvider;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    _screeningProvider = context.read<ScreeningProvider>();
-
     _movieProvider = context.read<MovieProvider>();
-    _cinemaProvider = context.read<CinemaProvider>();
+    _genreProvider = context.read<GenreProvider>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreenWidget(
-      title: "Screening List",
+    return MasterScreen(
+      title: "Movie List",
       child: Container(
         child: Column(
           children: [_buildSearch(), _buildDataListView()],
@@ -58,7 +52,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Movie title"),
+              decoration: InputDecoration(labelText: "Title or Genre"),
               controller: _ftsController,
             ),
           ),
@@ -67,7 +61,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           ),
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Category"),
+              decoration: InputDecoration(labelText: "Description"),
               controller: _descriptionController,
             ),
           ),
@@ -83,7 +77,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                 //       builder: (context) => const MovieDetailScreen()),
                 // );
 
-                var data = await _screeningProvider.get(filter: {
+                var data = await _movieProvider.get(filter: {
                   'fts': _ftsController.text,
                   'description': _descriptionController.text
                 });
@@ -101,8 +95,8 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
               onPressed: () async {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => ScreeningDetailScreen(
-                            screening: null,
+                      builder: (context) => MovieDetailScreen(
+                            movie: null,
                           )),
                 );
               },
@@ -127,48 +121,55 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
             DataColumn(
                 label: Expanded(
               child: Text(
-                'Movie',
+                'Title',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
             DataColumn(
                 label: Expanded(
               child: Text(
-                'Cinema',
+                'Description',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
             DataColumn(
                 label: Expanded(
               child: Text(
-                'Category',
+                'Release Date',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
             DataColumn(
                 label: Expanded(
               child: Text(
-                'Start Time',
+                'Duration',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
             DataColumn(
                 label: Expanded(
               child: Text(
-                'End Time',
+                'Genre',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
             DataColumn(
                 label: Expanded(
               child: Text(
-                'Price',
+                'Director',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            )),
+            DataColumn(
+                label: Expanded(
+              child: Text(
+                'Picture',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ))
           ],
           rows: result?.result
-                  .map((Screening e) => DataRow(
+                  .map((Movie e) => DataRow(
                           onSelectChanged: (selected) => {
                                 if (selected == true)
                                   {
@@ -176,29 +177,21 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ScreeningDetailScreen(
-                                                screening: e,
+                                              MovieDetailScreen(
+                                                movie: e,
                                               )),
                                     )
                                   }
                               },
                           cells: [
                             DataCell(Text(e.id?.toString() ?? "")),
+                            DataCell(Text(e.title?.toString() ?? "")),
+                            DataCell(Text(e.description?.toString() ?? "")),
+                            DataCell(Text(e.releaseDate?.toString() ?? "")),
+                            DataCell(Text(e.duration?.toString() ?? "")),
                             DataCell(
-                              FutureBuilder<Movie?>(
-                                future: _movieProvider.getById(e.movieId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.title ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              FutureBuilder<Cinema?>(
-                                future: _cinemaProvider.getById(e.cinemaId!),
+                              FutureBuilder<Genre?>(
+                                future: _genreProvider.getById(e.genreId!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Text(snapshot.data?.name ?? '');
@@ -208,10 +201,13 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                                 },
                               ),
                             ),
-                            DataCell(Text(e.category?.toString() ?? "")),
-                            DataCell(Text(e.startTime?.toString() ?? "")),
-                            DataCell(Text(e.endTime?.toString() ?? "")),
-                            DataCell(Text(e.price?.toString() ?? "")),
+                            DataCell(Text(e.director?.toString() ?? "")),
+                            DataCell(e.picture != ""
+                                ? Container(
+                                    width: 60,
+                                    height: 60,
+                                    child: imageFromBase64String(e.picture!))
+                                : Text("")),
                           ]))
                   .toList() ??
               []),
