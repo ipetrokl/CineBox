@@ -204,8 +204,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             DataCell(Text(e.director?.toString() ?? "")),
                             DataCell(e.picture != ""
                                 ? Container(
-                                    width: 100,
-                                    height: 100,
+                                    width: 60,
+                                    height: 60,
                                     child: imageFromBase64String(e.picture!))
                                 : Text("")),
                           ]))
