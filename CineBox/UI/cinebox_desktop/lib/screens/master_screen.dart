@@ -1,7 +1,5 @@
-import 'package:cinebox_desktop/main.dart';
-import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
+import 'package:cinebox_desktop/screens/CinemaScreens/cinema_list_screen.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_list_screen.dart';
-import 'package:cinebox_desktop/screens/ScreeningScreens/screening_detail_screen.dart';
 import 'package:cinebox_desktop/screens/ScreeningScreens/screening_list_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,14 +29,6 @@ class _MasterScreenState extends State<MasterScreen> {
               child: ListView(
                 children: [
                   ListTile(
-                    title: Text("LOGIN"),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                  ),
-                  ListTile(
                     title: Text("Movies"),
                     onTap: () {
                       Navigator.of(context).push(
@@ -49,17 +39,7 @@ class _MasterScreenState extends State<MasterScreen> {
                     },
                   ),
                   ListTile(
-                    title: Text("MovieDetails"),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetailScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text("ScreeningList"),
+                    title: Text("Screening"),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -69,15 +49,15 @@ class _MasterScreenState extends State<MasterScreen> {
                     },
                   ),
                   ListTile(
-                    title: Text("ScreeningDetails"),
+                    title: Text("Cinema"),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ScreeningDetailScreen(),
+                          builder: (context) => CinemaListScreen(),
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ),
