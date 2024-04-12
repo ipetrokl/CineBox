@@ -109,6 +109,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      primary: true,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
       child: DataTable(
           columns: const [
             DataColumn(
@@ -221,7 +225,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                           ]))
                   .toList() ??
               []),
-    ));
+    )));
   }
 
   void _deleteRecord(int id) async {
