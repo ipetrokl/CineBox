@@ -54,17 +54,17 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-             ElevatedButton(
-          onPressed: () async {
-            // Pozivanje get metode
-            var data = await _usersRoleProvider.get();
-            setState(() {
-              result = data;
-            });
-          },
-          child: const Text("Get All"),
-        ),
-        SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: () async {
+              // Pozivanje get metode
+              var data = await _usersRoleProvider.get();
+              setState(() {
+                result = data;
+              });
+            },
+            child: const Text("Get All"),
+          ),
+          SizedBox(width: 20),
           ElevatedButton(
             onPressed: () async {
               Navigator.of(context).push(
@@ -115,6 +115,12 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((UsersRole e) => DataRow(
@@ -159,9 +165,33 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
                             ),
                             DataCell(
                                 Text(e.dateOfModification?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(e.usersRolesId!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _usersRoleProvider.delete(id);
+
+      if (success) {
+        var data = await _usersRoleProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

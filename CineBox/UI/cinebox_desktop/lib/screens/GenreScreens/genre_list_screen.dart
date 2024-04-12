@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class GenreListScreen extends StatefulWidget {
   const GenreListScreen({super.key});
@@ -102,6 +104,12 @@ class _GenreListScreenState extends State<GenreListScreen> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((Genre e) => DataRow(
@@ -121,9 +129,34 @@ class _GenreListScreenState extends State<GenreListScreen> {
                           cells: [
                             DataCell(Text(e.id?.toString() ?? "")),
                             DataCell(Text(e.name?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(
+                                  e.id!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _genreProvider.delete(id);
+
+      if (success) {
+        var data = await _genreProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

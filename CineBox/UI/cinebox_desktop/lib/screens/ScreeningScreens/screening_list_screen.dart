@@ -163,7 +163,13 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                 'Price',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
-            ))
+            )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((Screening e) => DataRow(
@@ -210,9 +216,33 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                             DataCell(Text(e.startTime?.toString() ?? "")),
                             DataCell(Text(e.endTime?.toString() ?? "")),
                             DataCell(Text(e.price?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(e.id!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _screeningProvider.delete(id);
+
+      if (success) {
+        var data = await _screeningProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

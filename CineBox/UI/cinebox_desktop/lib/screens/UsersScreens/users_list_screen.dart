@@ -137,6 +137,12 @@ class _UsersListScreenState extends State<UsersListScreen> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((Users e) => DataRow(
@@ -161,9 +167,33 @@ class _UsersListScreenState extends State<UsersListScreen> {
                             DataCell(Text(e.phone?.toString() ?? "")),
                             DataCell(Text(e.username?.toString() ?? "")),
                             DataCell(Text(e.status?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(e.id!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _usersProvider.delete(id);
+
+      if (success) {
+        var data = await _usersProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

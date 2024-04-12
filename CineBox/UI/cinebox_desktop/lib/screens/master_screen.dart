@@ -1,3 +1,6 @@
+import 'package:cinebox_desktop/models/Genre/genre.dart';
+import 'package:cinebox_desktop/models/search_result.dart';
+import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:cinebox_desktop/screens/ActorScreens/actor_list_screen.dart';
 import 'package:cinebox_desktop/screens/BookingScreens/booking_list_screen.dart';
 import 'package:cinebox_desktop/screens/CinemaScreens/cinema_list_screen.dart';

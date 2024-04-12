@@ -120,40 +120,69 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
-                  .map((Review e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Users?>(
-                                future: _usersProvider.getById(e.userId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              FutureBuilder<Movie?>(
-                                future: _movieProvider.getById(e.movieId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.title ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.rating?.toString() ?? "")),
-                            DataCell(Text(e.comment?.toString() ?? "")),
-                          ]))
+                  .map((Review e) => DataRow(cells: [
+                        DataCell(Text(e.id?.toString() ?? "")),
+                        DataCell(
+                          FutureBuilder<Users?>(
+                            future: _usersProvider.getById(e.userId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.name ?? '');
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                        DataCell(
+                          FutureBuilder<Movie?>(
+                            future: _movieProvider.getById(e.movieId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.title ?? '');
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                        DataCell(Text(e.rating?.toString() ?? "")),
+                        DataCell(Text(e.comment?.toString() ?? "")),
+                        DataCell(IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () => _deleteRecord(e.id!),
+                        )),
+                      ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _reviewProvider.delete(id);
+
+      if (success) {
+        var data = await _reviewProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

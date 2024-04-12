@@ -166,7 +166,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 'Picture',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
-            ))
+            )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((Movie e) => DataRow(
@@ -208,9 +214,33 @@ class _MovieListScreenState extends State<MovieListScreen> {
                                     height: 60,
                                     child: imageFromBase64String(e.picture!))
                                 : Text("")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(e.id!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _movieProvider.delete(id);
+
+      if (success) {
+        var data = await _movieProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }

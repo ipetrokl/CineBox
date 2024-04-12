@@ -139,7 +139,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
                           ),
                         ),
                         DataCell(Text(e.price?.toString() ?? "")),
-                      ]))
+                          ]))
                   .toList() ??
               []),
     ));

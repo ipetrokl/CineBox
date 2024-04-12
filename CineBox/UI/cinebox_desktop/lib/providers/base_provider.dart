@@ -96,6 +96,26 @@ abstract class BaseProvider<T> with ChangeNotifier {
     }
   }
 
+  Future<bool> delete(int id) async {
+    var url = "$_baseURL$_endPoint/$id";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var response = await http.delete(uri, headers: headers);
+
+    if (isValidResponse(response)) {
+      var data = jsonDecode(response.body);
+
+      if (data['message'] == 'Entity deleted successfully.') {
+        return true;
+      } else {
+        throw new Exception("Failed to delete data for ID: $id");
+      }
+    } else {
+      throw new Exception("Unknown error");
+    }
+  }
+
   T fromJson(data) {
     throw Exception("Method not implemented");
   }

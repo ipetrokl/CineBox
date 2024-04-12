@@ -127,6 +127,12 @@ class _SeatListScreenState extends State<SeatListScreen> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             )),
+            DataColumn(
+              label: Text(
+                'Actions',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
           rows: result?.result
                   .map((Seat e) => DataRow(
@@ -160,9 +166,33 @@ class _SeatListScreenState extends State<SeatListScreen> {
                             DataCell(Text(e.seatNumber?.toString() ?? "")),
                             DataCell(Text(e.category?.toString() ?? "")),
                             DataCell(Text(e.status?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _deleteRecord(e.id!),
+                            )),
                           ]))
                   .toList() ??
               []),
     ));
+  }
+
+  void _deleteRecord(int id) async {
+    try {
+      var success = await _seatProvider.delete(id);
+
+      if (success) {
+        var data = await _seatProvider.get();
+        setState(() {
+          result = data;
+        });
+      }
+    } catch (e) {
+      print("Error deleting genre: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete genre. Please try again."),
+        ),
+      );
+    }
   }
 }
