@@ -199,7 +199,7 @@ class _MasterScreenState extends State<MasterScreen> {
           ),
           Expanded(
             flex: 3,
-            child: widget.child!,
+            child: widget.child ?? Container(),
           ),
         ],
       ),

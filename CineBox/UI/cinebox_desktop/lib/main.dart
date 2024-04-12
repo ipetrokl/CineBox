@@ -15,6 +15,7 @@ import 'package:cinebox_desktop/providers/seat_provider.dart';
 import 'package:cinebox_desktop/providers/ticket_provider.dart';
 import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
+import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:provider/provider.dart';
 
@@ -235,7 +236,7 @@ class LoginPage extends StatelessWidget {
 
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                              builder: (context) => const MovieListScreen()),
+                              builder: (context) => MasterScreen()),
                         );
                       } on Exception catch (e) {
                         showDialog(context: context, builder: (BuildContext context) => AlertDialog(
