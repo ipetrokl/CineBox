@@ -6,7 +6,6 @@ import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -67,62 +66,62 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.movie?.title ?? "Movie Details",
-        child: Column(
-          children: [
-            isLoading ? Container() : _buildForm(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(padding: EdgeInsets.only(top: 70)),
-                ElevatedButton(
-                    onPressed: () async {
-                      _formKey.currentState?.saveAndValidate();
-
-                      var request = new Map.from(_formKey.currentState!.value);
-                      request['picture'] = _base64Image;
-
-                      try {
-                        if (widget.movie == null) {
-                          await _movieProvider.insert(request);
-                        } else {
-                          await _movieProvider.update(
-                              widget.movie!.id!, request);
-                        }
-
-                        showDialog(
+    return Material(
+      child: Column(
+        children: [
+          isLoading ? const SizedBox() : _buildForm(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(padding: EdgeInsets.only(top: 70)),
+              ElevatedButton(
+                  onPressed: () async {
+                    _formKey.currentState?.saveAndValidate();
+      
+                    var request = Map.from(_formKey.currentState!.value);
+                    request['picture'] = _base64Image;
+      
+                    try {
+                      if (widget.movie == null) {
+                        await _movieProvider.insert(request);
+                      } else {
+                        await _movieProvider.update(
+                            widget.movie!.id!, request);
+                      }
+      
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text("Success"),
+                          content: const Text("Screening saved successfully."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("OK"),
+                            )
+                          ],
+                        ),
+                      );
+                    } on Exception catch (e) {
+                      showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                            title: Text("Success"),
-                            content: Text("Screening saved successfully."),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("OK"),
-                              )
-                            ],
-                          ),
-                        );
-                      } on Exception catch (e) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(e.toString()),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text("OK"))
-                                  ],
-                                ));
-                      }
-                    },
-                    child: Text("Save"))
-              ],
-            ),
-          ],
-        ));
+                                title: const Text("Error"),
+                                content: Text(e.toString()),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("OK"))
+                                ],
+                              ));
+                    }
+                  },
+                  child: const Text("Save"))
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   FormBuilder _buildForm() {
@@ -132,32 +131,32 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       child: Center(
         child: Container(
           width: 800,
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Title"),
+                  decoration: const InputDecoration(labelText: "Title"),
                   name: 'title',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Description"),
+                  decoration: const InputDecoration(labelText: "Description"),
                   name: 'description',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderDateTimePicker(
                   name: "releaseDate",
                   inputType: InputType.both,
                   decoration: const InputDecoration(labelText: "Release Date"),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Duration"),
+                  decoration: const InputDecoration(labelText: "Duration"),
                   name: 'duration',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderDropdown<String>(
                   name: 'genreId',
                   decoration: InputDecoration(
@@ -178,12 +177,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           .toList() ??
                       [],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Director"),
+                  decoration: const InputDecoration(labelText: "Director"),
                   name: 'director',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 FormBuilderField(
                   name: "imageId",
                   builder: (field) {
@@ -195,9 +194,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       child: ListTile(
                         leading: _image != null
                             ? Image.file(_image!, width: 50, height: 50)
-                            : Icon(Icons.photo),
-                        title: Text("Select image"),
-                        trailing: Icon(Icons.file_upload),
+                            : const Icon(Icons.photo),
+                        title: const Text("Select image"),
+                        trailing: const Icon(Icons.file_upload),
                         onTap: () async {
                           var result = await FilePicker.platform
                               .pickFiles(type: FileType.image);

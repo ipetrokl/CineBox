@@ -1,12 +1,8 @@
-import 'package:cinebox_desktop/models/Genre/genre.dart';
-import 'package:cinebox_desktop/models/search_result.dart';
-import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:cinebox_desktop/screens/ActorScreens/actor_list_screen.dart';
 import 'package:cinebox_desktop/screens/BookingScreens/booking_list_screen.dart';
 import 'package:cinebox_desktop/screens/CinemaScreens/cinema_list_screen.dart';
 import 'package:cinebox_desktop/screens/GenreScreens/genre_list_screen.dart';
 import 'package:cinebox_desktop/screens/HallScreens/hall_list_screen.dart';
-import 'package:cinebox_desktop/screens/MovieScreens/movie_list_screen.dart';
 import 'package:cinebox_desktop/screens/PaymentScreens/payment_list_screen.dart';
 import 'package:cinebox_desktop/screens/PromotionScreens/promotion_list_screen.dart';
 import 'package:cinebox_desktop/screens/ReviewScreens/review_list_screen.dart';
@@ -17,6 +13,10 @@ import 'package:cinebox_desktop/screens/TicketScreens/ticket_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersRoleScreens/usersRole_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersScreens/users_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/navigator_provider.dart';
+import 'MovieScreens/movie_list_screen.dart';
 
 class MasterScreen extends StatefulWidget {
   Widget? child;
@@ -32,163 +32,263 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title ?? ""),
-        backgroundColor: Colors.blue,
+        title: Builder(
+          builder: (context) {
+            return Text(
+              context.watch<NavigatorProvider>().activeTitle ?? "",
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+        ),
+        backgroundColor: const Color.fromRGBO(198, 195, 206, 1),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Row(
         children: [
           Expanded(
             flex: 1,
             child: Container(
-              color: Colors.grey[200], // Boja bočnog izbornika
+              color: const Color.fromRGBO(198, 195, 206, 1),
               child: ListView(
                 children: [
                   ListTile(
-                    title: Text("Movies"),
+                    title: const Text(
+                      "Movies",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      context.read<NavigatorProvider>().navigate(
+                        screen: const MovieListScreen(), 
+                        title: 'Movies',
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      "Screening",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const MovieListScreen(),
+                          builder: (context) => const ScreeningListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Screening"),
+                    title: const Text(
+                      "Cinema",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ScreeningListScreen(),
+                          builder: (context) => const CinemaListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Cinema"),
+                    title: const Text(
+                      "Actor",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CinemaListScreen(),
+                          builder: (context) => const ActorListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Actor"),
+                    title: const Text(
+                      "Booking",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ActorListScreen(),
+                          builder: (context) => const BookingListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Booking"),
+                    title: const Text(
+                      "Genre",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => BookingListScreen(),
+                          builder: (context) => const GenreListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Genre"),
+                    title: const Text(
+                      "Hall",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => GenreListScreen(),
+                          builder: (context) => const HallListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Hall"),
+                    title: const Text(
+                      "Payment",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => HallListScreen(),
+                          builder: (context) => const PaymentListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Payment"),
+                    title: const Text(
+                      "Promotion",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => PaymentListScreen(),
+                          builder: (context) => const PromotionListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Promotion"),
+                    title: const Text(
+                      "Review",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => PromotionListScreen(),
+                          builder: (context) => const ReviewListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Review"),
+                    title: const Text(
+                      "Seat",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ReviewListScreen(),
+                          builder: (context) => const SeatListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Seat"),
+                    title: const Text(
+                      "Ticket",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => SeatListScreen(),
+                          builder: (context) => const TicketListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Ticket"),
+                    title: const Text(
+                      "Users",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => TicketListScreen(),
+                          builder: (context) => const UsersListScreen(),
                         ),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text("Users"),
+                    title: const Text(
+                      "Role",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => UsersListScreen(),
+                          builder: (context) => const RoleListScreen(),
                         ),
                       );
                     },
                   ),
-                  ListTile(
-                    title: Text("Role"),
+                  if(user.roles.contains(1)) ListTile(
+                    title: const Text(
+                      "UsersRole",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => RoleListScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text("UsersRole"),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => UsersRoleListScreen(),
+                          builder: (context) => const UsersRoleListScreen(),
                         ),
                       );
                     },
@@ -197,12 +297,21 @@ class _MasterScreenState extends State<MasterScreen> {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             flex: 3,
-            child: widget.child ?? Container(),
+            child: MasterScreenContent(),
           ),
         ],
       ),
     );
+  }
+}
+
+class MasterScreenContent extends StatelessWidget {
+  const MasterScreenContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return context.watch<NavigatorProvider>().activeScreen ?? const SizedBox();
   }
 }

@@ -5,10 +5,7 @@ import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -20,8 +17,8 @@ class MovieListScreen extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListScreen> {
   SearchResult<Movie>? result;
-  TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _ftsController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
 
@@ -29,18 +26,34 @@ class _MovieListScreenState extends State<MovieListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
+    _fetchMovies();
+  }
+
+  void _fetchMovies() async {
+    try {
+      var data = await _movieProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Movie List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(220, 220, 206, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -52,7 +65,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Title or Genre"),
+              decoration: const InputDecoration(labelText: "Title or Genre"),
               controller: _ftsController,
             ),
           ),
@@ -61,7 +74,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
           ),
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Description"),
+              decoration: const InputDecoration(labelText: "Description"),
               controller: _descriptionController,
             ),
           ),
@@ -69,35 +82,37 @@ class _MovieListScreenState extends State<MovieListScreen> {
             width: 10,
           ),
           ElevatedButton(
-              onPressed: () async {
-                print("Back proceed");
-                //Navigator.of(context).pop();
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //       builder: (context) => const MovieDetailScreen()),
-                // );
+            onPressed: () async {
+              print("Back proceed");
+              //Navigator.of(context).pop();
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //       builder: (context) => const MovieDetailScreen()),
+              // );
 
-                var data = await _movieProvider.get(filter: {
-                  'fts': _ftsController.text,
-                  'description': _descriptionController.text
-                });
+              var data = await _movieProvider.get(filter: {
+                'fts': _ftsController.text,
+                'description': _descriptionController.text
+              });
 
-                setState(() {
-                  result = data;
-                });
-                // print("data: ${data.result[0].title}");
-              },
-              child: const Text("Search")),
-          SizedBox(
+              setState(() {
+                result = data;
+              });
+              // print("data: ${data.result[0].title}");
+            },
+            child: const Text("Search"),
+          ),
+          const SizedBox(
             width: 20,
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => MovieDetailScreen(
-                            movie: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => Dialog(
+                    insetPadding: const EdgeInsets.all(200),
+                    child: MovieDetailScreen(),
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -109,123 +124,45 @@ class _MovieListScreenState extends State<MovieListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      primary: true,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Title',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Description',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Release Date',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Duration',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Genre',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Director',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Picture',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Movies'),
             ),
-          ],
-          rows: result?.result
-                  .map((Movie e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MovieDetailScreen(
-                                                movie: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.title?.toString() ?? "")),
-                            DataCell(Text(e.description?.toString() ?? "")),
-                            DataCell(Text(e.releaseDate?.toString() ?? "")),
-                            DataCell(Text(e.duration?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Genre?>(
-                                future: _genreProvider.getById(e.genreId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.director?.toString() ?? "")),
-                            DataCell(e.picture != ""
-                                ? Container(
-                                    width: 60,
-                                    height: 60,
-                                    child: imageFromBase64String(e.picture!))
-                                : Text("")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
-    )));
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Title')),
+              DataColumn(label: Text('Description')),
+              DataColumn(label: Text('Release Date')),
+              DataColumn(label: Text('Duration')),
+              DataColumn(label: Text('Genre')),
+              DataColumn(label: Text('Director')),
+              DataColumn(label: Text('Picture')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: MovieDataTableSource(result?.result ?? [], _genreProvider,
+                _deleteRecord, _navigateToMovieDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
+    ));
+  }
+
+  void _navigateToMovieDetail(Movie movie) {
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+        insetPadding: const EdgeInsets.all(200),
+        child: MovieDetailScreen(movie: movie),
+      ),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -241,10 +178,70 @@ class _MovieListScreenState extends State<MovieListScreen> {
     } catch (e) {
       print("Error deleting genre: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Failed to delete genre. Please try again."),
         ),
       );
     }
   }
+}
+
+class MovieDataTableSource extends DataTableSource {
+  final List<Movie> movies;
+  final GenreProvider genreProvider;
+  final Function(int) onDelete;
+  final Function(Movie) onRowSelected;
+
+  MovieDataTableSource(
+      this.movies, this.genreProvider, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final movie = movies[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(movie.id?.toString() ?? '')),
+        DataCell(Text(movie.title ?? '')),
+        DataCell(Text(movie.description ?? '')),
+        DataCell(Text(movie.releaseDate?.toString() ?? '')),
+        DataCell(Text(movie.duration?.toString() ?? '')),
+        DataCell(FutureBuilder<Genre?>(
+          future: genreProvider.getById(movie.genreId!),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data?.name ?? '');
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        )),
+        DataCell(Text(movie.director ?? '')),
+        DataCell(movie.picture != ""
+            ? SizedBox(
+                width: 60,
+                height: 60,
+                child: imageFromBase64String(movie.picture!))
+            : const Text("")),
+        DataCell(IconButton(
+          icon: const Icon(Icons.delete),
+          color: const Color.fromRGBO(220, 150, 206, 1),
+          onPressed: () => onDelete(movie.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(movie);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => movies.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

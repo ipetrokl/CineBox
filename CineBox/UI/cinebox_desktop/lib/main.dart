@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cinebox_desktop/providers/actor_provider.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
@@ -17,14 +16,15 @@ import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/MovieScreens/movie_list_screen.dart';
-import 'package:flutter/material.dart';
+import 'providers/navigator_provider.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => NavigatorProvider()),
       ChangeNotifierProvider(create: (_) => MovieProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
       ChangeNotifierProvider(create: (_) => ScreeningProvider()),
@@ -174,7 +174,7 @@ class MyMaterialApp extends StatelessWidget {
       title: 'Cinebox Material app',
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.light(primary: Colors.blue)),
+          colorScheme: const ColorScheme.light(primary: Colors.blue)),
       home: LoginPage(),
     );
   }
@@ -183,8 +183,8 @@ class MyMaterialApp extends StatelessWidget {
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  TextEditingController _usernameController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late MovieProvider _movieProvider;
 
   @override
@@ -192,10 +192,10 @@ class LoginPage extends StatelessWidget {
     _movieProvider = context.read<MovieProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: Text("Login"), backgroundColor: Colors.blue),
+      appBar: AppBar(title: const Text("Login"), backgroundColor: Colors.blue),
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 500, maxHeight: 600),
+          constraints: const BoxConstraints(maxWidth: 500, maxHeight: 600),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(18.0),
@@ -206,20 +206,20 @@ class LoginPage extends StatelessWidget {
                   width: 150,
                 ),
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       labelText: "Username", prefixIcon: Icon(Icons.person)),
                   controller: _usernameController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       labelText: "Password", prefixIcon: Icon(Icons.password)),
                   controller: _passwordController,
                   obscureText: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 ElevatedButton(
@@ -240,15 +240,15 @@ class LoginPage extends StatelessWidget {
                         );
                       } on Exception catch (e) {
                         showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                          title: Text("Error"),
+                          title: const Text("Error"),
                           content: Text(e.toString()),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))
+                            TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))
                           ],
                         ));
                       }
                     },
-                    child: Text("Sign In"))
+                    child: const Text("Sign In"))
               ]),
             ),
           ),
