@@ -31,20 +31,35 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    _screeningProvider = context.read<ScreeningProvider>();
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    _screeningProvider = context.read<ScreeningProvider>();
     _movieProvider = context.read<MovieProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _screeningProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Screening List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -97,11 +112,9 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => ScreeningDetailScreen(
-                            screening: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => ScreeningDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -113,117 +126,41 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Movie',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Cinema',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Category',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Start Time',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'End Time',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Price',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Screenings'),
             ),
-          ],
-          rows: result?.result
-                  .map((Screening e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ScreeningDetailScreen(
-                                                screening: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Movie?>(
-                                future: _movieProvider.getById(e.movieId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.title ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              FutureBuilder<Cinema?>(
-                                future: _cinemaProvider.getById(e.cinemaId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.category?.toString() ?? "")),
-                            DataCell(Text(e.startTime?.toString() ?? "")),
-                            DataCell(Text(e.endTime?.toString() ?? "")),
-                            DataCell(Text(e.price?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Movie')),
+              DataColumn(label: Text('Cinema')),
+              DataColumn(label: Text('Category')),
+              DataColumn(label: Text('Start Time')),
+              DataColumn(label: Text('End Time')),
+              DataColumn(label: Text('Price')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _movieProvider,
+                _cinemaProvider, _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Screening screening) {
+    showDialog(
+      context: context,
+      builder: (_) => ScreeningDetailScreen(screening: screening),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -245,4 +182,71 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Screening> screenings;
+  final MovieProvider movieProvider;
+  final CinemaProvider cinemaProvider;
+  final Function(int) onDelete;
+  final Function(Screening) onRowSelected;
+
+  DataTableSourceRows(this.screenings, this.movieProvider, this.cinemaProvider,
+      this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final screening = screenings[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(screening.id?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Movie?>(
+            future: movieProvider.getById(screening.movieId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.title ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(
+          FutureBuilder<Cinema?>(
+            future: cinemaProvider.getById(screening.cinemaId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(screening.category?.toString() ?? "")),
+        DataCell(Text(screening.startTime?.toString() ?? "")),
+        DataCell(Text(screening.endTime?.toString() ?? "")),
+        DataCell(Text(screening.price?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(screening.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(screening);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => screenings.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

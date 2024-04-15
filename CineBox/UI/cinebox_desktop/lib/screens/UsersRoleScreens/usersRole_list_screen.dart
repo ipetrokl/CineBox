@@ -31,19 +31,35 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _usersRoleProvider = context.read<UsersRoleProvider>();
     _usersProvider = context.read<UsersProvider>();
     _roleProvider = context.read<RoleProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _usersRoleProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "UsersRole List",
-      child: Container(
-        child: Column(
-          children: [_buildAdd(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildDataListView()],
       ),
     );
   }
@@ -67,12 +83,9 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
           SizedBox(width: 20),
           ElevatedButton(
             onPressed: () async {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => UsersRoleDetailScreen(
-                    usersRole: null,
-                  ),
-                ),
+              showDialog(
+                context: context,
+                builder: (_) => UsersRoleDetailScreen(),
               );
             },
             child: const Text("Add"),
@@ -85,94 +98,38 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'User',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Role',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Date of Modification',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('UsersRoles'),
             ),
-          ],
-          rows: result?.result
-                  .map((UsersRole e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.usersRolesId}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              UsersRoleDetailScreen(
-                                                usersRole: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.usersRolesId?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Users?>(
-                                future: _usersProvider.getById(e.userId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              FutureBuilder<Role?>(
-                                future: _roleProvider.getById(e.roleId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(
-                                Text(e.dateOfModification?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.usersRolesId!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('User')),
+              DataColumn(label: Text('Role')),
+              DataColumn(label: Text('Date Of Modification')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _usersProvider,
+                _roleProvider, _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(UsersRole usersRole) {
+    showDialog(
+      context: context,
+      builder: (_) => UsersRoleDetailScreen(usersRole: usersRole),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -194,4 +151,68 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<UsersRole> usersRoles;
+  final UsersProvider usersProvider;
+  final RoleProvider roleProvider;
+  final Function(int) onDelete;
+  final Function(UsersRole) onRowSelected;
+
+  DataTableSourceRows(this.usersRoles, this.usersProvider, this.roleProvider,
+      this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final usersRole = usersRoles[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(usersRole.usersRolesId?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Users?>(
+            future: usersProvider.getById(usersRole.userId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(
+          FutureBuilder<Role?>(
+            future: roleProvider.getById(usersRole.roleId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(usersRole.dateOfModification?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(usersRole.usersRolesId!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(usersRole);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => usersRoles.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

@@ -69,8 +69,9 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.screening?.category ?? "Screening Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             isLoading ? Container() : _buildForm(),

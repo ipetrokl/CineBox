@@ -25,17 +25,33 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _cinemaProvider = context.read<CinemaProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _cinemaProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Cinema List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -88,11 +104,9 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => CinemaDetailScreen(
-                            cinema: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => CinemaDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -104,64 +118,37 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Name',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Location',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Cinemas'),
             ),
-          ],
-          rows: result?.result
-                  .map((Cinema e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CinemaDetailScreen(
-                                                cinema: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.name?.toString() ?? "")),
-                            DataCell(Text(e.location?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(
-                                  e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Location')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Cinema cinema) {
+    showDialog(
+      context: context,
+      builder: (_) => CinemaDetailScreen(cinema: cinema),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -183,4 +170,42 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Cinema> cinemas;
+  final Function(int) onDelete;
+  final Function(Cinema) onRowSelected;
+
+  DataTableSourceRows(this.cinemas, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final cinema = cinemas[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(cinema.id?.toString() ?? "")),
+        DataCell(Text(cinema.name?.toString() ?? "")),
+        DataCell(Text(cinema.location?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(cinema.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(cinema);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => cinemas.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

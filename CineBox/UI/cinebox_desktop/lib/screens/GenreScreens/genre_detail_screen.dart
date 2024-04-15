@@ -1,4 +1,3 @@
-
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/screens/master_screen.dart';
@@ -44,8 +43,9 @@ class _GenreDetailScreenState extends State<GenreDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.genre?.name ?? "Genre Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             _buildForm(),
@@ -59,7 +59,8 @@ class _GenreDetailScreenState extends State<GenreDetailScreen> {
 
                       try {
                         if (widget.genre == null) {
-                          await _genreProvider.insert(_formKey.currentState?.value);
+                          await _genreProvider
+                              .insert(_formKey.currentState?.value);
                         } else {
                           await _genreProvider.update(
                               widget.genre!.id!, _formKey.currentState?.value);

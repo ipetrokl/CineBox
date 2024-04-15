@@ -30,19 +30,35 @@ class _BookingListScreenState extends State<BookingListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _bookingProvider = context.read<BookingProvider>();
     _usersProvider = context.read<UsersProvider>();
     _screeningProvider = context.read<ScreeningProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _bookingProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Booking List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -80,68 +96,82 @@ class _BookingListScreenState extends State<BookingListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'User',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Screening Id',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Price',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-          ],
-          rows: result?.result
-                  .map((Booking e) => DataRow(cells: [
-                        DataCell(Text(e.id?.toString() ?? "")),
-                        DataCell(
-                          FutureBuilder<Users?>(
-                            future: _usersProvider.getById(e.userId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.name ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(
-                          FutureBuilder<Screening?>(
-                            future: _screeningProvider.getById(e.screeningId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.id.toString() ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(Text(e.price?.toString() ?? "")),
-                          ]))
-                  .toList() ??
-              []),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Bookings'),
+            ),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('User')),
+              DataColumn(label: Text('Screening Id')),
+              DataColumn(label: Text('Price')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _usersProvider, _screeningProvider),
+          ),
+        ),
+      ),
     ));
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Booking> bookings;
+  final UsersProvider usersProvider;
+  final ScreeningProvider screeningProvider;
+
+  DataTableSourceRows(
+      this.bookings, this.usersProvider, this.screeningProvider);
+
+  @override
+  @override
+  DataRow getRow(int index) {
+    final booking = bookings[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(booking.id?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Users?>(
+            future: usersProvider.getById(booking.userId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(
+          FutureBuilder<Screening?>(
+            future: screeningProvider.getById(booking.screeningId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.id.toString() ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(booking.price?.toString() ?? "")),
+      ],
+    );
+  }
+
+  @override
+  int get rowCount => bookings.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

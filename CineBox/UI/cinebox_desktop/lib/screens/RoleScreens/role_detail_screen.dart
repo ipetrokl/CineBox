@@ -44,8 +44,9 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.role?.name ?? "Role Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             _buildForm(),
@@ -59,7 +60,8 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
 
                       try {
                         if (widget.role == null) {
-                          await _roleProvider.insert(_formKey.currentState?.value);
+                          await _roleProvider
+                              .insert(_formKey.currentState?.value);
                         } else {
                           await _roleProvider.update(
                               widget.role!.id!, _formKey.currentState?.value);

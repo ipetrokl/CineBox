@@ -25,17 +25,33 @@ class _RoleListScreenState extends State<RoleListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _roleProvider = context.read<RoleProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _roleProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Role List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -70,11 +86,9 @@ class _RoleListScreenState extends State<RoleListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => RoleDetailScreen(
-                            role: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => RoleDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -86,63 +100,37 @@ class _RoleListScreenState extends State<RoleListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Name',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Description',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Roles'),
             ),
-          ],
-          rows: result?.result
-                  .map((Role e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RoleDetailScreen(
-                                                role: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.name?.toString() ?? "")),
-                            DataCell(Text(e.description?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Description')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Role role) {
+    showDialog(
+      context: context,
+      builder: (_) => RoleDetailScreen(role: role),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -164,4 +152,42 @@ class _RoleListScreenState extends State<RoleListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Role> roles;
+  final Function(int) onDelete;
+  final Function(Role) onRowSelected;
+
+  DataTableSourceRows(this.roles, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final role = roles[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(role.id?.toString() ?? "")),
+        DataCell(Text(role.name?.toString() ?? "")),
+        DataCell(Text(role.description?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(role.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(role);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => roles.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

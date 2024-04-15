@@ -43,8 +43,9 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.actor?.name ?? "Actor Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             _buildForm(),
@@ -58,7 +59,8 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
                       try {
                         if (widget.actor == null) {
-                          await _actorProvider.insert(_formKey.currentState?.value);
+                          await _actorProvider
+                              .insert(_formKey.currentState?.value);
                         } else {
                           await _actorProvider.update(
                               widget.actor!.id!, _formKey.currentState?.value);

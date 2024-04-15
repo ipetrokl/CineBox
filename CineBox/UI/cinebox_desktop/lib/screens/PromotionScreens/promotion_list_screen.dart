@@ -25,17 +25,33 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _promotionProvider = context.read<PromotionProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _promotionProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Promotion List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -70,11 +86,9 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => PromotionDetailScreen(
-                            promotion: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => PromotionDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -86,71 +100,38 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Code',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Discount',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Expiration Date',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Promotions'),
             ),
-          ],
-          rows: result?.result
-                  .map((Promotion e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PromotionDetailScreen(
-                                                promotion: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.code?.toString() ?? "")),
-                            DataCell(Text(e.discount?.toString() ?? "")),
-                            DataCell(Text(e.expirationDate?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Code')),
+              DataColumn(label: Text('Discount')),
+              DataColumn(label: Text('Expiration Date')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Promotion promotion) {
+    showDialog(
+      context: context,
+      builder: (_) => PromotionDetailScreen(promotion: promotion),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -172,4 +153,43 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Promotion> promotions;
+  final Function(int) onDelete;
+  final Function(Promotion) onRowSelected;
+
+  DataTableSourceRows(this.promotions, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final promotion = promotions[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(promotion.id?.toString() ?? "")),
+        DataCell(Text(promotion.code?.toString() ?? "")),
+        DataCell(Text(promotion.discount?.toString() ?? "")),
+        DataCell(Text(promotion.expirationDate?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(promotion.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(promotion);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => promotions.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

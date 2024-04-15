@@ -27,17 +27,33 @@ class _GenreListScreenState extends State<GenreListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _genreProvider = context.read<GenreProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _genreProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Genre List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -72,11 +88,9 @@ class _GenreListScreenState extends State<GenreListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => GenreDetailScreen(
-                            genre: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => GenreDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -88,56 +102,36 @@ class _GenreListScreenState extends State<GenreListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Name',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Cinemas'),
             ),
-          ],
-          rows: result?.result
-                  .map((Genre e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              GenreDetailScreen(
-                                                genre: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.name?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(
-                                  e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Genre genre) {
+    showDialog(
+      context: context,
+      builder: (_) => GenreDetailScreen(genre: genre),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -159,4 +153,41 @@ class _GenreListScreenState extends State<GenreListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Genre> genres;
+  final Function(int) onDelete;
+  final Function(Genre) onRowSelected;
+
+  DataTableSourceRows(this.genres, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final genre = genres[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(genre.id?.toString() ?? "")),
+        DataCell(Text(genre.name?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(genre.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(genre);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => genres.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

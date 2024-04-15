@@ -28,18 +28,34 @@ class _SeatListScreenState extends State<SeatListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _seatProvider = context.read<SeatProvider>();
     _hallProvider = context.read<HallProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _seatProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Seat List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -74,11 +90,9 @@ class _SeatListScreenState extends State<SeatListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => SeatDetailScreen(
-                            seat: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => SeatDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -90,90 +104,39 @@ class _SeatListScreenState extends State<SeatListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Hall',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Seat Number',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Category',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Status',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Seats'),
             ),
-          ],
-          rows: result?.result
-                  .map((Seat e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SeatDetailScreen(
-                                                seat: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Hall?>(
-                                future: _hallProvider.getById(e.hallId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.seatNumber?.toString() ?? "")),
-                            DataCell(Text(e.category?.toString() ?? "")),
-                            DataCell(Text(e.status?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Hall')),
+              DataColumn(label: Text('Seat Number')),
+              DataColumn(label: Text('Category')),
+              DataColumn(label: Text('Status')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _hallProvider,
+                _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Seat seat) {
+    showDialog(
+      context: context,
+      builder: (_) => SeatDetailScreen(seat: seat),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -195,4 +158,57 @@ class _SeatListScreenState extends State<SeatListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Seat> seats;
+  final HallProvider hallProvider;
+  final Function(int) onDelete;
+  final Function(Seat) onRowSelected;
+
+  DataTableSourceRows(
+      this.seats, this.hallProvider, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final seat = seats[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(seat.id?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Hall?>(
+            future: hallProvider.getById(seat.hallId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(seat.seatNumber?.toString() ?? "")),
+        DataCell(Text(seat.category?.toString() ?? "")),
+        DataCell(Text(seat.status?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(seat.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(seat);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => seats.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

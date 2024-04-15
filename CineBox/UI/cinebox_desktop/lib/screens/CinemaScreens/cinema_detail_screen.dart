@@ -44,8 +44,9 @@ class _CinemaDetailScreenState extends State<CinemaDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.cinema?.name ?? "Cinema Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             _buildForm(),
@@ -59,7 +60,8 @@ class _CinemaDetailScreenState extends State<CinemaDetailScreen> {
 
                       try {
                         if (widget.cinema == null) {
-                          await _cinemaProvider.insert(_formKey.currentState?.value);
+                          await _cinemaProvider
+                              .insert(_formKey.currentState?.value);
                         } else {
                           await _cinemaProvider.update(
                               widget.cinema!.id!, _formKey.currentState?.value);

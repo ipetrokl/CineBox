@@ -23,8 +23,8 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
     // TODO: implement initState
     super.initState();
     _initialValue = {
-      'name': widget.promotion?.code,
-      'location': widget.promotion?.discount,
+      'code': widget.promotion?.code,
+      'discount': widget.promotion?.discount.toString(),
       'expirationDate': widget.promotion?.expirationDate,
     };
 
@@ -45,8 +45,9 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.promotion?.code ?? "Promotion Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             _buildForm(),
@@ -60,10 +61,11 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
 
                       try {
                         if (widget.promotion == null) {
-                          await _promotionProvider.insert(_formKey.currentState?.value);
+                          await _promotionProvider
+                              .insert(_formKey.currentState?.value);
                         } else {
-                          await _promotionProvider.update(
-                              widget.promotion!.id!, _formKey.currentState?.value);
+                          await _promotionProvider.update(widget.promotion!.id!,
+                              _formKey.currentState?.value);
                         }
 
                         showDialog(
@@ -125,7 +127,8 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
                 FormBuilderDateTimePicker(
                   name: "expirationDate",
                   inputType: InputType.both,
-                  decoration: const InputDecoration(labelText: "Expiration Date"),
+                  decoration:
+                      const InputDecoration(labelText: "Expiration Date"),
                 ),
               ],
             ),

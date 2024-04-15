@@ -1,4 +1,3 @@
-
 import 'package:cinebox_desktop/providers/actor_provider.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
@@ -173,8 +172,13 @@ class MyMaterialApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cinebox Material app',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          colorScheme: const ColorScheme.light(primary: Colors.blue)),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(180, 186, 177, 1),
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ),
       home: LoginPage(),
     );
   }
@@ -223,6 +227,9 @@ class LoginPage extends StatelessWidget {
                   height: 30,
                 ),
                 ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
                     onPressed: () async {
                       var username = _usernameController.text;
                       var password = _passwordController.text;
@@ -239,13 +246,17 @@ class LoginPage extends StatelessWidget {
                               builder: (context) => MasterScreen()),
                         );
                       } on Exception catch (e) {
-                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                          title: const Text("Error"),
-                          content: Text(e.toString()),
-                          actions: [
-                            TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))
-                          ],
-                        ));
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: const Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("OK"))
+                                  ],
+                                ));
                       }
                     },
                     child: const Text("Sign In"))

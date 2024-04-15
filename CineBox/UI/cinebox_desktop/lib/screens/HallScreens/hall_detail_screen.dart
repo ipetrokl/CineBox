@@ -30,7 +30,7 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
     super.initState();
     _initialValue = {
       'name': widget.hall?.name,
-      'cinemaId': widget.hall?.cinemaId,
+      'cinemaId': widget.hall?.cinemaId.toString(),
     };
 
     _hallProvider = context.read<HallProvider>();
@@ -49,6 +49,7 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
     //   });
     // }
   }
+
   Future initForm() async {
     cinemaResult = await _cinemaProvider.get();
     setState(() {
@@ -58,8 +59,9 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.hall?.name ?? "Hall Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             isLoading ? Container() : _buildForm(),

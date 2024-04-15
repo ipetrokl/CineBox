@@ -33,10 +33,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
     super.initState();
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
-    _fetchMovies();
+    _fetchData();
   }
 
-  void _fetchMovies() async {
+  void _fetchData() async {
     try {
       var data = await _movieProvider.get();
 
@@ -51,7 +51,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromRGBO(220, 220, 206, 1),
+      color: const Color.fromRGBO(214, 212, 203, 1),
       child: Column(
         children: [_buildSearch(), _buildDataListView()],
       ),
@@ -109,10 +109,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => Dialog(
-                    insetPadding: const EdgeInsets.all(200),
-                    child: MovieDetailScreen(),
-                  ),
+                  builder: (_) => MovieDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -146,8 +143,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
               DataColumn(label: Text('Picture')),
               DataColumn(label: Text('Actions')),
             ],
-            source: MovieDataTableSource(result?.result ?? [], _genreProvider,
-                _deleteRecord, _navigateToMovieDetail),
+            source: DataTableSourceRows(result?.result ?? [], _genreProvider,
+                _deleteRecord, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -155,13 +152,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
     ));
   }
 
-  void _navigateToMovieDetail(Movie movie) {
+  void _navigateToDetail(Movie movie) {
     showDialog(
       context: context,
-      builder: (_) => Dialog(
-        insetPadding: const EdgeInsets.all(200),
-        child: MovieDetailScreen(movie: movie),
-      ),
+      builder: (_) => MovieDetailScreen(movie: movie),
     );
   }
 
@@ -186,13 +180,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
   }
 }
 
-class MovieDataTableSource extends DataTableSource {
+class DataTableSourceRows extends DataTableSource {
   final List<Movie> movies;
   final GenreProvider genreProvider;
   final Function(int) onDelete;
   final Function(Movie) onRowSelected;
 
-  MovieDataTableSource(
+  DataTableSourceRows(
       this.movies, this.genreProvider, this.onDelete, this.onRowSelected);
 
   @override
@@ -224,7 +218,6 @@ class MovieDataTableSource extends DataTableSource {
             : const Text("")),
         DataCell(IconButton(
           icon: const Icon(Icons.delete),
-          color: const Color.fromRGBO(220, 150, 206, 1),
           onPressed: () => onDelete(movie.id!),
         )),
       ],

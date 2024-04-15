@@ -30,19 +30,35 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _reviewProvider = context.read<ReviewProvider>();
     _movieProvider = context.read<MovieProvider>();
     _usersProvider = context.read<UsersProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _reviewProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Review List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -83,86 +99,31 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'User',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Movie',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Rating',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Comment',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Reviews'),
             ),
-          ],
-          rows: result?.result
-                  .map((Review e) => DataRow(cells: [
-                        DataCell(Text(e.id?.toString() ?? "")),
-                        DataCell(
-                          FutureBuilder<Users?>(
-                            future: _usersProvider.getById(e.userId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.name ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(
-                          FutureBuilder<Movie?>(
-                            future: _movieProvider.getById(e.movieId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.title ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(Text(e.rating?.toString() ?? "")),
-                        DataCell(Text(e.comment?.toString() ?? "")),
-                        DataCell(IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => _deleteRecord(e.id!),
-                        )),
-                      ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('User')),
+              DataColumn(label: Text('Movie')),
+              DataColumn(label: Text('Rating')),
+              DataColumn(label: Text('Comment')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _usersProvider,
+                _movieProvider, _deleteRecord),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
   }
 
@@ -185,4 +146,63 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Review> reviews;
+  final UsersProvider usersProvider;
+  final MovieProvider movieProvider;
+  final Function(int) onDelete;
+
+  DataTableSourceRows(
+      this.reviews, this.usersProvider, this.movieProvider, this.onDelete);
+
+  @override
+  DataRow getRow(int index) {
+    final review = reviews[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(review.id?.toString() ?? "")),
+                        DataCell(
+                          FutureBuilder<Users?>(
+                            future: usersProvider.getById(review.userId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.name ?? '');
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                        DataCell(
+                          FutureBuilder<Movie?>(
+                            future: movieProvider.getById(review.movieId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.title ?? '');
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                        DataCell(Text(review.rating?.toString() ?? "")),
+                        DataCell(Text(review.comment?.toString() ?? "")),
+                            DataCell(IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => onDelete(review.id!),
+                            )),
+      ],
+    );
+  }
+
+  @override
+  int get rowCount => reviews.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

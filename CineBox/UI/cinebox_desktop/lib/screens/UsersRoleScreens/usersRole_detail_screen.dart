@@ -33,8 +33,8 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
     // TODO: implement initState
     super.initState();
     _initialValue = {
-      'userId': widget.usersRole?.userId,
-      'roleId': widget.usersRole?.roleId,
+      'userId': widget.usersRole?.userId.toString(),
+      'roleId': widget.usersRole?.roleId.toString(),
       'dateOfModification': widget.usersRole?.dateOfModification,
     };
 
@@ -66,8 +66,9 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.usersRole?.usersRolesId.toString() ?? "UsersRole Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             isLoading ? Container() : _buildForm(),
@@ -84,7 +85,8 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
                           await _usersRoleProvider
                               .insert(_formKey.currentState?.value);
                         } else {
-                          await _usersRoleProvider.update(widget.usersRole!.usersRolesId!,
+                          await _usersRoleProvider.update(
+                              widget.usersRole!.usersRolesId!,
                               _formKey.currentState?.value);
                         }
 
@@ -179,7 +181,8 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
                 FormBuilderDateTimePicker(
                   name: "dateOfModification",
                   inputType: InputType.both,
-                  decoration: const InputDecoration(labelText: "Date of moficitaion"),
+                  decoration:
+                      const InputDecoration(labelText: "Date of moficitaion"),
                 ),
               ],
             ),

@@ -25,17 +25,33 @@ class _ActorListScreenState extends State<ActorListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _actorProvider = context.read<ActorProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _actorProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Actor List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -70,11 +86,9 @@ class _ActorListScreenState extends State<ActorListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => ActorDetailScreen(
-                            actor: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => ActorDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -86,55 +100,36 @@ class _ActorListScreenState extends State<ActorListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Name',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Actors'),
             ),
-          ],
-          rows: result?.result
-                  .map((Actor e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ActorDetailScreen(
-                                                actor: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(Text(e.name?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(
+                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Actor actor) {
+    showDialog(
+      context: context,
+      builder: (_) => ActorDetailScreen(actor: actor),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -156,4 +151,41 @@ class _ActorListScreenState extends State<ActorListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Actor> actors;
+  final Function(int) onDelete;
+  final Function(Actor) onRowSelected;
+
+  DataTableSourceRows(this.actors, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final actor = actors[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(actor.id?.toString() ?? '')),
+        DataCell(Text(actor.name ?? '')),
+        DataCell(IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () => onDelete(actor.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(actor);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => actors.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

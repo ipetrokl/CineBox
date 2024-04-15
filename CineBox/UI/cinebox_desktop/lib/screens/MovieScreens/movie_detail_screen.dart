@@ -66,7 +66,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Dialog(
+      backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+      insetPadding: const EdgeInsets.all(200),
       child: Column(
         children: [
           isLoading ? const SizedBox() : _buildForm(),
@@ -77,18 +79,17 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               ElevatedButton(
                   onPressed: () async {
                     _formKey.currentState?.saveAndValidate();
-      
+
                     var request = Map.from(_formKey.currentState!.value);
                     request['picture'] = _base64Image;
-      
+
                     try {
                       if (widget.movie == null) {
                         await _movieProvider.insert(request);
                       } else {
-                        await _movieProvider.update(
-                            widget.movie!.id!, request);
+                        await _movieProvider.update(widget.movie!.id!, request);
                       }
-      
+
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(

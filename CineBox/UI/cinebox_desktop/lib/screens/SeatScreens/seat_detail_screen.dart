@@ -29,8 +29,8 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
     // TODO: implement initState
     super.initState();
     _initialValue = {
-      'hallId': widget.seat?.hallId,
-      'seatNumber': widget.seat?.seatNumber,
+      'hallId': widget.seat?.hallId.toString(),
+      'seatNumber': widget.seat?.seatNumber.toString(),
       'category': widget.seat?.category,
       'status': widget.seat?.status,
     };
@@ -51,6 +51,7 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
     //   });
     // }
   }
+
   Future initForm() async {
     hallResult = await _hallProvider.get();
     setState(() {
@@ -60,8 +61,9 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-        title: widget.seat?.seatNumber.toString() ?? "Seat Details",
+    return Dialog(
+        backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
+        insetPadding: const EdgeInsets.all(200),
         child: Column(
           children: [
             isLoading ? Container() : _buildForm(),

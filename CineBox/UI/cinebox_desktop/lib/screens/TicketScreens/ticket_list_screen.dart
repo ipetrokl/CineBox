@@ -27,18 +27,34 @@ class _TicketListScreenState extends State<TicketListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _ticketProvider = context.read<TicketProvider>();
     _bookingProvider = context.read<BookingProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _ticketProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Ticket List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -79,66 +95,73 @@ class _TicketListScreenState extends State<TicketListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Booking Id',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Ticket Code',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'QR code',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Price',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-          ],
-          rows: result?.result
-                  .map((Ticket e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Booking?>(
-                                future: _bookingProvider.getById(e.bookingId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.id.toString() ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.ticketCode?.toString() ?? "")),
-                            DataCell(Text(e.qrCode?.toString() ?? "")),
-                            DataCell(Text(e.price?.toString() ?? "")),
-                          ]))
-                  .toList() ??
-              []),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Tickets'),
+            ),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Booking Id')),
+              DataColumn(label: Text('Ticket Code')),
+              DataColumn(label: Text('QR Code')),
+              DataColumn(label: Text('Price')),
+            ],
+            source: DataTableSourceRows(
+              result?.result ?? [],
+              _bookingProvider,
+            ),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Ticket> tickets;
+  final BookingProvider bookingProvider;
+
+  DataTableSourceRows(this.tickets, this.bookingProvider);
+
+  @override
+  DataRow getRow(int index) {
+    final ticket = tickets[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(ticket.id?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Booking?>(
+            future: bookingProvider.getById(ticket.bookingId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.id.toString() ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(ticket.ticketCode?.toString() ?? "")),
+        DataCell(Text(ticket.qrCode?.toString() ?? "")),
+        DataCell(Text(ticket.price?.toString() ?? "")),
+      ],
+    );
+  }
+
+  @override
+  int get rowCount => tickets.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

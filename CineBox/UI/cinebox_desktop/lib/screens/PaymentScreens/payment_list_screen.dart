@@ -28,18 +28,34 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _paymentProvider = context.read<PaymentProvider>();
     _bookingProvider = context.read<BookingProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _paymentProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Payment List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -90,58 +106,69 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Booking',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Amount',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Status',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-          ],
-          rows: result?.result
-                  .map((Payment e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Booking?>(
-                                future: _bookingProvider.getById(e.bookingId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.id.toString() ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.amount?.toString() ?? "")),
-                            DataCell(Text(e.paymentStatus?.toString() ?? "")),
-                          ]))
-                  .toList() ??
-              []),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Payments'),
+            ),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Booking')),
+              DataColumn(label: Text('Amount')),
+              DataColumn(label: Text('Status')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _bookingProvider),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Payment> payments;
+  final BookingProvider bookingProvider;
+
+  DataTableSourceRows(
+      this.payments, this.bookingProvider);
+
+  @override
+  DataRow getRow(int index) {
+    final payment = payments[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(payment.id?.toString() ?? "")),
+                        DataCell(
+                          FutureBuilder<Booking?>(
+                            future: bookingProvider.getById(payment.bookingId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.id.toString() ?? '');
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                        DataCell(Text(payment.amount?.toString() ?? "")),
+                        DataCell(Text(payment.paymentStatus?.toString() ?? "")),
+      ],
+    );
+  }
+
+  @override
+  int get rowCount => payments.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

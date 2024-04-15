@@ -28,18 +28,34 @@ class _HallListScreenState extends State<HallListScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     _hallProvider = context.read<HallProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      var data = await _hallProvider.get();
+
+      setState(() {
+        result = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Hall List",
-      child: Container(
-        child: Column(
-          children: [_buildSearch(), _buildDataListView()],
-        ),
+    return Container(
+      color: const Color.fromRGBO(214, 212, 203, 1),
+      child: Column(
+        children: [_buildSearch(), _buildDataListView()],
       ),
     );
   }
@@ -74,11 +90,9 @@ class _HallListScreenState extends State<HallListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => HallDetailScreen(
-                            hall: null,
-                          )),
+                showDialog(
+                  context: context,
+                  builder: (_) => HallDetailScreen(),
                 );
               },
               child: const Text("Add"))
@@ -90,74 +104,37 @@ class _HallListScreenState extends State<HallListScreen> {
   Expanded _buildDataListView() {
     return Expanded(
         child: SingleChildScrollView(
-      child: DataTable(
-          columns: const [
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'ID',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Cinema',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-                label: Expanded(
-              child: Text(
-                'Name',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            )),
-            DataColumn(
-              label: Text(
-                'Actions',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardTheme: Theme.of(context).cardTheme.copyWith(
+                    color: const Color.fromRGBO(220, 220, 206, 1),
+                  )),
+          child: PaginatedDataTable(
+            header: const Center(
+              child: Text('Halls'),
             ),
-          ],
-          rows: result?.result
-                  .map((Hall e) => DataRow(
-                          onSelectChanged: (selected) => {
-                                if (selected == true)
-                                  {
-                                    print('selected: ${e.id}'),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              HallDetailScreen(
-                                                hall: e,
-                                              )),
-                                    )
-                                  }
-                              },
-                          cells: [
-                            DataCell(Text(e.id?.toString() ?? "")),
-                            DataCell(
-                              FutureBuilder<Cinema?>(
-                                future: _cinemaProvider.getById(e.cinemaId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data?.name ?? '');
-                                  } else {
-                                    return CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ),
-                            DataCell(Text(e.name?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _deleteRecord(e.id!),
-                            )),
-                          ]))
-                  .toList() ??
-              []),
+            columns: const [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Cinema')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Actions')),
+            ],
+            source: DataTableSourceRows(result?.result ?? [], _cinemaProvider,
+                _deleteRecord, _navigateToDetail),
+            showCheckboxColumn: false,
+          ),
+        ),
+      ),
     ));
+  }
+
+  void _navigateToDetail(Hall hall) {
+    showDialog(
+      context: context,
+      builder: (_) => HallDetailScreen(hall: hall),
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -179,4 +156,55 @@ class _HallListScreenState extends State<HallListScreen> {
       );
     }
   }
+}
+
+class DataTableSourceRows extends DataTableSource {
+  final List<Hall> halls;
+  final CinemaProvider cinemaProvider;
+  final Function(int) onDelete;
+  final Function(Hall) onRowSelected;
+
+  DataTableSourceRows(
+      this.halls, this.cinemaProvider, this.onDelete, this.onRowSelected);
+
+  @override
+  DataRow getRow(int index) {
+    final hall = halls[index];
+    return DataRow(
+      cells: [
+        DataCell(Text(hall.id?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Cinema?>(
+            future: cinemaProvider.getById(hall.cinemaId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(hall.name?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(hall.id!),
+        )),
+      ],
+      onSelectChanged: (selected) {
+        if (selected == true) {
+          onRowSelected(hall);
+        }
+      },
+    );
+  }
+
+  @override
+  int get rowCount => halls.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }
