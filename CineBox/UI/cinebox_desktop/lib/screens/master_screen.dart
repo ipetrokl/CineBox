@@ -13,6 +13,8 @@ import 'package:cinebox_desktop/screens/SeatScreens/seat_list_screen.dart';
 import 'package:cinebox_desktop/screens/TicketScreens/ticket_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersRoleScreens/usersRole_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersScreens/users_list_screen.dart';
+import 'package:cinebox_desktop/screens/log_in_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,17 +35,30 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Builder(
-          builder: (context) {
-            return Text(
-              context.watch<NavigatorProvider>().activeTitle ?? "",
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-          },
+        title: const Text(
+          "CineBox",
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        actions: <Widget>[
+          Tooltip(
+            message:
+                'Sign out', // Tekst koji će se prikazati kada korisnik drži prst iznad ikone
+            child: IconButton(
+              iconSize: 28,
+              padding: EdgeInsets.only(right: 35),
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ),
+        ],
         backgroundColor: const Color.fromRGBO(184, 182, 173, 1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
