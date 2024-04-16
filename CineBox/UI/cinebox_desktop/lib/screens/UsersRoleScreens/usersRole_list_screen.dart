@@ -59,7 +59,7 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
     return Container(
       color: const Color.fromRGBO(214, 212, 203, 1),
       child: Column(
-        children: [_buildDataListView()],
+        children: [_buildAdd(), _buildDataListView()],
       ),
     );
   }
@@ -70,17 +70,6 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () async {
-              // Pozivanje get metode
-              var data = await _usersRoleProvider.get();
-              setState(() {
-                result = data;
-              });
-            },
-            child: const Text("Get All"),
-          ),
-          SizedBox(width: 20),
           ElevatedButton(
             onPressed: () async {
               showDialog(

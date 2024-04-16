@@ -1,3 +1,4 @@
+import 'package:cinebox_desktop/models/UsersRole/usersRole.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'users.g.dart';
@@ -14,17 +15,8 @@ class Users {
   String? passwordConfirmation;
   bool? status;
 
-  Users(
-    this.id,
-    this.name,
-    this.surname,
-    this.email,
-    this.phone,
-    this.username,
-    this.password,
-    this.passwordConfirmation,
-    this.status
-  );
+  Users(this.id, this.name, this.surname, this.email, this.phone, this.username,
+      this.password, this.passwordConfirmation, this.status);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

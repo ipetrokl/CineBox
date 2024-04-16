@@ -1,4 +1,5 @@
 import 'package:cinebox_desktop/providers/actor_provider.dart';
+import 'package:cinebox_desktop/providers/admin_provider.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
@@ -25,6 +26,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => NavigatorProvider()),
+      ChangeNotifierProvider(create: (_) => IsAdminCheckProvider()),
       ChangeNotifierProvider(create: (_) => MovieProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
       ChangeNotifierProvider(create: (_) => ScreeningProvider()),

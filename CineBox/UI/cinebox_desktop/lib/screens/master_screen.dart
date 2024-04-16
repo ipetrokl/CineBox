@@ -1,4 +1,8 @@
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
+import 'package:cinebox_desktop/providers/admin_provider.dart';
+import 'package:cinebox_desktop/providers/role_provider.dart';
+import 'package:cinebox_desktop/providers/usersRole_provider.dart';
+import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/ActorScreens/actor_list_screen.dart';
 import 'package:cinebox_desktop/screens/BookingScreens/booking_list_screen.dart';
 import 'package:cinebox_desktop/screens/CinemaScreens/cinema_list_screen.dart';
@@ -14,6 +18,7 @@ import 'package:cinebox_desktop/screens/TicketScreens/ticket_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersRoleScreens/usersRole_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersScreens/users_list_screen.dart';
 import 'package:cinebox_desktop/screens/log_in_screen.dart';
+import 'package:cinebox_desktop/utils/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,13 +50,13 @@ class _MasterScreenState extends State<MasterScreen> {
         ),
         actions: <Widget>[
           Tooltip(
-            message:
-                'Sign out', // Tekst koji će se prikazati kada korisnik drži prst iznad ikone
+            message: 'Sign out',
             child: IconButton(
               iconSize: 28,
               padding: EdgeInsets.only(right: 35),
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
+                context.read<IsAdminCheckProvider>().reset();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );
@@ -262,54 +267,60 @@ class _MasterScreenState extends State<MasterScreen> {
                           );
                     },
                   ),
-                  ListTile(
-                    title: const Text(
-                      "Users",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  if (Provider.of<IsAdminCheckProvider>(context).isAdmin) ...[
+                    ListTile(
+                      title: const Text(
+                        "Users",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
+                      onTap: () {
+                        context.read<NavigatorProvider>().navigate(
+                              screen: const UsersListScreen(),
+                              title: 'Users',
+                            );
+                      },
                     ),
-                    onTap: () {
-                      context.read<NavigatorProvider>().navigate(
-                            screen: const UsersListScreen(),
-                            title: 'Users',
-                          );
-                    },
-                  ),
-                  ListTile(
-                    title: const Text(
-                      "Role",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  ],
+                  if (Provider.of<IsAdminCheckProvider>(context).isAdmin) ...[
+                    ListTile(
+                      title: const Text(
+                        "Role",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
+                      onTap: () {
+                        context.read<NavigatorProvider>().navigate(
+                              screen: const RoleListScreen(),
+                              title: 'Roles',
+                            );
+                      },
                     ),
-                    onTap: () {
-                      context.read<NavigatorProvider>().navigate(
-                            screen: const RoleListScreen(),
-                            title: 'Roles',
-                          );
-                    },
-                  ),
-                  ListTile(
-                    title: const Text(
-                      "UsersRole",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  ],
+                  if (Provider.of<IsAdminCheckProvider>(context).isAdmin) ...[
+                    ListTile(
+                      title: const Text(
+                        "UsersRole",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
+                      onTap: () {
+                        context.read<NavigatorProvider>().navigate(
+                              screen: const UsersRoleListScreen(),
+                              title: 'Users Roles',
+                            );
+                      },
                     ),
-                    onTap: () {
-                      context.read<NavigatorProvider>().navigate(
-                            screen: const UsersRoleListScreen(),
-                            title: 'Users Roles',
-                          );
-                    },
-                  ),
+                  ],
                 ],
               ),
             ),
