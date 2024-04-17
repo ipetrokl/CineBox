@@ -74,7 +74,11 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
             onPressed: () async {
               showDialog(
                 context: context,
-                builder: (_) => UsersRoleDetailScreen(),
+                builder: (_) => UsersRoleDetailScreen(
+                  onClose: () {
+                    _fetchData();
+                  },
+                ),
               );
             },
             child: const Text("Add"),
@@ -117,7 +121,12 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
   void _navigateToDetail(UsersRole usersRole) {
     showDialog(
       context: context,
-      builder: (_) => UsersRoleDetailScreen(usersRole: usersRole),
+      builder: (_) => UsersRoleDetailScreen(
+        usersRole: usersRole,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

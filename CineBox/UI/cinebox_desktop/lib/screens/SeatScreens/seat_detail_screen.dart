@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class SeatDetailScreen extends StatefulWidget {
   Seat? seat;
-  SeatDetailScreen({super.key, this.seat});
+  final OnDialogClose? onClose;
+  SeatDetailScreen({super.key, this.seat, this.onClose});
 
   @override
   State<SeatDetailScreen> createState() => _SeatDetailScreenState();
@@ -82,6 +85,10 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
                         } else {
                           await _seatProvider.update(
                               widget.seat!.id!, _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

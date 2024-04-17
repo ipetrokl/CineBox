@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class RoleDetailScreen extends StatefulWidget {
   Role? role;
-  RoleDetailScreen({super.key, this.role});
+  final OnDialogClose? onClose;
+  RoleDetailScreen({super.key, this.role, this.onClose});
 
   @override
   State<RoleDetailScreen> createState() => _RoleDetailScreenState();
@@ -65,6 +68,10 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
                         } else {
                           await _roleProvider.update(
                               widget.role!.id!, _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

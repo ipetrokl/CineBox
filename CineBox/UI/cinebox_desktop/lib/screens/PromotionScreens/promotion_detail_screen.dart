@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class PromotionDetailScreen extends StatefulWidget {
   Promotion? promotion;
-  PromotionDetailScreen({super.key, this.promotion});
+  final OnDialogClose? onClose;
+  PromotionDetailScreen({super.key, this.promotion, this.onClose});
 
   @override
   State<PromotionDetailScreen> createState() => _PromotionDetailScreenState();
@@ -66,6 +69,10 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
                         } else {
                           await _promotionProvider.update(widget.promotion!.id!,
                               _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

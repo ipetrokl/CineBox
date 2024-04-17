@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class HallDetailScreen extends StatefulWidget {
   Hall? hall;
-  HallDetailScreen({super.key, this.hall});
+  final OnDialogClose? onClose;
+  HallDetailScreen({super.key, this.hall, this.onClose});
 
   @override
   State<HallDetailScreen> createState() => _HallDetailScreenState();
@@ -80,6 +83,10 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
                         } else {
                           await _hallProvider.update(
                               widget.hall!.id!, _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

@@ -88,7 +88,11 @@ class _RoleListScreenState extends State<RoleListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => RoleDetailScreen(),
+                  builder: (_) => RoleDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -129,7 +133,12 @@ class _RoleListScreenState extends State<RoleListScreen> {
   void _navigateToDetail(Role role) {
     showDialog(
       context: context,
-      builder: (_) => RoleDetailScreen(role: role),
+      builder: (_) => RoleDetailScreen(
+        role: role,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

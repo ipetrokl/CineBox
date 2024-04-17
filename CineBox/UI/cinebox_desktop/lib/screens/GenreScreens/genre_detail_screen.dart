@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class GenreDetailScreen extends StatefulWidget {
   Genre? genre;
-  GenreDetailScreen({super.key, this.genre});
+  final OnDialogClose? onClose;
+  GenreDetailScreen({super.key, this.genre, this.onClose});
 
   @override
   State<GenreDetailScreen> createState() => _GenreDetailScreenState();
@@ -64,6 +67,10 @@ class _GenreDetailScreenState extends State<GenreDetailScreen> {
                         } else {
                           await _genreProvider.update(
                               widget.genre!.id!, _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

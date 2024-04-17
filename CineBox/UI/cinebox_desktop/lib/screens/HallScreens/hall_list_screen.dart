@@ -92,7 +92,11 @@ class _HallListScreenState extends State<HallListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => HallDetailScreen(),
+                  builder: (_) => HallDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -133,7 +137,12 @@ class _HallListScreenState extends State<HallListScreen> {
   void _navigateToDetail(Hall hall) {
     showDialog(
       context: context,
-      builder: (_) => HallDetailScreen(hall: hall),
+      builder: (_) => HallDetailScreen(
+        hall: hall,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

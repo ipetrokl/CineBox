@@ -90,7 +90,11 @@ class _GenreListScreenState extends State<GenreListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => GenreDetailScreen(),
+                  builder: (_) => GenreDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -130,7 +134,12 @@ class _GenreListScreenState extends State<GenreListScreen> {
   void _navigateToDetail(Genre genre) {
     showDialog(
       context: context,
-      builder: (_) => GenreDetailScreen(genre: genre),
+      builder: (_) => GenreDetailScreen(
+        genre: genre,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

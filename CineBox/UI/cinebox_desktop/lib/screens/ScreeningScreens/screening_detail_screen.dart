@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class ScreeningDetailScreen extends StatefulWidget {
   Screening? screening;
-  ScreeningDetailScreen({super.key, this.screening});
+  final OnDialogClose? onClose;
+  ScreeningDetailScreen({super.key, this.screening, this.onClose});
 
   @override
   State<ScreeningDetailScreen> createState() => _ScreeningDetailScreenState();
@@ -90,6 +93,10 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                         } else {
                           await _screeningProvider.update(widget.screening!.id!,
                               _formKey.currentState?.value);
+                        }
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
                         }
 
                         showDialog(

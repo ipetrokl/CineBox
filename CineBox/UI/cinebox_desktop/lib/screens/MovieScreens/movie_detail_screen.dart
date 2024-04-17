@@ -11,9 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
+typedef OnDialogClose = void Function();
+
 class MovieDetailScreen extends StatefulWidget {
   Movie? movie;
-  MovieDetailScreen({super.key, this.movie});
+  final OnDialogClose? onClose;
+  MovieDetailScreen({super.key, this.movie, this.onClose});
 
   @override
   State<MovieDetailScreen> createState() => _MovieDetailScreenState();
@@ -88,6 +91,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         await _movieProvider.insert(request);
                       } else {
                         await _movieProvider.update(widget.movie!.id!, request);
+                      }
+                      if (widget.onClose != null) {
+                        widget.onClose!();
                       }
 
                       showDialog(

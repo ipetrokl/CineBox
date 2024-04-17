@@ -4,6 +4,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
+import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:cinebox_desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -109,7 +110,11 @@ class _MovieListScreenState extends State<MovieListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => MovieDetailScreen(),
+                  builder: (_) => MovieDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -155,7 +160,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
   void _navigateToDetail(Movie movie) {
     showDialog(
       context: context,
-      builder: (_) => MovieDetailScreen(movie: movie),
+      builder: (_) => MovieDetailScreen(
+        movie: movie,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

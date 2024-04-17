@@ -88,7 +88,11 @@ class _UsersListScreenState extends State<UsersListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => UsersDetailScreen(),
+                  builder: (_) => UsersDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -133,7 +137,12 @@ class _UsersListScreenState extends State<UsersListScreen> {
   void _navigateToDetail(Users users) {
     showDialog(
       context: context,
-      builder: (_) => UsersDetailScreen(users: users),
+      builder: (_) => UsersDetailScreen(
+        users: users,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

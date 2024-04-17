@@ -106,7 +106,11 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => CinemaDetailScreen(),
+                  builder: (_) => CinemaDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -147,7 +151,12 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
   void _navigateToDetail(Cinema cinema) {
     showDialog(
       context: context,
-      builder: (_) => CinemaDetailScreen(cinema: cinema),
+      builder: (_) => CinemaDetailScreen(
+        cinema: cinema,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

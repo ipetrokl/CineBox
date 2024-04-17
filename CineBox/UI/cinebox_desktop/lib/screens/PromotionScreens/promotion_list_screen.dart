@@ -88,7 +88,11 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => PromotionDetailScreen(),
+                  builder: (_) => PromotionDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -130,7 +134,12 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
   void _navigateToDetail(Promotion promotion) {
     showDialog(
       context: context,
-      builder: (_) => PromotionDetailScreen(promotion: promotion),
+      builder: (_) => PromotionDetailScreen(
+        promotion: promotion,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

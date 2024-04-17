@@ -114,7 +114,11 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => ScreeningDetailScreen(),
+                  builder: (_) => ScreeningDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -159,7 +163,12 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
   void _navigateToDetail(Screening screening) {
     showDialog(
       context: context,
-      builder: (_) => ScreeningDetailScreen(screening: screening),
+      builder: (_) => ScreeningDetailScreen(
+        screening: screening,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

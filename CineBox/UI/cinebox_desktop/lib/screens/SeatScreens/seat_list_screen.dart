@@ -92,7 +92,11 @@ class _SeatListScreenState extends State<SeatListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => SeatDetailScreen(),
+                  builder: (_) => SeatDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -135,7 +139,12 @@ class _SeatListScreenState extends State<SeatListScreen> {
   void _navigateToDetail(Seat seat) {
     showDialog(
       context: context,
-      builder: (_) => SeatDetailScreen(seat: seat),
+      builder: (_) => SeatDetailScreen(
+        seat: seat,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 

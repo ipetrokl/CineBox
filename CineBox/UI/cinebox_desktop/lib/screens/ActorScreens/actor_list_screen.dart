@@ -88,7 +88,11 @@ class _ActorListScreenState extends State<ActorListScreen> {
               onPressed: () async {
                 showDialog(
                   context: context,
-                  builder: (_) => ActorDetailScreen(),
+                  builder: (_) => ActorDetailScreen(
+                    onClose: () {
+                      _fetchData();
+                    },
+                  ),
                 );
               },
               child: const Text("Add"))
@@ -128,7 +132,12 @@ class _ActorListScreenState extends State<ActorListScreen> {
   void _navigateToDetail(Actor actor) {
     showDialog(
       context: context,
-      builder: (_) => ActorDetailScreen(actor: actor),
+      builder: (_) => ActorDetailScreen(
+        actor: actor,
+        onClose: () {
+          _fetchData();
+        },
+      ),
     );
   }
 
