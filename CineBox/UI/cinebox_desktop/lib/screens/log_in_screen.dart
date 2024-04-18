@@ -92,26 +92,24 @@ class LoginPage extends StatelessWidget {
                           Authorization.username = username;
                           Authorization.password = password;
 
-                          var users = await _usersProvider.get();
-                          for (var user in users.result) {
-                            if (username == user.username) {
-                              var usersRoles = await _usersRoleProvider.get();
-                              for (var userRole in usersRoles.result) {
-                                if (userRole.userId == user.id) {
-                                  var role = await _roleProvider
-                                      .getById(userRole.roleId!);
-                                  if (role != null && role.name == 'admin') {
-                                    Provider.of<IsAdminCheckProvider>(context,
-                                            listen: false)
-                                        .isAdmin = true;
+                          try {
+                            var users = await _usersProvider.get();
+                            for (var user in users.result) {
+                              if (username == user.username) {
+                                var usersRoles = await _usersRoleProvider.get();
+                                for (var userRole in usersRoles.result) {
+                                  if (userRole.userId == user.id) {
+                                    var role = await _roleProvider
+                                        .getById(userRole.roleId!);
+                                    if (role != null && role.name == 'admin') {
+                                      Provider.of<IsAdminCheckProvider>(context,
+                                              listen: false)
+                                          .isAdmin = true;
+                                    }
                                   }
                                 }
                               }
                             }
-                          }
-
-                          try {
-                            await _movieProvider.get();
 
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(

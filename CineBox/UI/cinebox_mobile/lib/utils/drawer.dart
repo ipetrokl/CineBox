@@ -10,17 +10,18 @@ class CineboxDrawer extends StatelessWidget {
     // _cartProvider = context.watch<CartProvider>();
     print("called build drawer");
     return Drawer(
+      backgroundColor: Colors.indigo,
       child: ListView(
         children: [
-          
           ListTile(
+            textColor: Colors.white,
             title: Text('Home'),
             onTap: () {
-              
                Navigator.popAndPushNamed(context, MovieListScreen.routeName);
             },
           ),
           ListTile(
+            textColor: Colors.white,
             // title: Text('Cart ${_cartProvider?.cart.items.length}'),
             title: Text("Cart"),
             onTap: () {

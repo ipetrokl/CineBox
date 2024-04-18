@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cinebox_mobile/models/Movie/movie.dart';
+import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
@@ -19,6 +20,7 @@ class MovieListScreen extends StatefulWidget {
 
 class _movieListScreenState extends State<MovieListScreen> {
   late MovieProvider _movieProvider;
+  late CartProvider _cartProvider;
   SearchResult<Movie>? result;
   final TextEditingController _searchController = TextEditingController();
 
@@ -27,6 +29,7 @@ class _movieListScreenState extends State<MovieListScreen> {
     // TODO: implement initState
     super.initState();
     _movieProvider = context.read<MovieProvider>();
+    _cartProvider = context.read<CartProvider>();
     print("called initState");
     loadData();
   }
@@ -79,6 +82,7 @@ class _movieListScreenState extends State<MovieListScreen> {
       children: [
         Expanded(
           child: Container(
+            height: 70,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: TextField(
               controller: _searchController,
@@ -163,14 +167,154 @@ class _movieListScreenState extends State<MovieListScreen> {
                   ),
                 ),
               ),
-              Text(movie.title ?? ""),
-              Text(movie.director ?? ""),
-              // IconButton(
-              //   icon: Icon(Icons.shopping_cart),
-              //   onPressed: () {
-              //     // _cartProvider?.addToCart(x);
-              //   },
-              // )
+              SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 15),
+                  Text(
+                    "Shutter Island",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    "Actors:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Text(
+                    "Ante K, Matej J",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Director:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    "Silvio P.",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Performed:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    "03.03.2023. - 03.04.2023.",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 60,
+                      ),
+                      Text(
+                        "* * * * *",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(7)),
+                        width: 55,
+                        child: InkWell(
+                          onTap: () {
+                            _cartProvider.addToCart(movie);
+                          },
+                          child: const Text(
+                            textAlign: TextAlign.center,
+                            "16:30",
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(7)),
+                        width: 55,
+                        child: InkWell(
+                          onTap: () {
+                            _cartProvider.addToCart(movie);
+                          },
+                          child: const Text(
+                            textAlign: TextAlign.center,
+                            "18:00",
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(7)),
+                        width: 55,
+                        child: InkWell(
+                          onTap: () {
+                            _cartProvider.addToCart(movie);
+                          },
+                          child: const Text(
+                            textAlign: TextAlign.center,
+                            "22:00",
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 25,
+                    child: const Text(
+                      textAlign: TextAlign.center,
+                      "Hall 4",
+                      style:
+                          TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

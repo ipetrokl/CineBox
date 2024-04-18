@@ -30,14 +30,21 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        title: Text("CineBox"),
+        titleTextStyle: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ),
+        backgroundColor: const Color.fromARGB(255, 21, 36, 118),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: CineboxDrawer(),
       body: SafeArea(
         child: widget.child!,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 21, 36, 118),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -48,7 +55,8 @@ class _MasterScreenState extends State<MasterScreen> {
             label: 'Cart',
           ),
         ],
-        selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.pink[300],
         currentIndex: currentIndex,
         onTap: _onItemTapped,
       ),

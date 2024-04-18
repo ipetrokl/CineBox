@@ -1,16 +1,21 @@
+import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  late MovieProvider _movieProvider;
 
   @override
   Widget build(BuildContext context) {
+    _movieProvider = context.read<MovieProvider>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -73,10 +78,12 @@ class LoginPage extends StatelessWidget {
                           var username = _usernameController.text;
                           var password = _passwordController.text;
                           print("Sign In proceed $username, $password");
-                          try {
-                            Authorization.username = username;
-                            Authorization.password = password;
 
+                          Authorization.username = username;
+                          Authorization.password = password;
+
+                          try {
+                            await _movieProvider.get();
                             Navigator.pushNamed(
                                 context, MovieListScreen.routeName);
                           } on Exception catch (e) {
