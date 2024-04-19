@@ -3,14 +3,17 @@ import 'dart:convert';
 import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/MovieActor/movieActor.dart';
+import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
+import 'package:cinebox_mobile/providers/screening_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -26,6 +29,7 @@ class _movieListScreenState extends State<MovieListScreen> {
   late CartProvider _cartProvider;
   late ActorProvider _actorProvider;
   late MovieActorProvider _movieActorProvider;
+  late ScreeningProvider _screeningProvider;
   SearchResult<Movie>? result;
   final TextEditingController _searchController = TextEditingController();
 
@@ -37,6 +41,7 @@ class _movieListScreenState extends State<MovieListScreen> {
     _cartProvider = context.read<CartProvider>();
     _actorProvider = context.read<ActorProvider>();
     _movieActorProvider = context.read<MovieActorProvider>();
+    _screeningProvider = context.read<ScreeningProvider>();
     print("called initState");
     loadData();
   }
@@ -64,12 +69,12 @@ class _movieListScreenState extends State<MovieListScreen> {
             children: [
               _buildMovieSearch(),
               SizedBox(
-                height: 627,
+                height: 575,
                 child: GridView(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    childAspectRatio: 1.8,
+                    childAspectRatio: 1.6,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 30,
                   ),
@@ -236,11 +241,22 @@ class _movieListScreenState extends State<MovieListScreen> {
                       fontSize: 10,
                     ),
                   ),
-                  Text(
-                    "03.03.2023. - 03.04.2023.",
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
+                  FutureBuilder<String>(
+                    future: _fetchScreeningForMovie(movie.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("");
+                      } else if (snapshot.hasError) {
+                        return Text("Error");
+                      } else {
+                        return Text(
+                          snapshot.data!,
+                          style: const TextStyle(
+                            fontSize: 10,
+                          ),
+                        );
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 5,
@@ -361,8 +377,18 @@ class _movieListScreenState extends State<MovieListScreen> {
     if (actors.isEmpty) {
       return '';
     }
-    return actors
-        .map((actor) => actor.name)
-        .join(", ");
+    return actors.map((actor) => actor.name).join(", ");
+  }
+
+  Future<String> _fetchScreeningForMovie(int movieId) async {
+    var screenings = await _screeningProvider
+        .get(filter: {'movieId': movieId, 'cinemaId': 1});
+    String result = "";
+    for (var screening in screenings.result) {
+      var startDate = DateFormat('dd-MM-yyyy').format(screening.startTime!);
+      var endDate = DateFormat('dd-MM-yyyy').format(screening.endTime!);
+      result = startDate.toString() + " - " + endDate.toString();
+    }
+    return result;
   }
 }

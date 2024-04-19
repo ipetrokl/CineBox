@@ -16,7 +16,10 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie()
       : DateTime.parse(json['releaseDate'] as String)
   ..duration = json['duration'] as int?
   ..director = json['director'] as String?
-  ..picture = json['picture'] as String?;
+  ..picture = json['picture'] as String?
+  ..actors = (json['actors'] as List<dynamic>?)
+      ?.map((e) => Actor.fromJson(e as Map<String, dynamic>))
+      .toList();
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'id': instance.id,
@@ -27,4 +30,5 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'duration': instance.duration,
       'director': instance.director,
       'picture': instance.picture,
+      'actors': instance.actors,
     };

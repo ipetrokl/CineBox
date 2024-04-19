@@ -30,6 +30,16 @@ namespace CineBox.Services.Screening
                 filteredQuery = filteredQuery.Where(x => x.Category == search.Category);
             }
 
+            if (search?.MovieId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.MovieId == search.MovieId);
+            }
+
+            if (search?.CinemaId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.CinemaId == search.CinemaId);
+            }
+
             return filteredQuery;
         }
     }
