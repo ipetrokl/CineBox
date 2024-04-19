@@ -26,6 +26,11 @@ namespace CineBox.Services.MovieActor
                     .Where(x => x.Movie.Title.Contains(search.FTS) || x.Actor.Name.Contains(search.FTS));
             }
 
+            if (search?.MovieId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.MovieId == search.MovieId);
+            }
+
             return filteredQuery;
         }
     }

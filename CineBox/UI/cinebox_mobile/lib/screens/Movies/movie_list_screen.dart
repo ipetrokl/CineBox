@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
+import 'package:cinebox_mobile/models/MovieActor/movieActor.dart';
+import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
-import 'package:cinebox_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +24,8 @@ class MovieListScreen extends StatefulWidget {
 class _movieListScreenState extends State<MovieListScreen> {
   late MovieProvider _movieProvider;
   late CartProvider _cartProvider;
+  late ActorProvider _actorProvider;
+  late MovieActorProvider _movieActorProvider;
   SearchResult<Movie>? result;
   final TextEditingController _searchController = TextEditingController();
 
@@ -30,6 +35,8 @@ class _movieListScreenState extends State<MovieListScreen> {
     super.initState();
     _movieProvider = context.read<MovieProvider>();
     _cartProvider = context.read<CartProvider>();
+    _actorProvider = context.read<ActorProvider>();
+    _movieActorProvider = context.read<MovieActorProvider>();
     print("called initState");
     loadData();
   }
@@ -186,16 +193,27 @@ class _movieListScreenState extends State<MovieListScreen> {
                       fontSize: 12,
                     ),
                   ),
-                  Text(
-                    "Ante K, Matej J",
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
+                  FutureBuilder<List<Actor>>(
+                    future: _fetchActorsForMovie(movie.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("");
+                      } else if (snapshot.hasError) {
+                        return Text("Error");
+                      } else {
+                        return Text(
+                          _buildActorNames(snapshot.data!),
+                          style: const TextStyle(
+                            fontSize: 10,
+                          ),
+                        );
+                      }
+                    },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     "Director:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -203,15 +221,15 @@ class _movieListScreenState extends State<MovieListScreen> {
                     ),
                   ),
                   Text(
-                    "Silvio P.",
-                    style: TextStyle(
+                    movie.director!,
+                    style: const TextStyle(
                       fontSize: 10,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     "Performed:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -320,5 +338,31 @@ class _movieListScreenState extends State<MovieListScreen> {
         ),
       );
     }).toList();
+  }
+
+  Future<List<Actor>> _fetchActorsForMovie(int movieId) async {
+    var movieActors =
+        await _movieActorProvider.get(filter: {'movieId': movieId});
+    var actorIds =
+        movieActors.result.map((movieActor) => movieActor.actorId).toList();
+
+    var actorsForMovie = <Actor>[];
+    for (var actorId in actorIds) {
+      var actor = await _actorProvider.getById(actorId!);
+      if (actor != null) {
+        actorsForMovie.add(actor);
+      }
+    }
+
+    return actorsForMovie;
+  }
+
+  String _buildActorNames(List<Actor> actors) {
+    if (actors.isEmpty) {
+      return '';
+    }
+    return actors
+        .map((actor) => actor.name)
+        .join(", ");
   }
 }

@@ -1,5 +1,7 @@
+import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
@@ -13,6 +15,8 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (_) => MovieProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => BookingProvider()),
+        ChangeNotifierProvider(create: (_) => ActorProvider()),
+        ChangeNotifierProvider(create: (_) => MovieActorProvider()),
       ],
       child: MyMaterialApp(),
     ));
