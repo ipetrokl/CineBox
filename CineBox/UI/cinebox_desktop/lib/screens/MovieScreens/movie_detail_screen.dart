@@ -72,61 +72,63 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     return Dialog(
       backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
       insetPadding: const EdgeInsets.all(200),
-      child: Column(
-        children: [
-          isLoading ? const SizedBox() : _buildForm(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(padding: EdgeInsets.only(top: 70)),
-              ElevatedButton(
-                  onPressed: () async {
-                    _formKey.currentState?.saveAndValidate();
-
-                    var request = Map.from(_formKey.currentState!.value);
-                    request['picture'] = _base64Image;
-
-                    try {
-                      if (widget.movie == null) {
-                        await _movieProvider.insert(request);
-                      } else {
-                        await _movieProvider.update(widget.movie!.id!, request);
-                      }
-                      if (widget.onClose != null) {
-                        widget.onClose!();
-                      }
-
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text("Success"),
-                          content: const Text("Screening saved successfully."),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("OK"),
-                            )
-                          ],
-                        ),
-                      );
-                    } on Exception catch (e) {
-                      showDialog(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            isLoading ? const SizedBox() : _buildForm(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(padding: EdgeInsets.only(top: 70)),
+                ElevatedButton(
+                    onPressed: () async {
+                      _formKey.currentState?.saveAndValidate();
+        
+                      var request = Map.from(_formKey.currentState!.value);
+                      request['picture'] = _base64Image;
+        
+                      try {
+                        if (widget.movie == null) {
+                          await _movieProvider.insert(request);
+                        } else {
+                          await _movieProvider.update(widget.movie!.id!, request);
+                        }
+                        if (widget.onClose != null) {
+                          widget.onClose!();
+                        }
+        
+                        showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                                title: const Text("Error"),
-                                content: Text(e.toString()),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text("OK"))
-                                ],
-                              ));
-                    }
-                  },
-                  child: const Text("Save"))
-            ],
-          ),
-        ],
+                            title: const Text("Success"),
+                            content: const Text("Screening saved successfully."),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("OK"),
+                              )
+                            ],
+                          ),
+                        );
+                      } on Exception catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: const Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("OK"))
+                                  ],
+                                ));
+                      }
+                    },
+                    child: const Text("Save"))
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

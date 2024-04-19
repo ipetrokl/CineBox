@@ -72,62 +72,64 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
         insetPadding: const EdgeInsets.all(200),
-        child: Column(
-          children: [
-            isLoading ? Container() : _buildForm(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(padding: EdgeInsets.only(top: 70)),
-                ElevatedButton(
-                    onPressed: () async {
-                      _formKey.currentState?.saveAndValidate();
-
-                      try {
-                        if (widget.usersRole == null) {
-                          await _usersRoleProvider
-                              .insert(_formKey.currentState?.value);
-                        } else {
-                          await _usersRoleProvider.update(
-                              widget.usersRole!.usersRolesId!,
-                              _formKey.currentState?.value);
-                        }
-
-                        if (widget.onClose != null) {
-                          widget.onClose!();
-                        }
-
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: Text("Success"),
-                            content: Text("Screening saved successfully."),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("OK"),
-                              )
-                            ],
-                          ),
-                        );
-                      } on Exception catch (e) {
-                        showDialog(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              isLoading ? Container() : _buildForm(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 70)),
+                  ElevatedButton(
+                      onPressed: () async {
+                        _formKey.currentState?.saveAndValidate();
+          
+                        try {
+                          if (widget.usersRole == null) {
+                            await _usersRoleProvider
+                                .insert(_formKey.currentState?.value);
+                          } else {
+                            await _usersRoleProvider.update(
+                                widget.usersRole!.usersRolesId!,
+                                _formKey.currentState?.value);
+                          }
+          
+                          if (widget.onClose != null) {
+                            widget.onClose!();
+                          }
+          
+                          showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(e.toString()),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text("OK"))
-                                  ],
-                                ));
-                      }
-                    },
-                    child: Text("Save"))
-              ],
-            ),
-          ],
+                              title: Text("Success"),
+                              content: Text("Screening saved successfully."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("OK"),
+                                )
+                              ],
+                            ),
+                          );
+                        } on Exception catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          child: Text("OK"))
+                                    ],
+                                  ));
+                        }
+                      },
+                      child: Text("Save"))
+                ],
+              ),
+            ],
+          ),
         ));
   }
 

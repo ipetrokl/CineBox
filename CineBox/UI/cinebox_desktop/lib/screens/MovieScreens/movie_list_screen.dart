@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
@@ -220,12 +222,22 @@ class DataTableSourceRows extends DataTableSource {
           },
         )),
         DataCell(Text(movie.director ?? '')),
-        DataCell(movie.picture != ""
-            ? SizedBox(
-                width: 60,
-                height: 60,
-                child: imageFromBase64String(movie.picture!))
-            : const Text("")),
+        DataCell(
+          Container(
+            width: 40,
+            height: 45,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image(
+                image: movie.picture != null && movie.picture != ""
+                    ? MemoryImage(base64Decode(movie.picture!))
+                    : AssetImage("assets/images/empty.jpg")
+                        as ImageProvider<Object>,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
         DataCell(IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () => onDelete(movie.id!),

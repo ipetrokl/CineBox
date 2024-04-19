@@ -4,6 +4,7 @@ import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/hall_provider.dart';
+import 'package:cinebox_desktop/providers/movie_actor_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/payment_provider.dart';
 import 'package:cinebox_desktop/providers/promotion_provider.dart';
@@ -32,6 +33,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => ScreeningProvider()),
       ChangeNotifierProvider(create: (_) => GenreProvider()),
       ChangeNotifierProvider(create: (_) => ActorProvider()),
+      ChangeNotifierProvider(create: (_) => MovieActorProvider()),
       ChangeNotifierProvider(create: (_) => BookingProvider()),
       ChangeNotifierProvider(create: (_) => HallProvider()),
       ChangeNotifierProvider(create: (_) => PaymentProvider()),

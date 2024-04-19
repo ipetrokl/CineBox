@@ -3,7 +3,7 @@ namespace CineBox.Model.SearchObjects
 {
 	public class MovieActorSearchObject : BaseSearchObject
 	{
-		
-	}
+        public string? FTS { get; set; }
+    }
 }
 

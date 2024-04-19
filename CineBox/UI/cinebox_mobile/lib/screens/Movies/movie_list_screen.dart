@@ -173,13 +173,13 @@ class _movieListScreenState extends State<MovieListScreen> {
                 children: [
                   SizedBox(height: 15),
                   Text(
-                    "Shutter Island",
-                    style: TextStyle(
+                    movie.title!,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Actors:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

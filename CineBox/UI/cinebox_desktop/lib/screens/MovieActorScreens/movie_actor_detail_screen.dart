@@ -1,34 +1,33 @@
-import 'package:cinebox_desktop/models/Cinema/cinema.dart';
+import 'package:cinebox_desktop/models/Actor/actor.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
-import 'package:cinebox_desktop/models/Screening/screening.dart';
+import 'package:cinebox_desktop/models/MovieActor/movieActor.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
-import 'package:cinebox_desktop/providers/cinema_provider.dart';
+import 'package:cinebox_desktop/providers/actor_provider.dart';
+import 'package:cinebox_desktop/providers/movie_actor_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:cinebox_desktop/providers/screening_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
 
-class ScreeningDetailScreen extends StatefulWidget {
-  Screening? screening;
+class MovieActorDetailScreen extends StatefulWidget {
+  MovieActor? movieActor;
   final OnDialogClose? onClose;
-  ScreeningDetailScreen({super.key, this.screening, this.onClose});
+  MovieActorDetailScreen({super.key, this.movieActor, this.onClose});
 
   @override
-  State<ScreeningDetailScreen> createState() => _ScreeningDetailScreenState();
+  State<MovieActorDetailScreen> createState() => _MovieActorDetailScreenState();
 }
 
-class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
+class _MovieActorDetailScreenState extends State<MovieActorDetailScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   Map<String, dynamic> _initialValue = {};
+  late MovieActorProvider _movieActorProvider;
   late MovieProvider _movieProvider;
-  late CinemaProvider _cinemaProvider;
-  late ScreeningProvider _screeningProvider;
+  late ActorProvider _actorProvider;
   SearchResult<Movie>? movieResult;
-  SearchResult<Cinema>? cinemaResult;
+  SearchResult<Actor>? actorResult;
   bool isLoading = true;
 
   @override
@@ -36,17 +35,13 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
     // TODO: implement initState
     super.initState();
     _initialValue = {
-      'movieId': widget.screening?.movieId.toString(),
-      'cinemaId': widget.screening?.cinemaId.toString(),
-      'category': widget.screening?.category,
-      'startTime': widget.screening?.startTime,
-      'endTime': widget.screening?.endTime,
-      'price': widget.screening?.price.toString()
+      'movieId': widget.movieActor?.movieId.toString(),
+      'actorId': widget.movieActor?.actorId.toString(),
     };
 
+    _movieActorProvider = context.read<MovieActorProvider>();
     _movieProvider = context.read<MovieProvider>();
-    _cinemaProvider = context.read<CinemaProvider>();
-    _screeningProvider = context.read<ScreeningProvider>();
+    _actorProvider = context.read<ActorProvider>();
     initForm();
   }
 
@@ -64,7 +59,7 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
 
   Future initForm() async {
     movieResult = await _movieProvider.get();
-    cinemaResult = await _cinemaProvider.get();
+    actorResult = await _actorProvider.get();
     setState(() {
       isLoading = false;
     });
@@ -88,12 +83,12 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                         _formKey.currentState?.saveAndValidate();
           
                         try {
-                          if (widget.screening == null) {
-                            await _screeningProvider
+                          if (widget.movieActor == null) {
+                            await _movieActorProvider
                                 .insert(_formKey.currentState?.value);
                           } else {
-                            await _screeningProvider.update(widget.screening!.id!,
-                                _formKey.currentState?.value);
+                            await _movieActorProvider.update(
+                                widget.movieActor!.id!, _formKey.currentState?.value);
                           }
           
                           if (widget.onClose != null) {
@@ -141,7 +136,7 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
       initialValue: _initialValue,
       child: Center(
         child: Container(
-          width: 600,
+          width: 800,
           padding: EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
@@ -168,20 +163,19 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                           .toList() ??
                       [],
                 ),
-                SizedBox(height: 20),
                 FormBuilderDropdown<String>(
-                  name: 'cinemaId',
+                  name: 'actorId',
                   decoration: InputDecoration(
-                    labelText: 'Cinemas',
+                    labelText: 'Actors',
                     suffix: IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () {
-                        _formKey.currentState!.fields['cinemaId']?.reset();
+                        _formKey.currentState!.fields['actorId']?.reset();
                       },
                     ),
-                    hintText: 'Select Cinema',
+                    hintText: 'Select Actor',
                   ),
-                  items: cinemaResult?.result
+                  items: actorResult?.result
                           .map((item) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,
                                 value: item.id.toString(),
@@ -189,38 +183,6 @@ class _ScreeningDetailScreenState extends State<ScreeningDetailScreen> {
                               ))
                           .toList() ??
                       [],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FormBuilderDateTimePicker(
-                        name: "startTime",
-                        inputType: InputType.both,
-                        decoration:
-                            const InputDecoration(labelText: "Start Time"),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: FormBuilderDateTimePicker(
-                        name: "endTime",
-                        inputType: InputType.both,
-                        decoration:
-                            const InputDecoration(labelText: "End Time"),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Category"),
-                  name: 'category',
-                ),
-                SizedBox(height: 20),
-                FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Price"),
-                  name: 'price',
                 ),
               ],
             ),
