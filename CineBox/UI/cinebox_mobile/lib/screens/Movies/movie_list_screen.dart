@@ -339,6 +339,7 @@ class _movieListScreenState extends State<MovieListScreen> {
               Column(
                 children: [
                   Container(
+                    padding: EdgeInsets.only(top: 5),
                     width: 25,
                     child: const Text(
                       textAlign: TextAlign.center,
