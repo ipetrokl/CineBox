@@ -1,4 +1,6 @@
+import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
+import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/util.dart';
@@ -11,10 +13,12 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late MovieProvider _movieProvider;
+  late UsersProvider _userProvider;
 
   @override
   Widget build(BuildContext context) {
     _movieProvider = context.read<MovieProvider>();
+    _userProvider = context.read<UsersProvider>();
 
     return Scaffold(
       body: Stack(
@@ -84,6 +88,16 @@ class LoginPage extends StatelessWidget {
 
                           try {
                             await _movieProvider.get();
+                            var data = await _userProvider.get();
+
+                            for (var user in data.result) {
+                              if (username == user.username) {
+                                Provider.of<LoggedInUserProvider>(context,
+                                        listen: false)
+                                    .setUser(user);
+                              }
+                            }
+
                             Navigator.pushNamed(
                                 context, MovieListScreen.routeName);
                           } on Exception catch (e) {

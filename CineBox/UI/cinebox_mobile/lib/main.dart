@@ -1,13 +1,15 @@
 import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
+import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
+import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
-import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,9 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (_) => ActorProvider()),
         ChangeNotifierProvider(create: (_) => MovieActorProvider()),
         ChangeNotifierProvider(create: (_) => ScreeningProvider()),
+        ChangeNotifierProvider(create: (_) => ReviewProvider()),
+        ChangeNotifierProvider(create: (_) => UsersProvider()),
+        ChangeNotifierProvider(create: (_) => LoggedInUserProvider()),
       ],
       child: MyMaterialApp(),
     ));

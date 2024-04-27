@@ -1,14 +1,14 @@
 import 'dart:convert';
-
 import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
-import 'package:cinebox_mobile/models/MovieActor/movieActor.dart';
-import 'package:cinebox_mobile/models/Screening/screening.dart';
+import 'package:cinebox_mobile/models/Review/review.dart';
 import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
+import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
+import 'package:cinebox_mobile/screens/Review/review_add_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,9 @@ class _movieListScreenState extends State<MovieListScreen> {
   late ActorProvider _actorProvider;
   late MovieActorProvider _movieActorProvider;
   late ScreeningProvider _screeningProvider;
+  late ReviewProvider _reviewProvider;
   SearchResult<Movie>? result;
+  SearchResult<Review>? result2;
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -42,6 +44,7 @@ class _movieListScreenState extends State<MovieListScreen> {
     _actorProvider = context.read<ActorProvider>();
     _movieActorProvider = context.read<MovieActorProvider>();
     _screeningProvider = context.read<ScreeningProvider>();
+    _reviewProvider = context.read<ReviewProvider>();
     print("called initState");
     loadData();
   }
@@ -49,9 +52,11 @@ class _movieListScreenState extends State<MovieListScreen> {
   Future loadData() async {
     try {
       var data = await _movieProvider.get();
+      var data2 = await _reviewProvider.get();
 
       setState(() {
         result = data;
+        result2 = data2;
       });
     } catch (e) {
       print("Error fetching movies: $e");
@@ -198,22 +203,26 @@ class _movieListScreenState extends State<MovieListScreen> {
                       fontSize: 12,
                     ),
                   ),
-                  FutureBuilder<List<Actor>>(
-                    future: _fetchActorsForMovie(movie.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("");
-                      } else if (snapshot.hasError) {
-                        return Text("Error");
-                      } else {
-                        return Text(
-                          _buildActorNames(snapshot.data!),
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
-                        );
-                      }
-                    },
+                  SizedBox(
+                    height: 12,
+                    child: FutureBuilder<List<Actor>>(
+                      future: _fetchActorsForMovie(movie.id!),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Text("");
+                        } else if (snapshot.hasError) {
+                          return Text("Error");
+                        } else {
+                          return Text(
+                            _buildActorNames(snapshot.data!),
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -241,38 +250,69 @@ class _movieListScreenState extends State<MovieListScreen> {
                       fontSize: 10,
                     ),
                   ),
-                  FutureBuilder<String>(
-                    future: _fetchScreeningForMovie(movie.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("");
-                      } else if (snapshot.hasError) {
-                        return Text("Error");
-                      } else {
-                        return Text(
-                          snapshot.data!,
-                          style: const TextStyle(
-                            fontSize: 10,
-                          ),
-                        );
-                      }
-                    },
-                  ),
                   SizedBox(
-                    height: 5,
+                    height: 15,
+                    child: FutureBuilder<String>(
+                      future: _fetchScreeningForMovie(movie.id!),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return SizedBox.shrink();
+                        } else if (snapshot.hasError) {
+                          return Text("Error");
+                        } else {
+                          return Text(
+                            snapshot.data!,
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     children: [
-                      SizedBox(
-                        width: 60,
+                      const SizedBox(
+                        width: 40,
                       ),
                       Text(
-                        "* * * * *",
-                        style: TextStyle(
+                        _buildStarRating(_calculateAverageRating(movie.id!)),
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (_) => ReviewAddScreen(
+                              movieId: movie.id!,
+                              onClose: () {
+                                loadData();
+                              },
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Review",
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   Row(
                     children: [
@@ -355,6 +395,35 @@ class _movieListScreenState extends State<MovieListScreen> {
         ),
       );
     }).toList();
+  }
+
+  String _buildStarRating(double rating) {
+    int numberOfFilledStars = rating.ceil();
+    int numberOfEmptyStars = 5 - numberOfFilledStars;
+
+    String filledStars = '★' * numberOfFilledStars;
+    String emptyStars = '☆' * numberOfEmptyStars;
+
+    return filledStars + emptyStars;
+  }
+
+  double _calculateAverageRating(int movieId) {
+    if (result2!.result.isEmpty) {
+      return 0.0;
+    }
+    double totalRating = 0.0;
+    int arrayLength = 0;
+    for (var review in result2!.result) {
+      if (movieId == review.movieId) {
+        totalRating += review.rating!;
+        arrayLength++;
+      }
+    }
+    if (arrayLength != 0) {
+      return totalRating / arrayLength;
+    } else {
+      return 0.0;
+    }
   }
 
   Future<List<Actor>> _fetchActorsForMovie(int movieId) async {
