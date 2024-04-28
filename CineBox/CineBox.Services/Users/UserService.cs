@@ -63,6 +63,12 @@ namespace CineBox.Services.Users
                     || x.Phone.Contains(search.FTS));
             }
 
+            if (!string.IsNullOrWhiteSpace(search?.Username))
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.Username == search.Username);
+            }
+
             return filteredQuery;
         }
 

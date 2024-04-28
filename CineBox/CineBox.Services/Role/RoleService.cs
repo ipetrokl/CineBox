@@ -24,6 +24,12 @@ namespace CineBox.Services.Role
                     .Where(x => x.Name.Contains(search.FTS));
             }
 
+            if (!string.IsNullOrWhiteSpace(search?.Name))
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.Name == search.Name);
+            }
+
             return filteredQuery;
         }
     }

@@ -1,5 +1,6 @@
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
+import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/utils/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,21 @@ class _MasterScreenState extends State<MasterScreen> {
           fontWeight: FontWeight.bold,
           fontSize: 25,
         ),
+        actions: <Widget>[
+          Tooltip(
+            message: 'Sign out',
+            child: IconButton(
+              iconSize: 23,
+              padding: EdgeInsets.only(right: 10),
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ),
+        ],
         backgroundColor: const Color.fromARGB(255, 21, 36, 118),
         iconTheme: const IconThemeData(color: Colors.white),
       ),

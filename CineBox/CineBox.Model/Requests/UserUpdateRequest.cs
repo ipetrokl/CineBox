@@ -13,9 +13,9 @@ namespace CineBox.Model.Requests
 
         public bool Status { get; set; }
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string PasswordConfirmation { get; set; }
+        public string? PasswordConfirmation { get; set; }
     }
 }
 

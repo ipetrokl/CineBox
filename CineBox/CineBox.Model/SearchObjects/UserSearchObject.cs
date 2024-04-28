@@ -5,6 +5,7 @@ namespace CineBox.Model.SearchObjects
 	{
 		public string? FTS { get; set; }
 		public bool? isRoleIncluded { get; set; }
+		public string? Username { get; set; }
 	}
 }
 

@@ -13,11 +13,11 @@ namespace CineBox.Model.Requests
 
         public string Username { get; set; } = null!;
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string PasswordConfirmation { get; set; }
+        public string? PasswordConfirmation { get; set; }
     }
 }
 
