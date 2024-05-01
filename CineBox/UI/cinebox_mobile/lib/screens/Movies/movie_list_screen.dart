@@ -253,7 +253,7 @@ class _movieListScreenState extends State<MovieListScreen> {
                   SizedBox(
                     height: 15,
                     child: FutureBuilder<String>(
-                      future: _fetchScreeningForMovie(movie.id!),
+                      future: _fetchScreeningForMovie(movie),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -450,15 +450,12 @@ class _movieListScreenState extends State<MovieListScreen> {
     return actors.map((actor) => actor.name).join(", ");
   }
 
-  Future<String> _fetchScreeningForMovie(int movieId) async {
-    var screenings = await _screeningProvider
-        .get(filter: {'movieId': movieId, 'cinemaId': 1});
-    String result = "";
-    for (var screening in screenings.result) {
-      var startDate = DateFormat('dd-MM-yyyy').format(screening.startTime!);
-      var endDate = DateFormat('dd-MM-yyyy').format(screening.endTime!);
-      result = startDate.toString() + " - " + endDate.toString();
-    }
+  Future<String> _fetchScreeningForMovie(Movie movie) async {
+
+      var startDate = DateFormat('dd-MM-yyyy').format(movie.performedFrom!);
+      var endDate = DateFormat('dd-MM-yyyy').format(movie.performedTo!);
+      String result = "$startDate - $endDate";
+
     return result;
   }
 }

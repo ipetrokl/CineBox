@@ -6,10 +6,9 @@ part 'screening.g.dart';
 class Screening {
   int? id;
   int? movieId;
-  int? cinemaId;
+  int? hallId;
   String? category;
-  DateTime? startTime;
-  DateTime? endTime;
+  DateTime? screeningTime;
   double? price;
 
   Screening();

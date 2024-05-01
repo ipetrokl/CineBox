@@ -12,7 +12,8 @@ class Movie {
   int? genreId;
   String? title;
   String? description;
-  DateTime? releaseDate;
+  DateTime? performedFrom;
+  DateTime? performedTo;
   int? duration;
   String? director;
   String? picture;
