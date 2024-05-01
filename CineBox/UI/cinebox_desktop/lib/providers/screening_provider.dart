@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:cinebox_desktop/models/Screening/screening.dart';
@@ -6,13 +5,11 @@ import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-
 class ScreeningProvider extends BaseProvider<Screening> {
   ScreeningProvider() : super("Screening");
 
   @override
   Screening fromJson(data) {
-
     return Screening.fromJson(data);
   }
 
@@ -25,8 +22,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
 
     var jsonRequest = jsonEncode({
       ...request,
-      'startTime': request['startTime'].toIso8601String(),
-      'endTime': request['endTime'].toIso8601String(),
+      'screeningTime': request['screeningTime'].toIso8601String()
     });
 
     // var jsonRequest = jsonEncode(request);
@@ -49,8 +45,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
 
     var jsonRequest = jsonEncode({
       ...request,
-      'startTime': request['startTime'].toIso8601String(),
-      'endTime': request['endTime'].toIso8601String(),
+      'screeningTime': request['screeningTime'].toIso8601String()
     });
 
     // var jsonRequest = jsonEncode(request);

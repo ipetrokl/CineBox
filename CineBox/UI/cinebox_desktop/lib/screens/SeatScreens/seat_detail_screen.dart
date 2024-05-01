@@ -35,7 +35,7 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
       'hallId': widget.seat?.hallId.toString(),
       'seatNumber': widget.seat?.seatNumber.toString(),
       'category': widget.seat?.category,
-      'status': widget.seat?.status,
+      'status': widget.seat?.status ?? true,
     };
 
     _seatProvider = context.read<SeatProvider>();
@@ -168,9 +168,15 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
                   decoration: InputDecoration(labelText: "Category"),
                   name: 'category',
                 ),
-                FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Status"),
+                FormBuilderCheckbox(
                   name: 'status',
+                  title: Text('Active'),
+                  initialValue: _initialValue['active'],
+                  onChanged: (value) {
+                    setState(() {
+                      _initialValue['active'] = value;
+                    });
+                  },
                 ),
               ],
             ),

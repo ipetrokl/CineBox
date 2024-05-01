@@ -143,8 +143,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
               DataColumn(label: Text('ID')),
               DataColumn(label: Text('Title')),
               DataColumn(label: Text('Description')),
-              DataColumn(label: Text('Release Date')),
-              DataColumn(label: Text('Duration')),
+              DataColumn(label: Text('Performed From')),
+              DataColumn(label: Text('Performed To')),
               DataColumn(label: Text('Genre')),
               DataColumn(label: Text('Director')),
               DataColumn(label: Text('Picture')),
@@ -209,8 +209,8 @@ class DataTableSourceRows extends DataTableSource {
         DataCell(Text(movie.id?.toString() ?? '')),
         DataCell(Text(movie.title ?? '')),
         DataCell(Text(movie.description ?? '')),
-        DataCell(Text(movie.releaseDate?.toString() ?? '')),
-        DataCell(Text(movie.duration?.toString() ?? '')),
+        DataCell(Text(movie.performedFrom?.toString() ?? '')),
+        DataCell(Text(movie.performedTo?.toString() ?? '')),
         DataCell(FutureBuilder<Genre?>(
           future: genreProvider.getById(movie.genreId!),
           builder: (context, snapshot) {

@@ -38,8 +38,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       'genreId': widget.movie?.genreId.toString(),
       'title': widget.movie?.title,
       'description': widget.movie?.description,
-      'releaseDate': widget.movie?.releaseDate,
-      'duration': widget.movie?.duration.toString(),
+      'performedFrom': widget.movie?.performedFrom,
+      'performedTo': widget.movie?.performedTo,
       'director': widget.movie?.director
     };
 
@@ -156,14 +156,15 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDateTimePicker(
-                  name: "releaseDate",
+                  name: "performedFrom",
                   inputType: InputType.both,
-                  decoration: const InputDecoration(labelText: "Release Date"),
+                  decoration: const InputDecoration(labelText: "Performed From"),
                 ),
                 const SizedBox(height: 20),
-                FormBuilderTextField(
-                  decoration: const InputDecoration(labelText: "Duration"),
-                  name: 'duration',
+                FormBuilderDateTimePicker(
+                  name: "performedTo",
+                  inputType: InputType.both,
+                  decoration: const InputDecoration(labelText: "Performed To"),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDropdown<String>(

@@ -11,7 +11,7 @@ Seat _$SeatFromJson(Map<String, dynamic> json) => Seat(
       json['hallId'] as int?,
       json['seatNumber'] as int?,
       json['category'] as String?,
-      json['status'] as String?,
+      json['status'] as bool?,
     );
 
 Map<String, dynamic> _$SeatToJson(Seat instance) => <String, dynamic>{

@@ -7,14 +7,12 @@ part 'screening.g.dart';
 class Screening {
   int? id;
   int? movieId;
-  int? cinemaId;
+  int? hallId;
   String? category;
-  DateTime? startTime;
-  DateTime? endTime;
+  DateTime? screeningTime;
   double? price;
 
-  Screening(this.id, this.movieId, this.cinemaId, this.category, this.startTime,
-      this.endTime);
+  Screening(this.id, this.movieId, this.hallId, this.category, this.screeningTime);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

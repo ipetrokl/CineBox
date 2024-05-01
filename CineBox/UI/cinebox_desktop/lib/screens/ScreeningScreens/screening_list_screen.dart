@@ -1,8 +1,10 @@
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
+import 'package:cinebox_desktop/models/Hall/hall.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/Screening/screening.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
+import 'package:cinebox_desktop/providers/hall_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/screens/ScreeningScreens/screening_detail_screen.dart';
@@ -25,7 +27,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
   TextEditingController _ftsController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   late MovieProvider _movieProvider;
-  late CinemaProvider _cinemaProvider;
+  late HallProvider _hallProvider;
 
   @override
   void didChangeDependencies() {
@@ -38,7 +40,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
     super.initState();
     _screeningProvider = context.read<ScreeningProvider>();
     _movieProvider = context.read<MovieProvider>();
-    _cinemaProvider = context.read<CinemaProvider>();
+    _hallProvider = context.read<HallProvider>();
     _fetchData();
   }
 
@@ -144,15 +146,14 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
             columns: const [
               DataColumn(label: Text('ID')),
               DataColumn(label: Text('Movie')),
-              DataColumn(label: Text('Cinema')),
+              DataColumn(label: Text('Hall')),
               DataColumn(label: Text('Category')),
-              DataColumn(label: Text('Start Time')),
-              DataColumn(label: Text('End Time')),
+              DataColumn(label: Text('Screening Time')),
               DataColumn(label: Text('Price')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _movieProvider,
-                _cinemaProvider, _deleteRecord, _navigateToDetail),
+                _hallProvider, _deleteRecord, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -196,11 +197,11 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
 class DataTableSourceRows extends DataTableSource {
   final List<Screening> screenings;
   final MovieProvider movieProvider;
-  final CinemaProvider cinemaProvider;
+  final HallProvider hallProvider;
   final Function(int) onDelete;
   final Function(Screening) onRowSelected;
 
-  DataTableSourceRows(this.screenings, this.movieProvider, this.cinemaProvider,
+  DataTableSourceRows(this.screenings, this.movieProvider, this.hallProvider,
       this.onDelete, this.onRowSelected);
 
   @override
@@ -222,8 +223,8 @@ class DataTableSourceRows extends DataTableSource {
           ),
         ),
         DataCell(
-          FutureBuilder<Cinema?>(
-            future: cinemaProvider.getById(screening.cinemaId!),
+          FutureBuilder<Hall?>(
+            future: hallProvider.getById(screening.hallId!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(snapshot.data?.name ?? '');
@@ -234,8 +235,7 @@ class DataTableSourceRows extends DataTableSource {
           ),
         ),
         DataCell(Text(screening.category?.toString() ?? "")),
-        DataCell(Text(screening.startTime?.toString() ?? "")),
-        DataCell(Text(screening.endTime?.toString() ?? "")),
+        DataCell(Text(screening.screeningTime?.toString() ?? "")),
         DataCell(Text(screening.price?.toString() ?? "")),
         DataCell(IconButton(
           icon: Icon(Icons.delete),

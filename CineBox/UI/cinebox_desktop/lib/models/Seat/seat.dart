@@ -8,7 +8,7 @@ class Seat {
   int? hallId;
   int? seatNumber;
   String? category;
-  String? status;
+  bool? status;
 
   Seat(this.id, this.hallId, this.seatNumber, this.category, this.status);
 

@@ -20,8 +20,11 @@ class MovieProvider extends BaseProvider<Movie> {
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
-    var jsonRequest = jsonEncode(
-        {...request, 'releaseDate': request['releaseDate'].toIso8601String()});
+    var jsonRequest = jsonEncode({
+      ...request,
+      'performedFrom': request['performedFrom'].toIso8601String(),
+      'performedTo': request['performedTo'].toIso8601String()
+    });
 
     // var jsonRequest = jsonEncode(request);
     var response = await http.post(uri, headers: headers, body: jsonRequest);
@@ -41,8 +44,11 @@ class MovieProvider extends BaseProvider<Movie> {
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
-    var jsonRequest = jsonEncode(
-        {...request, 'releaseDate': request['releaseDate'].toIso8601String()});
+    var jsonRequest = jsonEncode({
+      ...request,
+      'performedFrom': request['performedFrom'].toIso8601String(),
+      'performedTo': request['performedTo'].toIso8601String()
+    });
 
     // var jsonRequest = jsonEncode(request);
     var response = await http.put(uri, headers: headers, body: jsonRequest);
