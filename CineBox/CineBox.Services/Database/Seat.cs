@@ -13,7 +13,7 @@ public partial class Seat
 
     public string Category { get; set; } = null!;
 
-    public string Status { get; set; } = null!;
+    public bool Status { get; set; }
 
     public virtual ICollection<BookingSeat> BookingSeats { get; set; } = new List<BookingSeat>();
 

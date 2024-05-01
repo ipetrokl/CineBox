@@ -7,7 +7,7 @@ namespace CineBox.Model.ViewModels
 
         public string Name { get; set; } = null!;
 
-        public string? Descripotion { get; set; }
+        public string? Description { get; set; }
 
     }
 }

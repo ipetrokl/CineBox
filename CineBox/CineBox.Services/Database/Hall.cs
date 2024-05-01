@@ -13,5 +13,7 @@ public partial class Hall
 
     public virtual Cinema Cinema { get; set; } = null!;
 
+    public virtual ICollection<Screening> Screenings { get; set; } = new List<Screening>();
+
     public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
 }

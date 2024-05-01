@@ -35,9 +35,16 @@ namespace CineBox.Services.Screening
                 filteredQuery = filteredQuery.Where(x => x.MovieId == search.MovieId);
             }
 
+            if (search?.HallId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.HallId == search.HallId);
+            }
+
             if (search?.CinemaId != null)
             {
-                filteredQuery = filteredQuery.Where(x => x.CinemaId == search.CinemaId);
+                filteredQuery = filteredQuery
+                    .Include(x => x.Hall)
+                    .Where(x => x.Hall.CinemaId == search.CinemaId);
             }
 
             return filteredQuery;

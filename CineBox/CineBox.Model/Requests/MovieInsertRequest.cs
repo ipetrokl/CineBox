@@ -9,9 +9,9 @@ namespace CineBox.Model.Requests
 
         public string Description { get; set; } = null!;
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime PerformedFrom { get; set; }
 
-        public int Duration { get; set; }
+        public DateTime PerformedTo { get; set; }
 
         public string Director { get; set; } = null!;
 

@@ -23,7 +23,7 @@ namespace CineBox.Services.Booking
                 filteredQuery = filteredQuery
                     .Include(x => x.User)
                     .Include(x => x.Screening)
-                    .Where(x => x.User.Name.Contains(search.FTS) || x.Screening.Cinema.Name.Contains(search.FTS));
+                    .Where(x => x.User.Name.Contains(search.FTS) || x.Screening.Hall.Name.Contains(search.FTS));
             }
 
             return filteredQuery;

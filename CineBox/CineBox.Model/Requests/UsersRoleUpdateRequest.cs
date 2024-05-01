@@ -3,7 +3,6 @@ namespace CineBox.Model.Requests
 {
 	public class UsersRoleUpdateRequest
 	{
-        public int UsersRolesId { get; set; }
 
         public int UserId { get; set; }
 
