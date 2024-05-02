@@ -129,7 +129,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
         ),
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, MovieListScreen.routeName);
+            Navigator.pushNamed(context, MovieListScreen.routeName, arguments: {'cinemaId': cinema.id},);
           },
           child: Center(
             child: Text(

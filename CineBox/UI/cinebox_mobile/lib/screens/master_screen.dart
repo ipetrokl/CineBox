@@ -1,5 +1,6 @@
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
+import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/utils/drawer.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _MasterScreenState extends State<MasterScreen> {
       currentIndex = index;
     });
     if (currentIndex == 0) {
-      Navigator.pushNamed(context, MovieListScreen.routeName);
+      Navigator.pushNamed(context, CinemaScreen.routeName);
     } else if (currentIndex == 1) {
       Navigator.pushNamed(context, CartScreen.routeName);
     }

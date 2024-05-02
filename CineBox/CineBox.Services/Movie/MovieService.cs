@@ -4,7 +4,9 @@ using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
 using CineBox.Services.StateMachine;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CineBox.Services.Movie
@@ -30,6 +32,11 @@ namespace CineBox.Services.Movie
             if (!string.IsNullOrWhiteSpace(search?.Description))
             {
                 filteredQuery = filteredQuery.Where(x => x.Description == search.Description);
+            }
+
+            if (search?.CinemaId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.Screenings.Any(s => s.Hall.CinemaId == search.CinemaId));
             }
 
             return filteredQuery;

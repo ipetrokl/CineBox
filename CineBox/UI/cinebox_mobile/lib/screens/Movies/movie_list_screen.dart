@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Review/review.dart';
+import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
@@ -18,7 +20,8 @@ import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {
   static const String routeName = "/movie";
-  const MovieListScreen({super.key});
+  final int cinemaId;
+  const MovieListScreen({super.key, required this.cinemaId});
 
   @override
   State<MovieListScreen> createState() => _movieListScreenState();
@@ -31,6 +34,7 @@ class _movieListScreenState extends State<MovieListScreen> {
   late MovieActorProvider _movieActorProvider;
   late ScreeningProvider _screeningProvider;
   late ReviewProvider _reviewProvider;
+  late HallProvider _hallProvider;
   SearchResult<Movie>? result;
   SearchResult<Review>? result2;
   final TextEditingController _searchController = TextEditingController();
@@ -45,13 +49,15 @@ class _movieListScreenState extends State<MovieListScreen> {
     _movieActorProvider = context.read<MovieActorProvider>();
     _screeningProvider = context.read<ScreeningProvider>();
     _reviewProvider = context.read<ReviewProvider>();
+    _hallProvider = context.read<HallProvider>();
     print("called initState");
     loadData();
   }
 
   Future loadData() async {
     try {
-      var data = await _movieProvider.get();
+      var data =
+          await _movieProvider.get(filter: {'cinemaId': widget.cinemaId});
       var data2 = await _reviewProvider.get();
 
       setState(() {
@@ -104,7 +110,8 @@ class _movieListScreenState extends State<MovieListScreen> {
             child: TextField(
               controller: _searchController,
               onSubmitted: (value) async {
-                var tmpData = await _movieProvider.get(filter: {'fts': value});
+                var tmpData = await _movieProvider
+                    .get(filter: {'fts': value, 'cinemaID': widget.cinemaId});
                 setState(() {
                   result = tmpData;
                 });
@@ -145,7 +152,8 @@ class _movieListScreenState extends State<MovieListScreen> {
       return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 2)),
+            border: Border.all(
+                color: const Color.fromARGB(200, 21, 36, 118), width: 2)),
         child: GestureDetector(
           onTap: () {
             // Ovdje dodajte akciju koja će se izvršiti kada korisnik pritisne karticu filma
@@ -253,7 +261,7 @@ class _movieListScreenState extends State<MovieListScreen> {
                   SizedBox(
                     height: 15,
                     child: FutureBuilder<String>(
-                      future: _fetchScreeningForMovie(movie),
+                      future: _formatPerformed(movie),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -312,84 +320,58 @@ class _movieListScreenState extends State<MovieListScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 3,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(7)),
-                        width: 55,
-                        child: InkWell(
-                          onTap: () {
-                            _cartProvider.addToCart(movie);
-                          },
-                          child: const Text(
-                            textAlign: TextAlign.center,
-                            "16:30",
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
+                  FutureBuilder<SearchResult<Screening>>(
+                    future: _fetchScreeningsforMovie(movie),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return SizedBox.shrink();
+                      } else if (snapshot.hasError) {
+                        return Text("Error fetching screenings");
+                      } else {
+                        return SizedBox(
+                          width: 185,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: snapshot.data!.result
+                                    .skip(index * 3)
+                                    .take(3)
+                                    .map((screening) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 1),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      width: 55,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _cartProvider.addToCart(movie);
+                                        },
+                                        child: Text(
+                                          DateFormat('HH:mm')
+                                              .format(screening.screeningTime!),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            },
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(7)),
-                        width: 55,
-                        child: InkWell(
-                          onTap: () {
-                            _cartProvider.addToCart(movie);
-                          },
-                          child: const Text(
-                            textAlign: TextAlign.center,
-                            "18:00",
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(7)),
-                        width: 55,
-                        child: InkWell(
-                          onTap: () {
-                            _cartProvider.addToCart(movie);
-                          },
-                          child: const Text(
-                            textAlign: TextAlign.center,
-                            "22:00",
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
-              Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 5),
-                    width: 25,
-                    child: const Text(
-                      textAlign: TextAlign.center,
-                      "Hall 4",
-                      style:
-                          TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
         ),
@@ -450,12 +432,17 @@ class _movieListScreenState extends State<MovieListScreen> {
     return actors.map((actor) => actor.name).join(", ");
   }
 
-  Future<String> _fetchScreeningForMovie(Movie movie) async {
-
-      var startDate = DateFormat('dd-MM-yyyy').format(movie.performedFrom!);
-      var endDate = DateFormat('dd-MM-yyyy').format(movie.performedTo!);
-      String result = "$startDate - $endDate";
+  Future<String> _formatPerformed(Movie movie) async {
+    var startDate = DateFormat('dd-MM-yyyy').format(movie.performedFrom!);
+    var endDate = DateFormat('dd-MM-yyyy').format(movie.performedTo!);
+    String result = "$startDate - $endDate";
 
     return result;
+  }
+
+  Future<SearchResult<Screening>> _fetchScreeningsforMovie(Movie movie) async {
+    var data = await _screeningProvider
+        .get(filter: {'cinemaId': widget.cinemaId, 'movieId': movie.id});
+    return data;
   }
 }

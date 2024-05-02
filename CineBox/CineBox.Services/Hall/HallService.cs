@@ -25,6 +25,11 @@ namespace CineBox.Services.Hall
                     .Where(x => x.Cinema.Name.Contains(search.FTS) || x.Name.Contains(search.FTS));
             }
 
+            if (search?.MovieId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.Screenings.Any(s => s.MovieId == search.MovieId));
+            }
+
             return filteredQuery;
         }
     }

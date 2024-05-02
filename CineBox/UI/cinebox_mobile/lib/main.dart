@@ -2,6 +2,7 @@ import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
+import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
@@ -27,10 +28,10 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (_) => UsersProvider()),
         ChangeNotifierProvider(create: (_) => LoggedInUserProvider()),
         ChangeNotifierProvider(create: (_) => CinemaProvider()),
+        ChangeNotifierProvider(create: (_) => HallProvider()),
       ],
       child: MyMaterialApp(),
     ));
-
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
@@ -50,7 +51,11 @@ class MyMaterialApp extends StatelessWidget {
       home: LoginPage(),
       onGenerateRoute: (settings) {
         if (settings.name == MovieListScreen.routeName) {
-          return MaterialPageRoute(builder: (context) => MovieListScreen());
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          return MaterialPageRoute(
+            builder: (context) => MovieListScreen(cinemaId: cinemaId),
+          );
         }
         if (settings.name == CartScreen.routeName) {
           return MaterialPageRoute(builder: (context) => CartScreen());
