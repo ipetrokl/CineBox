@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
@@ -20,15 +23,13 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   late CartProvider _cartProvider;
   late BookingProvider _bookingProvider;
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 
   @override
@@ -42,13 +43,13 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
-        child: Column(
-          children: [
-            Expanded(child:_buildProductCardList()),
-            _buildBuyButton(),
-          ],
-        ),
-      );
+      child: Column(
+        children: [
+          Expanded(child: _buildProductCardList()),
+          _buildBuyButton(),
+        ],
+      ),
+    );
   }
 
   Widget _buildProductCardList() {
@@ -56,18 +57,63 @@ class _CartScreenState extends State<CartScreen> {
       child: ListView.builder(
         itemCount: _cartProvider.cart.items.length,
         itemBuilder: (context, index) {
-          return _buildProductCard(_cartProvider.cart.items[index]);
+          return _buildProductCard(_cartProvider.cart.items[index], index);
         },
       ),
     );
   }
 
-  Widget _buildProductCard(CartItem item) {
-    return ListTile(
-      leading: imageFromBase64String(item.movie.picture!),
-      title: Text(item.movie.title ?? ""),
-      subtitle: Text(item.movie.description.toString()),
-      trailing: Text(item.count.toString()),
+  Widget _buildProductCard(CartItem item, int index) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.indigo.shade50,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+                color: const Color.fromARGB(200, 21, 36, 118), width: 1)),
+        child: ListTile(
+          title: Row(
+            children: [
+              Text(item.count.toString(), style: const TextStyle(fontSize: 12)),
+              const SizedBox(width: 20),
+              SizedBox(
+                width: 50,
+                height: 60,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image(
+                    image: item.movie.picture != null && item.movie.picture != ""
+                        ? MemoryImage(base64Decode(item.movie.picture!))
+                        : const AssetImage("assets/images/empty.jpg")
+                            as ImageProvider<Object>,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10), // Prilagodite razmak između slike i ostatka
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.movie.title ?? ""),
+                    Text(item.movie.description.toString(),
+                        style: const TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ),
+              IconButton(
+                iconSize: 20,
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  _cartProvider.cart.items.removeAt(index);
+                  setState(() {});
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -78,8 +124,8 @@ class _CartScreenState extends State<CartScreen> {
         List<Map> items = [];
         _cartProvider.cart.items.forEach((item) {
           items.add({
-            "proizvodId": item.movie.id,
-            "kolicina": item.count,
+            "id": item.movie.id,
+            "amount": item.count,
           });
         });
         Map booking = {
@@ -89,8 +135,7 @@ class _CartScreenState extends State<CartScreen> {
         await _bookingProvider.insert(booking);
 
         _cartProvider.cart.items.clear();
-        setState(() {
-        });
+        setState(() {});
       },
     );
   }

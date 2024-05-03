@@ -71,7 +71,6 @@ class _movieListScreenState extends State<MovieListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("called build $result");
     return MasterScreen(
       child: SingleChildScrollView(
         child: SizedBox(

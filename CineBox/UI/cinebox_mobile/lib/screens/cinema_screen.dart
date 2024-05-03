@@ -122,15 +122,20 @@ class _CinemaScreenState extends State<CinemaScreen> {
     }
 
     return result!.result.map((cinema) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Color.fromARGB(200, 21, 36, 118), width: 2),
-        ),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, MovieListScreen.routeName, arguments: {'cinemaId': cinema.id},);
-          },
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            MovieListScreen.routeName,
+            arguments: {'cinemaId': cinema.id},
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border:
+                Border.all(color: Color.fromARGB(200, 21, 36, 118), width: 2),
+          ),
           child: Center(
             child: Text(
               cinema.name!,

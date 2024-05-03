@@ -1,5 +1,6 @@
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
+import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,7 +12,7 @@ class CartProvider with ChangeNotifier {
     } else {
       cart.items.add(CartItem(movie, 1));
     }
-    
+
     notifyListeners();
   }
 
@@ -21,7 +22,8 @@ class CartProvider with ChangeNotifier {
   }
 
   CartItem? findInCart(Movie movie) {
-    CartItem? item = cart.items.firstWhereOrNull((item) => item.movie.id == movie.id);
+    CartItem? item =
+        cart.items.firstWhereOrNull((item) => item.movie.id == movie.id);
     return item;
   }
 }
