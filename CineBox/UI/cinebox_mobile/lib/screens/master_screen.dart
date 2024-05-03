@@ -66,7 +66,7 @@ class _MasterScreenState extends State<MasterScreen> {
             ),
           ),
         ],
-        backgroundColor: const Color.fromARGB(255, 21, 36, 118),
+        backgroundColor: const Color.fromRGBO(97,72,199,1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: CineboxDrawer(),
@@ -74,7 +74,7 @@ class _MasterScreenState extends State<MasterScreen> {
         child: widget.child!,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 21, 36, 118),
+        backgroundColor: const Color.fromRGBO(97,72,199,1),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -103,7 +103,7 @@ class _MasterScreenState extends State<MasterScreen> {
                           ),
                         ),
                         badgeStyle: BadgeStyle(
-                            badgeColor: Colors.pink.shade300,
+                            badgeColor: Colors.purple.shade300,
                             padding: EdgeInsets.all(3)),
                         position: BadgePosition.topEnd(top: 0, end: 0),
                       ),
@@ -115,7 +115,7 @@ class _MasterScreenState extends State<MasterScreen> {
           ),
         ],
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.pink[300],
+        selectedItemColor: Colors.white,
         currentIndex: currentIndex,
         onTap: _onItemTapped,
       ),

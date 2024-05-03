@@ -67,7 +67,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
             ),
           ),
         ],
-        backgroundColor: Color.fromARGB(255, 21, 36, 118),
+        backgroundColor: const Color.fromRGBO(97,72,199,1),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: WillPopScope(
@@ -89,7 +89,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
                     ),
                     SizedBox(height: 10),
                     const Divider(
-                        thickness: 5, color: Color.fromARGB(200, 21, 36, 118)),
+                        thickness: 5, color: Color.fromRGBO(97,72,199,1)),
                     SizedBox(height: 10),
                     SizedBox(
                       height: 625,
@@ -134,7 +134,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             border:
-                Border.all(color: Color.fromARGB(200, 21, 36, 118), width: 2),
+                Border.all(color: const Color.fromRGBO(97,72,199,1), width: 2),
           ),
           child: Center(
             child: Text(

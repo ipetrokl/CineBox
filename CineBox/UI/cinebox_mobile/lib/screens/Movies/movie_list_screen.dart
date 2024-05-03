@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Review/review.dart';
@@ -73,7 +74,14 @@ class _movieListScreenState extends State<MovieListScreen> {
   Widget build(BuildContext context) {
     return MasterScreen(
       child: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              opacity: 1,
+              image: AssetImage("assets/images/movie3.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -116,12 +124,15 @@ class _movieListScreenState extends State<MovieListScreen> {
                 });
               },
               decoration: InputDecoration(
-                  hintText: "Search",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  )),
+                hintText: "Search",
+                prefixIcon: Icon(Icons.search),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 21, 36, 118),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -152,11 +163,12 @@ class _movieListScreenState extends State<MovieListScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                color: const Color.fromARGB(200, 21, 36, 118), width: 2)),
-        child: GestureDetector(
-          onTap: () {
-            // Ovdje dodajte akciju koja će se izvršiti kada korisnik pritisne karticu filma
-          },
+                color: const Color.fromRGBO(97,72,199,1), width: 2)),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white.withOpacity(0.75),
+          ),
           child: Row(
             children: [
               InkWell(

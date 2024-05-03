@@ -1,5 +1,6 @@
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
+import 'package:cinebox_mobile/screens/Promotion/promotion_screen.dart';
 import 'package:flutter/material.dart';
 
 class CineboxDrawer extends StatelessWidget {
@@ -9,7 +10,7 @@ class CineboxDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     // _cartProvider = context.watch<CartProvider>();
     return Drawer(
-      backgroundColor: Colors.indigo,
+      backgroundColor: const Color.fromRGBO(97,72,199,1),
       child: ListView(
         children: [
           ListTile(
@@ -24,11 +25,12 @@ class CineboxDrawer extends StatelessWidget {
             // title: Text('Cart ${_cartProvider?.cart.items.length}'),
             title: Text("Promo codes"),
             onTap: () {
-               Navigator.pushNamed(context, CartScreen.routeName);
+               Navigator.pushNamed(context, PromotionScreen.routeName);
             },
           ),
         ],
       ),
+      width: MediaQuery.of(context).size.width * 0.5,
     );
   }
 }
