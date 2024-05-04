@@ -36,7 +36,7 @@ namespace CineBox.Services.Movie
 
             if (search?.CinemaId != null)
             {
-                filteredQuery = filteredQuery.Where(x => x.Screenings.Any(s => s.Hall.CinemaId == search.CinemaId));
+                filteredQuery = filteredQuery.Where(x => x.Screenings.Any(s => s.Hall.CinemaId == search.CinemaId) && (DateTime.Now >= x.PerformedFrom && DateTime.Now <= x.PerformedTo));
             }
 
             return filteredQuery;
