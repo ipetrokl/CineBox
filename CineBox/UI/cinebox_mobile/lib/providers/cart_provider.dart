@@ -6,24 +6,29 @@ import 'package:flutter/widgets.dart';
 
 class CartProvider with ChangeNotifier {
   Cart cart = Cart();
-  addToCart(Movie movie) {
-    if (findInCart(movie) != null) {
-      findInCart(movie)?.count++;
+  double sum = 0;
+  addToCart(Movie movie, Screening screening, int cinemaId) {
+    if (findInCart(movie, screening) != null) {
+      findInCart(movie, screening)?.count++;
+      sum += screening.price!;
     } else {
-      cart.items.add(CartItem(movie, 1));
+      cart.items.add(CartItem(movie, 1, screening, cinemaId));
+      sum += screening.price!;
     }
 
     notifyListeners();
   }
 
-  removeFromCart(Movie movie) {
-    cart.items.removeWhere((item) => item.movie.id == movie.id);
+  removeFromSum(Movie movie, Screening screening) {
+    if (sum > 0) {
+      sum -= screening.price! * findInCart(movie, screening)!.count;
+    }
     notifyListeners();
   }
 
-  CartItem? findInCart(Movie movie) {
-    CartItem? item =
-        cart.items.firstWhereOrNull((item) => item.movie.id == movie.id);
-    return item;
+  CartItem? findInCart(Movie movie, Screening screening) {
+    CartItem? existingItem = cart.items.firstWhereOrNull((item) =>
+        item.movie.id == movie.id && item.screening.id == screening.id);
+    return existingItem;
   }
 }

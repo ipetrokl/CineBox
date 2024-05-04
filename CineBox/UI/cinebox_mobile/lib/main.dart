@@ -69,6 +69,7 @@ class MyMaterialApp extends StatelessWidget {
         if (settings.name == PromotionScreen.routeName) {
           return MaterialPageRoute(builder: (context) => PromotionScreen());
         }
+        return null;
         
       },
     );

@@ -163,7 +163,7 @@ class _movieListScreenState extends State<MovieListScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                color: const Color.fromRGBO(97,72,199,1), width: 2)),
+                color: const Color.fromRGBO(97, 72, 199, 1), width: 2)),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -354,16 +354,18 @@ class _movieListScreenState extends State<MovieListScreen> {
                                     .map((screening) {
                                   return Padding(
                                     padding: const EdgeInsets.all(3.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 1),
-                                        borderRadius: BorderRadius.circular(7),
-                                      ),
-                                      width: 55,
-                                      child: InkWell(
-                                        onTap: () {
-                                          _cartProvider.addToCart(movie);
-                                        },
+                                    child: InkWell(
+                                      onTap: () {
+                                        _cartProvider.addToCart(
+                                            movie, screening, widget.cinemaId);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        width: 55,
                                         child: Text(
                                           DateFormat('HH:mm')
                                               .format(screening.screeningTime!),
@@ -444,8 +446,8 @@ class _movieListScreenState extends State<MovieListScreen> {
   }
 
   Future<String> _formatPerformed(Movie movie) async {
-    var startDate = DateFormat('dd-MM-yyyy').format(movie.performedFrom!);
-    var endDate = DateFormat('dd-MM-yyyy').format(movie.performedTo!);
+    var startDate = DateFormat('dd.MM.yyyy').format(movie.performedFrom!);
+    var endDate = DateFormat('dd.MM.yyyy').format(movie.performedTo!);
     String result = "$startDate - $endDate";
 
     return result;

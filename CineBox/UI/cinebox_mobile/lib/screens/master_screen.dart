@@ -66,7 +66,7 @@ class _MasterScreenState extends State<MasterScreen> {
             ),
           ),
         ],
-        backgroundColor: const Color.fromRGBO(97,72,199,1),
+        backgroundColor: const Color.fromRGBO(97, 72, 199, 1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: CineboxDrawer(),
@@ -74,7 +74,7 @@ class _MasterScreenState extends State<MasterScreen> {
         child: widget.child!,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromRGBO(97,72,199,1),
+        backgroundColor: const Color.fromRGBO(97, 72, 199, 1),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
