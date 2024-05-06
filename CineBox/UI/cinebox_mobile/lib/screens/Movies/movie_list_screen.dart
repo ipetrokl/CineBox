@@ -347,11 +347,16 @@ class _movieListScreenState extends State<MovieListScreen> {
                             shrinkWrap: true,
                             itemCount: 3,
                             itemBuilder: (context, index) {
+                              List<Screening> sortedScreenings = snapshot
+                                  .data!.result
+                                  .skip(index * 3)
+                                  .take(3)
+                                  .toList();
+                              sortedScreenings.sort((a, b) =>
+                                  a.screeningTime!.hour.compareTo(b.screeningTime!.hour));
+
                               return Row(
-                                children: snapshot.data!.result
-                                    .skip(index * 3)
-                                    .take(3)
-                                    .map((screening) {
+                                children: sortedScreenings.map((screening) {
                                   return Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: InkWell(
