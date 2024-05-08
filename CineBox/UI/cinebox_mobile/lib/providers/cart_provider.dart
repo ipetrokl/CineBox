@@ -7,14 +7,16 @@ import 'package:flutter/widgets.dart';
 class CartProvider with ChangeNotifier {
   Cart cart = Cart();
   double sum = 0;
-  addToCart(Movie movie, Screening screening, int cinemaId) {
-    if (findInCart(movie, screening) != null) {
-      findInCart(movie, screening)?.count++;
-      sum += screening.price!;
+  addToCart(Movie movie, Screening screening, int cinemaId, int count) {
+    var existingItem = findInCart(movie, screening);
+
+    if (existingItem != null) {
+      existingItem.count += count;
     } else {
-      cart.items.add(CartItem(movie, 1, screening, cinemaId));
-      sum += screening.price!;
+      cart.items.add(CartItem(movie, count, screening, cinemaId));
     }
+
+    sum += screening.price! * count;
 
     notifyListeners();
   }

@@ -13,6 +13,7 @@ import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
 import 'package:cinebox_mobile/screens/Review/review_add_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
+import 'package:cinebox_mobile/screens/reservation_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -352,8 +353,9 @@ class _movieListScreenState extends State<MovieListScreen> {
                                   .skip(index * 3)
                                   .take(3)
                                   .toList();
-                              sortedScreenings.sort((a, b) =>
-                                  a.screeningTime!.hour.compareTo(b.screeningTime!.hour));
+                              sortedScreenings.sort((a, b) => a
+                                  .screeningTime!.hour
+                                  .compareTo(b.screeningTime!.hour));
 
                               return Row(
                                 children: sortedScreenings.map((screening) {
@@ -361,8 +363,17 @@ class _movieListScreenState extends State<MovieListScreen> {
                                     padding: const EdgeInsets.all(3.0),
                                     child: InkWell(
                                       onTap: () {
-                                        _cartProvider.addToCart(
-                                            movie, screening, widget.cinemaId);
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => ReservationScreen(
+                                            onChanged: (int value) {},
+                                            movie: movie,
+                                            screening: screening,
+                                            cinemaId: widget.cinemaId,
+                                          ),
+                                        );
+                                        // _cartProvider.addToCart(
+                                        //     movie, screening, widget.cinemaId);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
