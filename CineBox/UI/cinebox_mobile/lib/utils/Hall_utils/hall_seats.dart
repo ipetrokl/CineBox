@@ -1,4 +1,4 @@
-import 'package:cinebox_mobile/utils/Hall_utils/seat.dart';
+import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:flutter/material.dart';
 
@@ -136,7 +136,7 @@ class SeatBuilder {
       if (type == SeatType.lovers) {
         seatWidgets.add(Expanded(
           flex: 2,
-          child: Seat(
+          child: SeatVisualization(
             type: type,
             onChanged: (int count) {
               onSeatChanged(count);
@@ -148,7 +148,7 @@ class SeatBuilder {
         ));
       } else {
         seatWidgets.add(Expanded(
-          child: Seat(
+          child: SeatVisualization(
             type: type,
             onChanged: (int count) {
               onSeatChanged(count);

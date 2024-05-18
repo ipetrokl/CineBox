@@ -4,7 +4,7 @@ import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/hall_seats.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/screen_object.dart';
-import 'package:cinebox_mobile/utils/Hall_utils/seat.dart';
+import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

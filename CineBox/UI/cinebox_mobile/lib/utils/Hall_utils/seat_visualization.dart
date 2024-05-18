@@ -1,18 +1,18 @@
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:flutter/material.dart';
 
-class Seat extends StatefulWidget {
+class SeatVisualization extends StatefulWidget {
   final SeatType type;
   final ValueChanged<int> onChanged;
 
-  const Seat({Key? key, required this.type, required this.onChanged})
+  const SeatVisualization({Key? key, required this.type, required this.onChanged})
       : super(key: key);
 
   @override
-  _SeatState createState() => _SeatState();
+  _SeatVisualizationState createState() => _SeatVisualizationState();
 }
 
-class _SeatState extends State<Seat> {
+class _SeatVisualizationState extends State<SeatVisualization> {
   bool _isSelected = false;
 
   @override
