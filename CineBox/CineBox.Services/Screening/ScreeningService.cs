@@ -50,7 +50,7 @@ namespace CineBox.Services.Screening
             if (search?.SelectedDate != null)
             {
                 filteredQuery = filteredQuery
-                    .Where(x => x.ScreeningTime.Date.Equals(search.SelectedDate.Value.Date));
+                    .Where(x => x.ScreeningTime.Date.Equals(search.SelectedDate.Value.Date) && x.ScreeningTime.TimeOfDay > search.SelectedDate.Value.TimeOfDay);
             }
 
             return filteredQuery;

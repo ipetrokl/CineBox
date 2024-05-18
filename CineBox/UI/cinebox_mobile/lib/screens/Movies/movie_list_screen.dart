@@ -86,6 +86,8 @@ class _movieListScreenState extends State<MovieListScreen> {
   }
 
   Widget _buildDateNavigation() {
+    DateTime today = DateTime.now();
+    bool isBefore = selectedDate.isBefore(today);
     List<DateTime> dates = List.generate(
         5, (index) => selectedDate.add(Duration(days: index - 2)));
     return Row(
@@ -93,7 +95,7 @@ class _movieListScreenState extends State<MovieListScreen> {
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back, size: 15),
-          onPressed: () {
+          onPressed: isBefore ? null : () {
             _onDateSelected(selectedDate.subtract(Duration(days: 1)));
           },
         ),
@@ -102,8 +104,9 @@ class _movieListScreenState extends State<MovieListScreen> {
             alignment: WrapAlignment.center,
             children: dates.map((date) {
               bool isSelected = date.isAtSameMomentAs(selectedDate);
+              bool isBeforeToday = date.isBefore(DateTime(today.year, today.month, today.day));
               return GestureDetector(
-                onTap: () => _onDateSelected(date),
+                onTap: isBeforeToday ? null : () => _onDateSelected(date),
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
                   margin: EdgeInsets.symmetric(horizontal: 4),
@@ -116,7 +119,11 @@ class _movieListScreenState extends State<MovieListScreen> {
                   child: Text(
                     DateFormat('dd.MM.').format(date),
                     style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.black,
+                      color: isSelected
+                          ? Colors.white
+                          : isBeforeToday
+                              ? Colors.grey
+                              : Colors.black,
                       fontWeight:
                           isSelected ? FontWeight.bold : FontWeight.normal,
                     ),
@@ -520,9 +527,13 @@ class _movieListScreenState extends State<MovieListScreen> {
     return result;
   }
 
-  Future<SearchResult<Screening>> _fetchScreeningsforMovie(Movie movie, DateTime selectedDate) async {
-    var data = await _screeningProvider
-        .get(filter: {'cinemaId': widget.cinemaId, 'movieId': movie.id, 'selectedDate': selectedDate});
+  Future<SearchResult<Screening>> _fetchScreeningsforMovie(
+      Movie movie, DateTime selectedDate) async {
+    var data = await _screeningProvider.get(filter: {
+      'cinemaId': widget.cinemaId,
+      'movieId': movie.id,
+      'selectedDate': selectedDate
+    });
     return data;
   }
 }

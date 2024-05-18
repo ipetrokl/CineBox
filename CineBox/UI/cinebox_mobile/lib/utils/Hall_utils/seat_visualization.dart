@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 class SeatVisualization extends StatefulWidget {
   final SeatType type;
   final ValueChanged<int> onChanged;
+  final bool seatStatus;
 
-  const SeatVisualization({Key? key, required this.type, required this.onChanged})
+  const SeatVisualization(
+      {Key? key,
+      required this.type,
+      required this.onChanged,
+      required this.seatStatus})
       : super(key: key);
 
   @override
@@ -41,22 +46,23 @@ class _SeatVisualizationState extends State<SeatVisualization> {
     if (_isSelected) {
       color = const Color.fromRGBO(97, 72, 199, 1);
     }
+    if (!widget.seatStatus) {
+      color = Colors.grey;
+    }
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isSelected = !_isSelected;
-          if (_isSelected && widget.type == SeatType.lovers) {
-            widget.onChanged(2);
-          } else if (_isSelected) {
-            widget.onChanged(1);
-          } else if (!_isSelected && widget.type == SeatType.lovers) {
-            widget.onChanged(-2);
-          } else {
-            widget.onChanged(-1);
-          }
-        });
-      },
+      onTap: widget.seatStatus
+          ? () {
+              setState(() {
+                _isSelected = !_isSelected;
+                if (_isSelected) {
+                  widget.onChanged(1);
+                } else {
+                  widget.onChanged(-1);
+                }
+              });
+            }
+          : null,
       child: Container(
         height: 40.0,
         decoration: BoxDecoration(

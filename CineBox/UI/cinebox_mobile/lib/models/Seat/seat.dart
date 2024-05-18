@@ -10,9 +10,8 @@ class Seat {
   int? seatNumber;
   String? category;
   bool? status;
-  SeatType? type;
 
-  Seat({required SeatType type});
+  Seat();
 
   factory Seat.fromJson(Map<String, dynamic> json) => _$SeatFromJson(json);
 

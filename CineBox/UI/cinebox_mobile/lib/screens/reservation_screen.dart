@@ -1,11 +1,14 @@
 import 'package:cinebox_mobile/models/Cinema/cinema.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
+import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/hall_seats.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/screen_object.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
+import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,13 +36,31 @@ class ReservationScreen extends StatefulWidget {
 
 class _ReservationScreenState extends State<ReservationScreen> {
   late CartProvider _cartProvider;
+  late SeatProvider _seatProvider;
+  SearchResult<Seat>? seats;
   late int _counter = 0;
+  List<Seat> selectedSeats = [];
 
   @override
   void initState() {
     super.initState();
     _cartProvider = context.read<CartProvider>();
+    _seatProvider = context.read<SeatProvider>();
+    fetchSeats();
     // _counter = widget.initialValue;
+  }
+
+  Future fetchSeats() async {
+    try {
+      var data =
+          await _seatProvider.get(filter: {'hallId': widget.screening.hallId});
+
+      setState(() {
+        seats = data;
+      });
+    } catch (e) {
+      print("Error fetching movies: $e");
+    }
   }
 
   // void _incrementCounter() {
@@ -80,24 +101,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
               ),
             ),
             const SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SeatBuilder.buildSeats(
-                onSeatChanged: (int count) {
-                  setState(() {
-                    if (count == 1) {
-                      _counter += 1;
-                    } else if (count == 2) {
-                      _counter += 2;
-                    } else if (count == -1) {
-                      _counter -= 1;
-                    } else {
-                      _counter -= 2;
-                    }
-                  });
-                },
-              ),
-            ),
+            _buildSeats(),
             const SizedBox(height: 8.0),
             _buildSeatInfos(),
             const SizedBox(height: 8.0),
@@ -126,7 +130,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
                       showDialog(
                         context: context,
                         builder: (context) => SimpleDialog(
-                            title: const Center(child: Text('Item added to basket  \u{1F389}', style: TextStyle(fontSize: 18, color: Color.fromRGBO(97, 72, 199, 1)),)),
+                            title: const Center(
+                                child: Text(
+                              'Item added to basket  \u{1F389}',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromRGBO(97, 72, 199, 1)),
+                            )),
                             children: [
                               TextButton(
                                 onPressed: () {
@@ -135,7 +145,10 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                   // Zatvori glavni dijalog
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('OK', style: TextStyle(fontWeight: FontWeight.bold),),
+                                child: Text(
+                                  'OK',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ]),
                       );
@@ -275,5 +288,23 @@ class _ReservationScreenState extends State<ReservationScreen> {
       size: Size(330, 10),
       painter: ScreenPainter(),
     );
+  }
+
+  Widget _buildSeats() {
+    if (seats == null) {
+      return CircularProgressIndicator();
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: SeatBuilder.buildSeats(
+            onSeatChanged: (int count) {
+              setState(() {
+                _counter = count;
+              });
+            },
+            seats: seats!.result,
+            selectedSeats: selectedSeats),
+      );
+    }
   }
 }

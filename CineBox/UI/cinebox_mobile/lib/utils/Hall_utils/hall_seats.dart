@@ -1,162 +1,102 @@
+import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:flutter/material.dart';
 
 class SeatBuilder {
-  static Widget buildSeats({required ValueChanged<int> onSeatChanged}) {
+  static Widget buildSeats(
+      {required ValueChanged<int> onSeatChanged,
+      required List<Seat> seats,
+      required List<Seat> selectedSeats}) {
     List<Widget> rows = [];
-    for (int i = 0; i < 10; i++) {
-      List<Widget> seats = [];
-      switch (i) {
-        case 0:
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.disabled,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.disabled,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.disabled,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.disabled,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 4:
-          seats.addAll(_buildSeatsForRow(3, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 5:
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(4, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 6:
-          seats.addAll(_buildSeatsForRow(3, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(3, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 7:
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 8:
-          seats.addAll(_buildSeatsForRow(3, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          break;
-        case 9:
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.lovers,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(2, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          break;
-        default:
-          seats.addAll(_buildSeatsForRow(3, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(1, SeatType.empty,
-              onSeatChanged: onSeatChanged));
-          seats.addAll(_buildSeatsForRow(6, SeatType.single,
-              onSeatChanged: onSeatChanged));
-          break;
-      }
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: seats,
-        ),
-      );
-      rows.add(SizedBox(
-        height: 4,
-      ));
-    }
-    return Column(
-      children: rows,
-    );
-  }
 
-  static List<Widget> _buildSeatsForRow(int count, SeatType type,
-      {required ValueChanged<int> onSeatChanged}) {
-    List<Widget> seatWidgets = [];
-    for (int i = 0; i < count; i++) {
-      seatWidgets.add(SizedBox(
-        width: 4,
-      ));
-      if (type == SeatType.lovers) {
-        seatWidgets.add(Expanded(
-          flex: 2,
-          child: SeatVisualization(
-            type: type,
-            onChanged: (int count) {
-              onSeatChanged(count);
-            },
-          ),
-        ));
-        seatWidgets.add(SizedBox(
-          width: 4,
-        ));
-      } else {
-        seatWidgets.add(Expanded(
-          child: SeatVisualization(
-            type: type,
-            onChanged: (int count) {
-              onSeatChanged(count);
-            },
-          ),
-        ));
-      }
+    // Broj redova i broj sjedala u redu
+    int rowCount = 9;
+    int seatsPerRow = 10;
+
+    // Funkcija za provjeru je li sjedalo već odabrano
+    bool isSeatSelected(Seat seat) {
+      return selectedSeats.contains(seat);
     }
-    return seatWidgets;
+
+    // Funkcija za dodavanje ili uklanjanje sjedala iz liste odabranih
+    void toggleSeatSelection(Seat seat) {
+      if (isSeatSelected(seat)) {
+        selectedSeats.remove(seat);
+      } else {
+        selectedSeats.add(seat);
+      }
+      onSeatChanged(selectedSeats.length);
+    }
+
+    // Kreiranje redova sjedala
+    int seatIndex = -1;
+    for (int i = 0; i < rowCount; i++) {
+      List<Widget> rowChildren = [];
+      int temp = seatsPerRow;
+      for (int j = 0; j < temp; j++) {
+        seatIndex++;
+        if (seatIndex < seats.length) {
+          Seat seat = seats[seatIndex];
+          Widget seatWidget;
+
+          switch (seat.category) {
+            case "solo":
+              seatWidget = Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: SeatVisualization(
+                    type: SeatType.single,
+                    onChanged: (count) {
+                      toggleSeatSelection(seat);
+                    },
+                    seatStatus: seat.status!,
+                  ),
+                ),
+              );
+              break;
+            case "disabled":
+              seatWidget = Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: SeatVisualization(
+                    type: SeatType.disabled,
+                    onChanged: (count) {
+                      toggleSeatSelection(seat);
+                    },
+                    seatStatus: seat.status!,
+                  ),
+                ),
+              );
+              break;
+            case "love":
+              seatWidget = Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: SeatVisualization(
+                    type: SeatType.lovers,
+                    onChanged: (count) {
+                      toggleSeatSelection(seat);
+                    },
+                    seatStatus: seat.status!,
+                  ),
+                ),
+              );
+              temp--;
+              break;
+            default:
+              seatWidget =
+                  SizedBox(); // Prazan widget ako kategorija nije definirana
+          }
+
+          rowChildren.add(seatWidget);
+        }
+      }
+
+      rows.add(Row(children: rowChildren));
+    }
+
+    return Column(children: rows);
   }
 }

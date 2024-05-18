@@ -24,6 +24,13 @@ namespace CineBox.Services.Seat
                     .Where(x => x.Hall.Name.Contains(search.FTS) || x.Category.Contains(search.FTS));
             }
 
+            if (search!.HallId != null)
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.HallId == search.HallId)
+                    .OrderBy(x => x.SeatNumber);
+            }
+
             return filteredQuery;
         }
     }
