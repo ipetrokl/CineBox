@@ -56,8 +56,9 @@ class MyMaterialApp extends StatelessWidget {
         if (settings.name == MovieListScreen.routeName) {
           final args = settings.arguments as Map<String, dynamic>? ?? {};
           final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
           return MaterialPageRoute(
-            builder: (context) => MovieListScreen(cinemaId: cinemaId),
+            builder: (context) => MovieListScreen(cinemaId: cinemaId, initialDate: initialDate),
           );
         }
         if (settings.name == CartScreen.routeName) {

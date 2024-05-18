@@ -142,6 +142,10 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(item.movie.title ?? ""),
                     Text(
+                        DateFormat('dd.MM.yyyy.')
+                                .format(item.screening.screeningTime!),
+                        style: const TextStyle(fontSize: 12)),
+                    Text(
                         DateFormat('HH:mm')
                                 .format(item.screening.screeningTime!) +
                             " h",

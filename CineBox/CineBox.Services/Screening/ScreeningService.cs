@@ -47,6 +47,12 @@ namespace CineBox.Services.Screening
                     .Where(x => x.Hall.CinemaId == search.CinemaId);
             }
 
+            if (search?.SelectedDate != null)
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.ScreeningTime.Date.Equals(search.SelectedDate.Value.Date));
+            }
+
             return filteredQuery;
         }
     }

@@ -6,6 +6,7 @@ namespace CineBox.Model.SearchObjects
 		public string? FTS { get; set; }
 		public string? Description { get; set; }
 		public int? CinemaId { get; set; }
+		public DateTime? SelectedDate { get; set; }
 	}
 }
 

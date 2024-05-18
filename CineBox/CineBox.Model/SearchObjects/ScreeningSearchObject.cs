@@ -8,6 +8,7 @@ namespace CineBox.Model.SearchObjects
         public int? MovieId { get; set; }
         public int? HallId { get; set; }
         public int? CinemaId { get; set; }
+        public DateTime? SelectedDate { get; set; }
     }
 }
 

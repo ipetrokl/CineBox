@@ -124,10 +124,11 @@ class _CinemaScreenState extends State<CinemaScreen> {
     return result!.result.map((cinema) {
       return GestureDetector(
         onTap: () {
+          DateTime currentDate = DateTime.now();
           Navigator.pushNamed(
             context,
             MovieListScreen.routeName,
-            arguments: {'cinemaId': cinema.id},
+            arguments: {'cinemaId': cinema.id, 'initialDate': currentDate},
           );
         },
         child: Container(

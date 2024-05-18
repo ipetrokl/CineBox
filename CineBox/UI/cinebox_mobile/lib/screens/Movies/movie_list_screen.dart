@@ -23,7 +23,10 @@ import 'package:provider/provider.dart';
 class MovieListScreen extends StatefulWidget {
   static const String routeName = "/movie";
   final int cinemaId;
-  const MovieListScreen({super.key, required this.cinemaId});
+  final DateTime initialDate;
+
+  const MovieListScreen(
+      {super.key, required this.cinemaId, required this.initialDate});
 
   @override
   State<MovieListScreen> createState() => _movieListScreenState();
@@ -40,11 +43,13 @@ class _movieListScreenState extends State<MovieListScreen> {
   SearchResult<Movie>? result;
   SearchResult<Review>? result2;
   final TextEditingController _searchController = TextEditingController();
+  late DateTime selectedDate;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedDate = widget.initialDate;
     _movieProvider = context.read<MovieProvider>();
     _cartProvider = context.read<CartProvider>();
     _actorProvider = context.read<ActorProvider>();
@@ -58,8 +63,10 @@ class _movieListScreenState extends State<MovieListScreen> {
 
   Future loadData() async {
     try {
-      var data =
-          await _movieProvider.get(filter: {'cinemaId': widget.cinemaId});
+      var data = await _movieProvider.get(filter: {
+        'cinemaId': widget.cinemaId,
+        'selectedDate': selectedDate.toIso8601String()
+      });
       var data2 = await _reviewProvider.get();
 
       setState(() {
@@ -69,6 +76,64 @@ class _movieListScreenState extends State<MovieListScreen> {
     } catch (e) {
       print("Error fetching movies: $e");
     }
+  }
+
+  void _onDateSelected(DateTime date) {
+    setState(() {
+      selectedDate = date;
+      loadData();
+    });
+  }
+
+  Widget _buildDateNavigation() {
+    List<DateTime> dates = List.generate(
+        5, (index) => selectedDate.add(Duration(days: index - 2)));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back, size: 15),
+          onPressed: () {
+            _onDateSelected(selectedDate.subtract(Duration(days: 1)));
+          },
+        ),
+        Flexible(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: dates.map((date) {
+              bool isSelected = date.isAtSameMomentAs(selectedDate);
+              return GestureDetector(
+                onTap: () => _onDateSelected(date),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? const Color.fromRGBO(97, 72, 199, 1)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    DateFormat('dd.MM.').format(date),
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : Colors.black,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward, size: 15),
+          onPressed: () {
+            _onDateSelected(selectedDate.add(Duration(days: 1)));
+          },
+        ),
+      ],
+    );
   }
 
   @override
@@ -86,9 +151,11 @@ class _movieListScreenState extends State<MovieListScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 5),
               _buildMovieSearch(),
+              _buildDateNavigation(),
               SizedBox(
-                height: 575,
+                height: 552,
                 child: GridView(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -113,19 +180,22 @@ class _movieListScreenState extends State<MovieListScreen> {
       children: [
         Expanded(
           child: Container(
-            height: 70,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
               controller: _searchController,
               onSubmitted: (value) async {
-                var tmpData = await _movieProvider
-                    .get(filter: {'fts': value, 'cinemaID': widget.cinemaId});
+                var tmpData = await _movieProvider.get(filter: {
+                  'fts': value,
+                  'cinemaID': widget.cinemaId,
+                  'selectedDate': DateFormat('yyyy-MM-dd').format(selectedDate)
+                });
                 setState(() {
                   result = tmpData;
                 });
               },
               decoration: InputDecoration(
-                hintText: "Search",
+                labelText: "Search",
                 prefixIcon: Icon(Icons.search),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -137,19 +207,6 @@ class _movieListScreenState extends State<MovieListScreen> {
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () async {
-              var tmpData = await _movieProvider
-                  .get(filter: {'fts': _searchController.text});
-              setState(() {
-                result = tmpData;
-              });
-            },
-          ),
-        )
       ],
     );
   }
@@ -226,7 +283,7 @@ class _movieListScreenState extends State<MovieListScreen> {
                   SizedBox(
                     height: 12,
                     child: FutureBuilder<List<Actor>>(
-                      future: _fetchActorsForMovie(movie.id!),
+                      future: getActors(movie.id!),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -335,7 +392,7 @@ class _movieListScreenState extends State<MovieListScreen> {
                     height: 3,
                   ),
                   FutureBuilder<SearchResult<Screening>>(
-                    future: _fetchScreeningsforMovie(movie),
+                    future: _fetchScreeningsforMovie(movie, selectedDate),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox.shrink();
@@ -437,21 +494,15 @@ class _movieListScreenState extends State<MovieListScreen> {
     }
   }
 
-  Future<List<Actor>> _fetchActorsForMovie(int movieId) async {
+  Future<List<Actor>> getActors(int movieId) async {
     var movieActors =
         await _movieActorProvider.get(filter: {'movieId': movieId});
-    var actorIds =
-        movieActors.result.map((movieActor) => movieActor.actorId).toList();
-
-    var actorsForMovie = <Actor>[];
-    for (var actorId in actorIds) {
-      var actor = await _actorProvider.getById(actorId!);
-      if (actor != null) {
-        actorsForMovie.add(actor);
-      }
+    List<Actor> actors = [];
+    for (var movieActor in movieActors.result) {
+      var actor = await _actorProvider.getById(movieActor.actorId!);
+      actors.add(actor!);
     }
-
-    return actorsForMovie;
+    return actors;
   }
 
   String _buildActorNames(List<Actor> actors) {
@@ -469,9 +520,9 @@ class _movieListScreenState extends State<MovieListScreen> {
     return result;
   }
 
-  Future<SearchResult<Screening>> _fetchScreeningsforMovie(Movie movie) async {
+  Future<SearchResult<Screening>> _fetchScreeningsforMovie(Movie movie, DateTime selectedDate) async {
     var data = await _screeningProvider
-        .get(filter: {'cinemaId': widget.cinemaId, 'movieId': movie.id});
+        .get(filter: {'cinemaId': widget.cinemaId, 'movieId': movie.id, 'selectedDate': selectedDate});
     return data;
   }
 }
