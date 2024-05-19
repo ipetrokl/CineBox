@@ -5,12 +5,14 @@ class SeatVisualization extends StatefulWidget {
   final SeatType type;
   final ValueChanged<int> onChanged;
   final bool seatStatus;
+  final bool isSelected;
 
   const SeatVisualization(
       {Key? key,
       required this.type,
       required this.onChanged,
-      required this.seatStatus})
+      required this.seatStatus,
+      this.isSelected = false})
       : super(key: key);
 
   @override
@@ -19,6 +21,12 @@ class SeatVisualization extends StatefulWidget {
 
 class _SeatVisualizationState extends State<SeatVisualization> {
   bool _isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSelected = widget.isSelected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class _SeatVisualizationState extends State<SeatVisualization> {
         break;
     }
 
-    if (_isSelected) {
+    if (_isSelected || widget.isSelected) {
       color = const Color.fromRGBO(97, 72, 199, 1);
     }
     if (!widget.seatStatus) {

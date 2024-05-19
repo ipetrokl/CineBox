@@ -38,6 +38,7 @@ class SeatBuilder {
         seatIndex++;
         if (seatIndex < seats.length) {
           Seat seat = seats[seatIndex];
+          var selected = isSeatSelected(seat);
           Widget seatWidget;
 
           switch (seat.category) {
@@ -51,6 +52,7 @@ class SeatBuilder {
                       toggleSeatSelection(seat);
                     },
                     seatStatus: seat.status!,
+                    isSelected: selected,
                   ),
                 ),
               );
@@ -65,6 +67,7 @@ class SeatBuilder {
                       toggleSeatSelection(seat);
                     },
                     seatStatus: seat.status!,
+                    isSelected: selected,
                   ),
                 ),
               );
@@ -80,6 +83,7 @@ class SeatBuilder {
                       toggleSeatSelection(seat);
                     },
                     seatStatus: seat.status!,
+                    isSelected: selected,
                   ),
                 ),
               );

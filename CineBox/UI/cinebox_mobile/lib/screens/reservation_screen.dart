@@ -54,9 +54,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
     try {
       var data =
           await _seatProvider.get(filter: {'hallId': widget.screening.hallId});
-
       setState(() {
         seats = data;
+        for (var item in _cartProvider.cart.items) {
+          if (widget.screening.id == item.screening.id) {
+            selectedSeats = item.selectedSeats;
+          }
+        }
       });
     } catch (e) {
       print("Error fetching movies: $e");
@@ -125,6 +129,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                         widget.movie,
                         widget.screening,
                         widget.cinemaId,
+                        selectedSeats,
                         _counter,
                       );
                       showDialog(

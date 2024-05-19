@@ -1,4 +1,5 @@
 import 'package:cinebox_mobile/models/Cinema/cinema.dart';
+import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
@@ -16,6 +17,7 @@ class CinemaScreen extends StatefulWidget {
 
 class _CinemaScreenState extends State<CinemaScreen> {
   late CinemaProvider _cinemaProvider;
+  late CartProvider _cartProvider;
   SearchResult<Cinema>? result;
 
   @override
@@ -23,6 +25,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
     // TODO: implement initState
     super.initState();
     _cinemaProvider = context.read<CinemaProvider>();
+    _cartProvider = context.read<CartProvider>();
     print("called initState");
     loadData();
   }
@@ -60,6 +63,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
               padding: EdgeInsets.only(right: 10),
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
+                _cartProvider.clearCart();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );

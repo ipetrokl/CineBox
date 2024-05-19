@@ -59,6 +59,7 @@ class _MasterScreenState extends State<MasterScreen> {
               padding: EdgeInsets.only(right: 10),
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
+                _cartProvider.clearCart();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );

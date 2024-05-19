@@ -66,11 +66,9 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             Text(
-                                _cartProvider.sum % 1 == 0
-                                    ? _cartProvider.sum.toInt().toString() +
-                                        " €"
-                                    : _cartProvider.sum.toStringAsFixed(2) +
-                                        " €",
+                                _calculateTotal() % 1 == 0
+                                    ? _calculateTotal().toInt().toString() + " €"
+                                    : _calculateTotal().toStringAsFixed(2) + " €",
                                 style: const TextStyle(fontSize: 14)),
                           ],
                         ),
@@ -116,13 +114,12 @@ class _CartScreenState extends State<CartScreen> {
             border: Border.all(
                 color: const Color.fromARGB(200, 21, 36, 118), width: 1)),
         child: ListTile(
+          contentPadding: EdgeInsets.only(left: 6.0, right: 6),
           title: Row(
             children: [
-              Text(item.count.toString(), style: const TextStyle(fontSize: 12)),
-              const SizedBox(width: 15),
               SizedBox(
-                width: 60,
-                height: 95,
+                width: 70,
+                height: 130,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image(
@@ -140,83 +137,122 @@ class _CartScreenState extends State<CartScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.movie.title ?? ""),
-                    Text(
-                        DateFormat('dd.MM.yyyy.')
-                                .format(item.screening.screeningTime!),
-                        style: const TextStyle(fontSize: 12)),
-                    Text(
-                        DateFormat('HH:mm')
-                                .format(item.screening.screeningTime!) +
-                            " h",
-                        style: const TextStyle(fontSize: 12)),
+                    Text(item.movie.title ?? "",
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Row(
                       children: [
-                        SizedBox(
-                          height: 15,
-                          child: FutureBuilder<String?>(
-                            future: _fetchCinema(item.cinemaId),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SizedBox.shrink();
-                              } else if (snapshot.hasError) {
-                                return Text("Error");
-                              } else {
-                                return Text(
-                                  snapshot.data! + ", ",
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                        const Text("Cinema: ",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        FutureBuilder<String?>(
+                          future: _fetchCinema(item.cinemaId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return SizedBox.shrink();
+                            } else if (snapshot.hasError) {
+                              return Text("Error");
+                            } else {
+                              return Text(
+                                snapshot.data!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              );
+                            }
+                          },
                         ),
-                        SizedBox(
-                          height: 15,
-                          child: FutureBuilder<String?>(
-                            future: _fetchHall(item.movie, item.cinemaId),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SizedBox.shrink();
-                              } else if (snapshot.hasError) {
-                                return Text("Error");
-                              } else {
-                                return Text(
-                                  snapshot.data!,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                );
-                              }
-                            },
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text("Hall: ",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        FutureBuilder<String?>(
+                          future: _fetchHall(item.movie, item.cinemaId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return SizedBox.shrink();
+                            } else if (snapshot.hasError) {
+                              return Text("Error");
+                            } else {
+                              return Text(
+                                snapshot.data!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text("Screening: ",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(item.screening.category!,
+                            style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text("Seats: ",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(
+                          item.getSeatNumbersString(),
+                          style: const TextStyle(
+                            fontSize: 12,
                           ),
                         ),
                       ],
                     ),
-                    Text(item.screening.category!,
-                        style: const TextStyle(fontSize: 12)),
                     Row(
                       children: [
-                        const Text("Price: ", style: TextStyle(fontSize: 12)),
-                        Text(_formatPrice(item.screening, item.count),
-                            style: const TextStyle(
+                        const Text("Tickets: ",
+                            style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(item.count.toString(),
+                            style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text("Price: ",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(_formatPrice(item.screening, item.count),
+                            style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                   ],
                 ),
               ),
-              IconButton(
-                iconSize: 20,
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  _cartProvider.removeFromSum(item.movie, item.screening);
-                  _cartProvider.cart.items.removeAt(index);
-                  setState(() {});
-                },
+              Column(
+                children: [
+                  Text(
+                      DateFormat('dd.MM.yyyy.')
+                          .format(item.screening.screeningTime!),
+                      style: const TextStyle(fontSize: 10)),
+                  Text(
+                      "${DateFormat('HH:mm').format(item.screening.screeningTime!)} h",
+                      style: const TextStyle(fontSize: 10)),
+                  SizedBox(height: 50),
+                  IconButton(
+                    alignment: Alignment.bottomRight,
+                    iconSize: 18,
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      _cartProvider.removeFromSum(item.movie, item.screening);
+                      _cartProvider.cart.items.removeAt(index);
+                      setState(() {});
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -281,5 +317,13 @@ class _CartScreenState extends State<CartScreen> {
     var data = await _cinemaProvider.getById(cinemaId);
     String? cinema = data!.name;
     return cinema;
+  }
+
+  double _calculateTotal() {
+    double sum = 0;
+    for (var item in _cartProvider.cart.items) {
+      sum += item.screening.price! * item.selectedSeats.length;
+    }
+    return sum;
   }
 }
