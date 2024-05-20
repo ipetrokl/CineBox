@@ -11,6 +11,7 @@ Booking _$BookingFromJson(Map<String, dynamic> json) => Booking(
       json['userId'] as int?,
       json['screeningId'] as int?,
       (json['price'] as num?)?.toDouble(),
+      json['promotionId'] as int?,
     );
 
 Map<String, dynamic> _$BookingToJson(Booking instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$BookingToJson(Booking instance) => <String, dynamic>{
       'userId': instance.userId,
       'screeningId': instance.screeningId,
       'price': instance.price,
+      'promotionId': instance.promotionId,
     };
