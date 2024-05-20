@@ -67,7 +67,7 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.cinemaName),
+        title: Center(child: Text(widget.cinemaName)),
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

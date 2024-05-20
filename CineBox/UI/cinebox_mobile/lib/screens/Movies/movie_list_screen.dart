@@ -15,6 +15,7 @@ import 'package:cinebox_mobile/screens/Review/review_add_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/screens/reservation_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -94,64 +95,72 @@ class _movieListScreenState extends State<MovieListScreen> {
     bool isBefore = selectedDate.isBefore(today);
     List<DateTime> dates = List.generate(
         5, (index) => selectedDate.add(Duration(days: index - 2)));
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          icon: Icon(Icons.arrow_back, size: 15),
-          onPressed: isBefore
-              ? null
-              : () {
-                  _onDateSelected(selectedDate.subtract(Duration(days: 1)));
-                },
-        ),
-        Flexible(
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            children: dates.map((date) {
-              bool isSelected = date.isAtSameMomentAs(selectedDate);
-              bool isBeforeToday =
-                  date.isBefore(DateTime(today.year, today.month, today.day));
-              return GestureDetector(
-                onTap: isBeforeToday ? null : () => _onDateSelected(date),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? const Color.fromRGBO(97, 72, 199, 1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    DateFormat('dd.MM.').format(date),
-                    style: TextStyle(
+    return Container(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back, size: 15),
+            onPressed: isBefore
+                ? null
+                : () {
+                    _onDateSelected(selectedDate.subtract(Duration(days: 1)));
+                  },
+          ),
+          Flexible(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: dates.map((date) {
+                bool isSelected = date.isAtSameMomentAs(selectedDate);
+                bool isBeforeToday =
+                    date.isBefore(DateTime(today.year, today.month, today.day));
+                return GestureDetector(
+                  onTap: isBeforeToday ? null : () => _onDateSelected(date),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                    margin: EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.white
-                          : isBeforeToday
-                              ? Colors.grey
-                              : Colors.black,
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                          ? const Color.fromRGBO(97, 72, 199, 1)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      DateFormat('dd.MM.').format(date),
+                      style: TextStyle(
+                        color: isSelected
+                            ? Colors.white
+                            : isBeforeToday
+                                ? Colors.grey
+                                : Colors.black,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
-        ),
-        IconButton(
-          icon: Icon(Icons.arrow_forward, size: 15),
-          onPressed: () {
-            _onDateSelected(selectedDate.add(Duration(days: 1)));
-          },
-        ),
-      ],
+          IconButton(
+            icon: Icon(Icons.arrow_forward, size: 15),
+            onPressed: () {
+              _onDateSelected(selectedDate.add(Duration(days: 1)));
+            },
+          ),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+    double navigationBarHeight = MediaQuery.of(context).padding.bottom;
+    double availableScreenHeight =
+        screenHeight - statusBarHeight - navigationBarHeight;
     return MasterScreen(
       title: "Movies",
       cinemaId: widget.cinemaId,
@@ -172,8 +181,8 @@ class _movieListScreenState extends State<MovieListScreen> {
               SizedBox(height: 5),
               _buildMovieSearch(),
               _buildDateNavigation(),
-              SizedBox(
-                height: 552,
+              Container(
+                height: availableScreenHeight - 199,
                 child: GridView(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -253,12 +262,12 @@ class _movieListScreenState extends State<MovieListScreen> {
                   //     "${ProductDetailsScreen.routeName}/${x.proizvodId}");
                 },
                 child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(10),
                     ),
-                    color: Colors.blue,
+                    color: Colors.white.withOpacity(0.10),
                   ),
                   height: 260,
                   width: 140,
@@ -279,163 +288,180 @@ class _movieListScreenState extends State<MovieListScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 15),
-                  Text(
-                    movie.title!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        movie.title!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
-                  ),
-                  const Text(
-                    "Actors:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Actors:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                    child: FutureBuilder<List<Actor>>(
-                      future: getActors(movie.id!),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Text("");
-                        } else if (snapshot.hasError) {
-                          return Text("Error");
-                        } else {
-                          return Text(
-                            _buildActorNames(snapshot.data!),
-                            style: const TextStyle(
+                    SizedBox(
+                      height: 12,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: FutureBuilder<List<Actor>>(
+                          future: getActors(movie.id!),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Text("");
+                            } else if (snapshot.hasError) {
+                              return Text("Error");
+                            } else {
+                              return Text(
+                                _buildActorNames(snapshot.data!),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Director:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        movie.director!,
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Performed:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: FutureBuilder<String>(
+                          future: _formatPerformed(movie),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return SizedBox.shrink();
+                            } else if (snapshot.hasError) {
+                              return Text("Error");
+                            } else {
+                              return Text(
+                                snapshot.data!,
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(width: 35),
+                        Text(
+                          _buildStarRating(_calculateAverageRating(movie.id!)),
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            showDialog(
+                              context: context,
+                              builder: (_) => ReviewAddScreen(
+                                movieId: movie.id!,
+                                onClose: () {
+                                  loadData();
+                                },
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Review",
+                            style: TextStyle(
                               fontSize: 10,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
                             ),
-                          );
-                        }
-                      },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "Director:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                    ),
-                  ),
-                  Text(
-                    movie.director!,
-                    style: const TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "Performed:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                    child: FutureBuilder<String>(
-                      future: _formatPerformed(movie),
+                    FutureBuilder<SearchResult<Screening>>(
+                      future: _fetchScreeningsforMovie(movie, selectedDate),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return SizedBox.shrink();
                         } else if (snapshot.hasError) {
-                          return Text("Error");
+                          return Text("Error fetching screenings");
                         } else {
-                          return Text(
-                            snapshot.data!,
-                            style: const TextStyle(
-                              fontSize: 10,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      Text(
-                        _buildStarRating(_calculateAverageRating(movie.id!)),
-                        style: const TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          showDialog(
-                            context: context,
-                            builder: (_) => ReviewAddScreen(
-                              movieId: movie.id!,
-                              onClose: () {
-                                loadData();
-                              },
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Review",
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  FutureBuilder<SearchResult<Screening>>(
-                    future: _fetchScreeningsforMovie(movie, selectedDate),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return SizedBox.shrink();
-                      } else if (snapshot.hasError) {
-                        return Text("Error fetching screenings");
-                      } else {
-                        return SizedBox(
-                          width: 185,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              List<Screening> sortedScreenings = snapshot
-                                  .data!.result
-                                  .skip(index * 3)
-                                  .take(3)
-                                  .toList();
-                              sortedScreenings.sort((a, b) => a
-                                  .screeningTime!.hour
-                                  .compareTo(b.screeningTime!.hour));
-
-                              return Row(
-                                children: sortedScreenings.map((screening) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: SizedBox(
+                              height: 35,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.result.length,
+                                itemBuilder: (context, index) {
+                                  Screening screening =
+                                      snapshot.data!.result[index];
                                   return Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: InkWell(
                                       onTap: () {
                                         showDialog(
@@ -452,29 +478,36 @@ class _movieListScreenState extends State<MovieListScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          border: Border.all(width: 1),
+                                          color: Colors.black.withAlpha(20),
+                                          border: Border.all(
+                                              width: 1,
+                                              color: const Color.fromRGBO(
+                                                  97, 72, 199, 1)),
                                           borderRadius:
-                                              BorderRadius.circular(7),
+                                              BorderRadius.circular(8),
                                         ),
                                         width: 55,
-                                        child: Text(
-                                          DateFormat('HH:mm')
-                                              .format(screening.screeningTime!),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 10),
+                                        height: 35,
+                                        child: Center(
+                                          child: Text(
+                                            DateFormat('HH:mm').format(
+                                                screening.screeningTime!),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   );
-                                }).toList(),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ],
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
