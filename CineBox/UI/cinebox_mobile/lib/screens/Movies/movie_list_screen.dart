@@ -153,6 +153,7 @@ class _movieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
+      title: "Movies",
       cinemaId: widget.cinemaId,
       initialDate: widget.initialDate,
       cinemaName: widget.cinemaName,

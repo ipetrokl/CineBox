@@ -44,7 +44,7 @@ class _MasterScreenState extends State<MasterScreen> {
     setState(() {
       currentIndex = index;
     });
-    if (currentIndex == 0) {
+    if (currentIndex == 0 && widget.title != "Movies") {
       Navigator.pushNamed(
         context,
         MovieListScreen.routeName,
