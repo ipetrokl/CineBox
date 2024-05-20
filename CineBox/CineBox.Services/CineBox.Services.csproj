@@ -40,6 +40,7 @@
     <None Remove="MovieActor\" />
     <None Remove="Role\" />
     <None Remove="UserRole\" />
+    <None Remove="News\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -59,5 +60,6 @@
     <Folder Include="MovieActor\" />
     <Folder Include="Role\" />
     <Folder Include="UserRole\" />
+    <Folder Include="News\" />
   </ItemGroup>
 </Project>

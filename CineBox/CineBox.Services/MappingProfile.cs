@@ -79,6 +79,10 @@ namespace CineBox.Services
             CreateMap<Database.UsersRole, Model.ViewModels.UsersRole>();
             CreateMap<UsersRoleInsertRequest, Database.UsersRole>();
             CreateMap<UsersRoleUpdateRequest, Database.UsersRole>();
+            //News
+            CreateMap<Database.News, Model.ViewModels.News>();
+            CreateMap<NewsInsertRequest, Database.News>();
+            CreateMap<NewsUpdateRequest, Database.News>();
 
         }
     }

@@ -31,11 +31,11 @@ public partial class CineBoxContext : DbContext
 
     public virtual DbSet<MovieActor> MovieActors { get; set; }
 
+    public virtual DbSet<News> News { get; set; }
+
     public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<Promotion> Promotions { get; set; }
-
-    public virtual DbSet<PromotionBooking> PromotionBookings { get; set; }
 
     public virtual DbSet<Review> Reviews { get; set; }
 
@@ -50,6 +50,7 @@ public partial class CineBoxContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UsersRole> UsersRoles { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -76,8 +77,14 @@ public partial class CineBoxContext : DbContext
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_Id");
             entity.Property(e => e.ScreeningId).HasColumnName("screening_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Promotion).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.PromotionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Booking_Promotion");
 
             entity.HasOne(d => d.Screening).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.ScreeningId)
@@ -219,6 +226,29 @@ public partial class CineBoxContext : DbContext
                 .HasConstraintName("FK__MovieActo__movie__5BE2A6F2");
         });
 
+        modelBuilder.Entity<News>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__News__3213E83F8B80E9AE");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CinemaId).HasColumnName("cinema_id");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Description)
+                .IsUnicode(false)
+                .HasColumnName("description");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("name");
+
+            entity.HasOne(d => d.Cinema).WithMany(p => p.News)
+                .HasForeignKey(d => d.CinemaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__News__cinema_id__02FC7413");
+        });
+
         modelBuilder.Entity<Payment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Payment__3213E83F05BAE6AD");
@@ -258,27 +288,6 @@ public partial class CineBoxContext : DbContext
             entity.Property(e => e.ExpirationDate)
                 .HasColumnType("date")
                 .HasColumnName("expiration_date");
-        });
-
-        modelBuilder.Entity<PromotionBooking>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F26E9BF1C");
-
-            entity.ToTable("PromotionBooking");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BookingId).HasColumnName("booking_id");
-            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
-
-            entity.HasOne(d => d.Booking).WithMany(p => p.PromotionBookings)
-                .HasForeignKey(d => d.BookingId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Promotion__booki__693CA210");
-
-            entity.HasOne(d => d.Promotion).WithMany(p => p.PromotionBookings)
-                .HasForeignKey(d => d.PromotionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Promotion__promo__68487DD7");
         });
 
         modelBuilder.Entity<Review>(entity =>

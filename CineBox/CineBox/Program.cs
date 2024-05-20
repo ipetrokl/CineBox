@@ -10,6 +10,7 @@ using CineBox.Services.Genre;
 using CineBox.Services.Hall;
 using CineBox.Services.Movie;
 using CineBox.Services.MovieActor;
+using CineBox.Services.News;
 using CineBox.Services.Payment;
 using CineBox.Services.Promotion;
 using CineBox.Services.Review;
@@ -49,6 +50,7 @@ builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IMovieActorService, MovieActorService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IUsersRoleService, UsersRoleService>();
+builder.Services.AddTransient<INewsService, NewsService>();
 
 
 builder.Services.AddControllers(x =>

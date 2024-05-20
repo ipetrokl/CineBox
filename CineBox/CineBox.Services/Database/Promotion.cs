@@ -13,5 +13,5 @@ public partial class Promotion
 
     public DateTime ExpirationDate { get; set; }
 
-    public virtual ICollection<PromotionBooking> PromotionBookings { get; set; } = new List<PromotionBooking>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }

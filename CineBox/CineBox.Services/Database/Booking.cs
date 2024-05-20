@@ -13,11 +13,13 @@ public partial class Booking
 
     public decimal Price { get; set; }
 
+    public int PromotionId { get; set; }
+
     public virtual ICollection<BookingSeat> BookingSeats { get; set; } = new List<BookingSeat>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual ICollection<PromotionBooking> PromotionBookings { get; set; } = new List<PromotionBooking>();
+    public virtual Promotion Promotion { get; set; } = null!;
 
     public virtual Screening Screening { get; set; } = null!;
 
