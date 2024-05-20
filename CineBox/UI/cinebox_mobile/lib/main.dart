@@ -59,21 +59,40 @@ class MyMaterialApp extends StatelessWidget {
           final args = settings.arguments as Map<String, dynamic>? ?? {};
           final cinemaId = args['cinemaId'] as int;
           final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
           return MaterialPageRoute(
-            builder: (context) => MovieListScreen(cinemaId: cinemaId, initialDate: initialDate),
+            builder: (context) => MovieListScreen(
+                cinemaId: cinemaId,
+                initialDate: initialDate,
+                cinemaName: cinemaName),
           );
         }
         if (settings.name == CartScreen.routeName) {
-          return MaterialPageRoute(builder: (context) => CartScreen());
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => CartScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
         }
         if (settings.name == CinemaScreen.routeName) {
           return MaterialPageRoute(builder: (context) => CinemaScreen());
         }
         if (settings.name == PromotionScreen.routeName) {
-          return MaterialPageRoute(builder: (context) => PromotionScreen());
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => PromotionScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
         }
         return null;
-        
       },
     );
   }

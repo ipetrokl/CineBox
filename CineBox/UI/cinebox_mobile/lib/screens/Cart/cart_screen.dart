@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
+import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
@@ -20,8 +21,12 @@ import '../../utils/util.dart';
 
 class CartScreen extends StatefulWidget {
   static const String routeName = "/cart";
+  final int cinemaId;
+  final DateTime initialDate;
+  final String cinemaName;
 
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen(
+      {super.key, required this.cinemaId, required this.initialDate, required this.cinemaName});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -48,6 +53,9 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
+      cinemaId: widget.cinemaId,
+      initialDate: widget.initialDate,
+      cinemaName: widget.cinemaName,
       child: Column(
         children: [
           Expanded(child: _buildProductCardList()),
@@ -67,8 +75,10 @@ class _CartScreenState extends State<CartScreen> {
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             Text(
                                 _calculateTotal() % 1 == 0
-                                    ? _calculateTotal().toInt().toString() + " €"
-                                    : _calculateTotal().toStringAsFixed(2) + " €",
+                                    ? _calculateTotal().toInt().toString() +
+                                        " €"
+                                    : _calculateTotal().toStringAsFixed(2) +
+                                        " €",
                                 style: const TextStyle(fontSize: 14)),
                           ],
                         ),
@@ -225,7 +235,9 @@ class _CartScreenState extends State<CartScreen> {
                         const Text("Price: ",
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold)),
-                        Text(_formatPrice(item.screening, item.count),
+                        Text(
+                            _formatPrice(
+                                item.screening, item.selectedSeats, item),
                             style: const TextStyle(fontSize: 12)),
                       ],
                     ),
@@ -303,8 +315,16 @@ class _CartScreenState extends State<CartScreen> {
     return hall;
   }
 
-  String _formatPrice(Screening screening, int count) {
-    double amount = screening.price! * count;
+  String _formatPrice(Screening screening, List<Seat> seats, CartItem item) {
+    double amount = 0;
+    for (var seat in seats) {
+      if (seat.category == "love") {
+        amount += screening.price! * 2;
+      } else {
+        amount += screening.price!;
+      }
+    }
+    item.amount = amount;
     String formattedPrice =
         amount % 1 == 0 ? amount.toInt().toString() : amount.toStringAsFixed(2);
 
@@ -322,7 +342,7 @@ class _CartScreenState extends State<CartScreen> {
   double _calculateTotal() {
     double sum = 0;
     for (var item in _cartProvider.cart.items) {
-      sum += item.screening.price! * item.selectedSeats.length;
+      sum += item.amount;
     }
     return sum;
   }

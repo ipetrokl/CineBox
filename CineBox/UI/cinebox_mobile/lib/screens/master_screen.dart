@@ -11,7 +11,17 @@ import 'package:provider/provider.dart';
 class MasterScreen extends StatefulWidget {
   Widget? child;
   String? title;
-  MasterScreen({this.child, this.title, super.key});
+  final int cinemaId;
+  final DateTime initialDate;
+  final String cinemaName;
+
+  MasterScreen(
+      {this.child,
+      this.title,
+      required this.cinemaId,
+      required this.initialDate,
+      required this.cinemaName,
+      super.key});
 
   @override
   State<MasterScreen> createState() => _MasterScreenState();
@@ -35,9 +45,21 @@ class _MasterScreenState extends State<MasterScreen> {
       currentIndex = index;
     });
     if (currentIndex == 0) {
-      Navigator.pushNamed(context, CinemaScreen.routeName);
+      Navigator.pushNamed(
+        context,
+        MovieListScreen.routeName,
+        arguments: {
+          'cinemaId': widget.cinemaId,
+          'initialDate': widget.initialDate,
+          'cinemaName': widget.cinemaName
+        },
+      );
     } else if (currentIndex == 1) {
-      Navigator.pushNamed(context, CartScreen.routeName);
+      Navigator.pushNamed(context, CartScreen.routeName, arguments: {
+        'cinemaId': widget.cinemaId,
+        'initialDate': widget.initialDate,
+        'cinemaName': widget.cinemaName
+      });
     }
   }
 
@@ -45,11 +67,11 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CineBox"),
+        title: Text(widget.cinemaName),
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontSize: 25,
+          fontSize: 20,
         ),
         actions: <Widget>[
           Tooltip(
@@ -70,7 +92,10 @@ class _MasterScreenState extends State<MasterScreen> {
         backgroundColor: const Color.fromRGBO(97, 72, 199, 1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: CineboxDrawer(),
+      drawer: CineboxDrawer(
+          cinemaId: widget.cinemaId,
+          initialDate: widget.initialDate,
+          cinemaName: widget.cinemaName),
       body: SafeArea(
         child: widget.child!,
       ),

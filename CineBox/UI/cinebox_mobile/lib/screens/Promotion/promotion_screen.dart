@@ -9,7 +9,12 @@ import 'package:provider/provider.dart';
 
 class PromotionScreen extends StatefulWidget {
   static const String routeName = "/promotion";
-  PromotionScreen({super.key});
+  final int cinemaId;
+  final DateTime initialDate;
+  final String cinemaName;
+
+  const PromotionScreen(
+      {super.key, required this.cinemaId, required this.initialDate, required this.cinemaName});
 
   @override
   State<PromotionScreen> createState() => _PromotionScreenState();
@@ -43,6 +48,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
+      cinemaId: widget.cinemaId,
+      initialDate: widget.initialDate,
+      cinemaName: widget.cinemaName,
       child: Column(
         children: [Expanded(child: _buildPromotion())],
       ),

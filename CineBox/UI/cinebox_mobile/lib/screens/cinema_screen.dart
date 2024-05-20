@@ -132,7 +132,7 @@ class _CinemaScreenState extends State<CinemaScreen> {
           Navigator.pushNamed(
             context,
             MovieListScreen.routeName,
-            arguments: {'cinemaId': cinema.id, 'initialDate': currentDate},
+            arguments: {'cinemaId': cinema.id, 'initialDate': currentDate, 'cinemaName': cinema.name},
           );
         },
         child: Container(

@@ -24,9 +24,13 @@ class MovieListScreen extends StatefulWidget {
   static const String routeName = "/movie";
   final int cinemaId;
   final DateTime initialDate;
+  final String cinemaName;
 
   const MovieListScreen(
-      {super.key, required this.cinemaId, required this.initialDate});
+      {super.key,
+      required this.cinemaId,
+      required this.initialDate,
+      required this.cinemaName});
 
   @override
   State<MovieListScreen> createState() => _movieListScreenState();
@@ -95,16 +99,19 @@ class _movieListScreenState extends State<MovieListScreen> {
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back, size: 15),
-          onPressed: isBefore ? null : () {
-            _onDateSelected(selectedDate.subtract(Duration(days: 1)));
-          },
+          onPressed: isBefore
+              ? null
+              : () {
+                  _onDateSelected(selectedDate.subtract(Duration(days: 1)));
+                },
         ),
         Flexible(
           child: Wrap(
             alignment: WrapAlignment.center,
             children: dates.map((date) {
               bool isSelected = date.isAtSameMomentAs(selectedDate);
-              bool isBeforeToday = date.isBefore(DateTime(today.year, today.month, today.day));
+              bool isBeforeToday =
+                  date.isBefore(DateTime(today.year, today.month, today.day));
               return GestureDetector(
                 onTap: isBeforeToday ? null : () => _onDateSelected(date),
                 child: Container(
@@ -146,6 +153,9 @@ class _movieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
+      cinemaId: widget.cinemaId,
+      initialDate: widget.initialDate,
+      cinemaName: widget.cinemaName,
       child: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -206,8 +216,8 @@ class _movieListScreenState extends State<MovieListScreen> {
                 prefixIcon: Icon(Icons.search),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 21, 36, 118),
+                  borderSide: BorderSide(
+                    color: Colors.indigo.withAlpha(80),
                   ),
                 ),
               ),
