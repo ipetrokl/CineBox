@@ -25,6 +25,12 @@ namespace CineBox.Services.News
                     .Where(x => x.Name.Contains(search.FTS));
             }
 
+            if (search?.CinemaId != null)
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.CinemaId == search.CinemaId);
+            }
+
             return filteredQuery;
         }
     }

@@ -252,7 +252,7 @@ class _movieListScreenState extends State<MovieListScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Colors.white.withOpacity(0.75),
+            color: Colors.white.withOpacity(0.6),
           ),
           child: Row(
             children: [

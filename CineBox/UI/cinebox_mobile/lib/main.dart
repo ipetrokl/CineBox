@@ -6,6 +6,7 @@ import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
+import 'package:cinebox_mobile/providers/news_provider.dart';
 import 'package:cinebox_mobile/providers/promotion_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
@@ -13,6 +14,7 @@ import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
+import 'package:cinebox_mobile/screens/News/news_screen.dart';
 import 'package:cinebox_mobile/screens/Promotion/promotion_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
@@ -34,6 +36,7 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (_) => HallProvider()),
         ChangeNotifierProvider(create: (_) => PromotionProvider()),
         ChangeNotifierProvider(create: (_) => SeatProvider()),
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
       ],
       child: MyMaterialApp(),
     ));
@@ -88,6 +91,17 @@ class MyMaterialApp extends StatelessWidget {
           final cinemaName = args['cinemaName'] as String;
           return MaterialPageRoute(
               builder: (context) => PromotionScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
+        }
+        if (settings.name == NewsScreen.routeName) {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => NewsScreen(
                   cinemaId: cinemaId,
                   initialDate: initialDate,
                   cinemaName: cinemaName));
