@@ -33,7 +33,6 @@ class _NewsScreenState extends State<NewsScreen> {
   void initState() {
     super.initState();
     _newsProvider = context.read<NewsProvider>();
-    print("called initState");
     loadData();
   }
 
@@ -45,7 +44,7 @@ class _NewsScreenState extends State<NewsScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching news: $e");
     }
   }
 

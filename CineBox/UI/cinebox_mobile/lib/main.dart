@@ -16,6 +16,7 @@ import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/News/news_screen.dart';
 import 'package:cinebox_mobile/screens/Promotion/promotion_screen.dart';
+import 'package:cinebox_mobile/screens/Support/support_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,17 @@ class MyMaterialApp extends StatelessWidget {
           final cinemaName = args['cinemaName'] as String;
           return MaterialPageRoute(
               builder: (context) => NewsScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
+        }
+        if (settings.name == SupportScreen.routeName) {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => SupportScreen(
                   cinemaId: cinemaId,
                   initialDate: initialDate,
                   cinemaName: cinemaName));

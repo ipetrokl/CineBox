@@ -41,6 +41,7 @@ dependencies:
   flutter_form_builder: ^9.2.1
   badges: ^3.1.2
   book_my_seat: ^1.0.1
+  mailer: ^6.1.0
 
 dev_dependencies:
   flutter_test:

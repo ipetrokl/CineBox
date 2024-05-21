@@ -41,7 +41,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching promotions: $e");
     }
   }
 

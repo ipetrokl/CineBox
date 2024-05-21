@@ -2,6 +2,7 @@ import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/News/news_screen.dart';
 import 'package:cinebox_mobile/screens/Promotion/promotion_screen.dart';
+import 'package:cinebox_mobile/screens/Support/support_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class CineboxDrawer extends StatelessWidget {
       required this.cinemaId,
       required this.initialDate,
       required this.cinemaName});
-      
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -46,12 +47,22 @@ class CineboxDrawer extends StatelessWidget {
             textColor: Colors.white,
             title: const Text("News"),
             onTap: () {
-              Navigator.pushNamed(context, NewsScreen.routeName,
-                  arguments: {
-                    'cinemaId': cinemaId,
-                    'initialDate': initialDate,
-                    'cinemaName': cinemaName
-                  });
+              Navigator.pushNamed(context, NewsScreen.routeName, arguments: {
+                'cinemaId': cinemaId,
+                'initialDate': initialDate,
+                'cinemaName': cinemaName
+              });
+            },
+          ),
+          ListTile(
+            textColor: Colors.white,
+            title: const Text("Support"),
+            onTap: () {
+              Navigator.pushNamed(context, SupportScreen.routeName, arguments: {
+                'cinemaId': cinemaId,
+                'initialDate': initialDate,
+                'cinemaName': cinemaName
+              });
             },
           ),
         ],
