@@ -1,5 +1,3 @@
-
-
 import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/providers/base_provider.dart';
 

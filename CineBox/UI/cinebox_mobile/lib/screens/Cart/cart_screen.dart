@@ -9,6 +9,8 @@ import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
+import 'package:cinebox_mobile/screens/Booking/booking_screen.dart';
+import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,10 @@ class CartScreen extends StatefulWidget {
   final String cinemaName;
 
   const CartScreen(
-      {super.key, required this.cinemaId, required this.initialDate, required this.cinemaName});
+      {super.key,
+      required this.cinemaId,
+      required this.initialDate,
+      required this.cinemaName});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -59,26 +64,25 @@ class _CartScreenState extends State<CartScreen> {
       child: Column(
         children: [
           Expanded(child: _buildProductCardList()),
+          const SizedBox(height: 10),
           Row(
             children: [
               Expanded(
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.only(right: 8),
                       child: Container(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             const Text("Total: ",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             Text(
                                 _calculateTotal() % 1 == 0
-                                    ? _calculateTotal().toInt().toString() +
-                                        " €"
-                                    : _calculateTotal().toStringAsFixed(2) +
-                                        " €",
+                                    ? "${_calculateTotal().toInt()} €"
+                                    : "${_calculateTotal().toStringAsFixed(2)} €",
                                 style: const TextStyle(fontSize: 14)),
                           ],
                         ),
@@ -86,12 +90,26 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     const Divider(
                         thickness: 1, color: Color.fromRGBO(97, 72, 199, 1)),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8, bottom: 5),
-                        child: _buildBuyButton(),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: EdgeInsets.all(5),
+                          backgroundColor:
+                              const Color.fromRGBO(97, 72, 199, 1)),
+                      child: const Text(
+                        "Proceed to payment",
+                        style: TextStyle(fontSize: 15),
                       ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, BookingScreen.routeName,
+                            arguments: {
+                              'cinemaId': widget.cinemaId,
+                              'initialDate': widget.initialDate,
+                              'cinemaName': widget.cinemaName
+                            });
+                      },
                     ),
                   ],
                 ),
@@ -270,39 +288,6 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildBuyButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          padding: EdgeInsets.all(1),
-          fixedSize: const Size(80, 20),
-          backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
-      child: Text(
-        "Buy",
-        style: TextStyle(fontSize: 15),
-      ),
-      onPressed: () async {
-        List<Map> items = [];
-        _cartProvider.cart.items.forEach((item) {
-          items.add({
-            "id": item.movie.id,
-            "amount": item.count,
-          });
-        });
-        Map booking = {
-          "items": items,
-        };
-
-        await _bookingProvider.insert(booking);
-
-        _cartProvider.cart.items.clear();
-        setState(() {});
-      },
     );
   }
 

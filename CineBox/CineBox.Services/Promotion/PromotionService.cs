@@ -24,6 +24,12 @@ namespace CineBox.Services.Promotion
                     .Where(x => x.Code.Contains(search.FTS));
             }
 
+            if (search?.CurrentDate != null)
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.ExpirationDate >= search.CurrentDate);
+            }
+
             return filteredQuery;
         }
     }

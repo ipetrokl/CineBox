@@ -35,7 +35,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
 
   Future loadData() async {
     try {
-      var data = await _promotionProvider.get();
+      var data = await _promotionProvider.get(filter: {'currentDate' : DateTime.now()});
 
       setState(() {
         result = data;

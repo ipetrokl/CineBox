@@ -60,6 +60,12 @@ class _MasterScreenState extends State<MasterScreen> {
         'initialDate': widget.initialDate,
         'cinemaName': widget.cinemaName
       });
+    } else if (currentIndex == 2) {
+      Navigator.pushNamed(context, CartScreen.routeName, arguments: {
+        'cinemaId': widget.cinemaId,
+        'initialDate': widget.initialDate,
+        'cinemaName': widget.cinemaName
+      });
     }
   }
 
@@ -105,6 +111,10 @@ class _MasterScreenState extends State<MasterScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie),
+            label: 'Tickets',
           ),
           BottomNavigationBarItem(
             icon: Container(

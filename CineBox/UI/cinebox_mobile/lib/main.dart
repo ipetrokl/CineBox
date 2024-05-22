@@ -11,7 +11,9 @@ import 'package:cinebox_mobile/providers/promotion_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
 import 'package:cinebox_mobile/providers/seat_provider.dart';
+import 'package:cinebox_mobile/providers/ticket_provider.dart';
 import 'package:cinebox_mobile/providers/users_provider.dart';
+import 'package:cinebox_mobile/screens/Booking/booking_screen.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/News/news_screen.dart';
@@ -38,6 +40,7 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (_) => PromotionProvider()),
         ChangeNotifierProvider(create: (_) => SeatProvider()),
         ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(create: (_) => TicketProvider()),
       ],
       child: MyMaterialApp(),
     ));
@@ -114,6 +117,17 @@ class MyMaterialApp extends StatelessWidget {
           final cinemaName = args['cinemaName'] as String;
           return MaterialPageRoute(
               builder: (context) => SupportScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
+        }
+        if (settings.name == BookingScreen.routeName) {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => BookingScreen(
                   cinemaId: cinemaId,
                   initialDate: initialDate,
                   cinemaName: cinemaName));
