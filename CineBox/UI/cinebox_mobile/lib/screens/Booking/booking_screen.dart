@@ -1,22 +1,32 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
+import 'package:cinebox_mobile/models/Promotion/promotion.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
+import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
+import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
+import 'package:cinebox_mobile/providers/payment_provider.dart';
 import 'package:cinebox_mobile/providers/promotion_provider.dart';
+import 'package:cinebox_mobile/providers/ticket_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../utils/util.dart';
 
@@ -40,8 +50,13 @@ class _BookingScreenState extends State<BookingScreen> {
   late CartProvider _cartProvider;
   late BookingProvider _bookingProvider;
   late PromotionProvider _promotionProvider;
+  late PaymentProvider _paymentProvider;
+  late LoggedInUserProvider _loggedInUserProvider;
+  late TicketProvider _ticketProvider;
   final TextEditingController _promoCodeController = TextEditingController();
   final FocusNode _promoCodeFocusNode = FocusNode();
+  final Random _random = Random();
+  int promoCodeId = 1;
   double sumDiscount = 0;
   double discount = 0.0;
   double sumWithoutDiscount = 0;
@@ -62,17 +77,22 @@ class _BookingScreenState extends State<BookingScreen> {
     _cartProvider = context.watch<CartProvider>();
     _bookingProvider = context.read<BookingProvider>();
     _promotionProvider = context.read<PromotionProvider>();
+    _paymentProvider = context.read<PaymentProvider>();
+    _loggedInUserProvider = context.read<LoggedInUserProvider>();
+    _ticketProvider = context.read<TicketProvider>();
     _calculateTotal();
   }
 
   void _applyDiscount() async {
-    var promoCodes = await _promotionProvider.get(filter: {'currentDate' : DateTime.now()});
+    var promoCodes =
+        await _promotionProvider.get(filter: {'currentDate': DateTime.now()});
     bool promoCodeFound = false;
     for (var promoCode in promoCodes.result) {
       if (_promoCodeController.text == promoCode.code) {
         setState(() {
           discount = promoCode.discount! / 100;
           promoCodeFound = true;
+          promoCodeId = promoCode.id!;
         });
         break;
       }
@@ -353,28 +373,99 @@ class _BookingScreenState extends State<BookingScreen> {
           padding: EdgeInsets.all(1),
           fixedSize: const Size(80, 20),
           backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
-      child: Text(
+      child: const Text(
         "Buy",
         style: TextStyle(fontSize: 15),
       ),
-      onPressed: () async {
-        List<Map> items = [];
-        _cartProvider.cart.items.forEach((item) {
-          items.add({
-            "id": item.movie.id,
-            "amount": item.count,
-          });
-        });
-        Map booking = {
-          "items": items,
-        };
-
-        await _bookingProvider.insert(booking);
-
-        _cartProvider.cart.items.clear();
-        setState(() {});
+      onPressed: () {
+        _makeBookingAndTickets();
       },
     );
+  }
+
+  Future<void> _makeBookingAndTickets() async {
+    try {
+      double totalAmount = _calculateTotal();
+      String clientSecret =
+          await _paymentProvider.createPaymentIntent(totalAmount);
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: clientSecret,
+          merchantDisplayName: 'Cinebox',
+          style: ThemeMode.light,
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet();
+
+      for (var item in _cartProvider.cart.items) {
+        Map<String, dynamic> request = {
+          "userId": _loggedInUserProvider.user!.id,
+          "screeningId": item.screening.id,
+          "price": totalAmount,
+          "promotionId": promoCodeId,
+        };
+
+        Booking booking = await _bookingProvider.insert(request);
+
+        for (var seat in item.selectedSeats) {
+          String ticketCode = _generateTicketCode();
+          String qrCode = await _generateQRCode(ticketCode);
+
+          Map<String, dynamic> request = {
+            "bookingId": booking.id,
+            "ticketCode": ticketCode,
+            "qrCode": qrCode,
+            "price": _ticketPrice(item.screening, seat),
+          };
+
+          await _ticketProvider.insert(request);
+        }
+      }
+
+      _clearCartAndResetFields();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Payment Successful")));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Payment Failed: ${e.toString()}")));
+    }
+  }
+
+  void _clearCartAndResetFields() {
+    _cartProvider.cart.items.clear();
+    _promoCodeController.clear();
+    discount = 0.0;
+    sumDiscount = 0.0;
+    sumWithoutDiscount = 0.0;
+    promoCodeId = 1;
+    setState(() {});
+  }
+
+  String _generateTicketCode() {
+    const chars = 'ABCDEF012345';
+    return String.fromCharCodes(
+      Iterable.generate(
+          12, (_) => chars.codeUnitAt(_random.nextInt(chars.length))),
+    );
+  }
+
+  Future<String> _generateQRCode(String ticketCode) async {
+    if (ticketCode.isNotEmpty) {
+      final qrImage = await QrPainter(
+        data: ticketCode,
+        version: QrVersions.auto,
+        gapless: false,
+      ).toImage(300);
+
+      final byteData = await qrImage.toByteData(format: ImageByteFormat.png);
+      final byteBuffer = byteData!.buffer;
+      final base64Image = base64Encode(Uint8List.view(byteBuffer));
+
+      return base64Image;
+    }
+    return '';
   }
 
   Future<String?> _fetchHall(Movie movie, int cinemaId) async {
@@ -418,5 +509,16 @@ class _BookingScreenState extends State<BookingScreen> {
     sumWithoutDiscount = sum;
     sumDiscount = sum * discount;
     return sum - sumDiscount;
+  }
+
+  double _ticketPrice(Screening screening, Seat seat) {
+    double price = 0;
+    if (seat.category == "love") {
+      price = (screening.price! * 2) - (screening.price! * 2 * discount);
+    } else {
+      price = screening.price! - (screening.price! * discount);
+    }
+
+    return price;
   }
 }

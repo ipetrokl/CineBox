@@ -7,6 +7,7 @@ import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/providers/news_provider.dart';
+import 'package:cinebox_mobile/providers/payment_provider.dart';
 import 'package:cinebox_mobile/providers/promotion_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
@@ -22,28 +23,33 @@ import 'package:cinebox_mobile/screens/Support/support_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MovieProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (_) => BookingProvider()),
-        ChangeNotifierProvider(create: (_) => ActorProvider()),
-        ChangeNotifierProvider(create: (_) => MovieActorProvider()),
-        ChangeNotifierProvider(create: (_) => ScreeningProvider()),
-        ChangeNotifierProvider(create: (_) => ReviewProvider()),
-        ChangeNotifierProvider(create: (_) => UsersProvider()),
-        ChangeNotifierProvider(create: (_) => LoggedInUserProvider()),
-        ChangeNotifierProvider(create: (_) => CinemaProvider()),
-        ChangeNotifierProvider(create: (_) => HallProvider()),
-        ChangeNotifierProvider(create: (_) => PromotionProvider()),
-        ChangeNotifierProvider(create: (_) => SeatProvider()),
-        ChangeNotifierProvider(create: (_) => NewsProvider()),
-        ChangeNotifierProvider(create: (_) => TicketProvider()),
-      ],
-      child: MyMaterialApp(),
-    ));
+void main() {
+  Stripe.publishableKey = 'pk_test_51PJftNCAqDQvgEGdStJJ2cR34K5D4pfNeBdzoWmLf4QWcIhuGRakIClYXZ7mF5j9lX0Ckc0sW37gi07WbOln6gyO00XrpOnDVK';
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => MovieProvider()),
+      ChangeNotifierProvider(create: (_) => CartProvider()),
+      ChangeNotifierProvider(create: (_) => BookingProvider()),
+      ChangeNotifierProvider(create: (_) => ActorProvider()),
+      ChangeNotifierProvider(create: (_) => MovieActorProvider()),
+      ChangeNotifierProvider(create: (_) => ScreeningProvider()),
+      ChangeNotifierProvider(create: (_) => ReviewProvider()),
+      ChangeNotifierProvider(create: (_) => UsersProvider()),
+      ChangeNotifierProvider(create: (_) => LoggedInUserProvider()),
+      ChangeNotifierProvider(create: (_) => CinemaProvider()),
+      ChangeNotifierProvider(create: (_) => HallProvider()),
+      ChangeNotifierProvider(create: (_) => PromotionProvider()),
+      ChangeNotifierProvider(create: (_) => SeatProvider()),
+      ChangeNotifierProvider(create: (_) => NewsProvider()),
+      ChangeNotifierProvider(create: (_) => TicketProvider()),
+      ChangeNotifierProvider(create: (_) => PaymentProvider()),
+    ],
+    child: MyMaterialApp(),
+  ));
+}
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
