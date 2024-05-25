@@ -1,3 +1,4 @@
+import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
@@ -7,7 +8,8 @@ class SeatBuilder {
   static Widget buildSeats(
       {required ValueChanged<int> onSeatChanged,
       required List<Seat> seats,
-      required List<Seat> selectedSeats}) {
+      required List<Seat> selectedSeats,
+      required List<BookingSeat> bookedSeats}) {
     List<Widget> rows = [];
 
     // Broj redova i broj sjedala u redu
@@ -17,6 +19,15 @@ class SeatBuilder {
     // Funkcija za provjeru je li sjedalo već odabrano
     bool isSeatSelected(Seat seat) {
       return selectedSeats.contains(seat);
+    }
+
+    bool isBookedSeat(Seat seat) {
+      for (var booked in bookedSeats) {
+        if (booked.seatId == seat.id) {
+          return true;
+        }
+      }
+      return false;
     }
 
     // Funkcija za dodavanje ili uklanjanje sjedala iz liste odabranih
@@ -39,6 +50,7 @@ class SeatBuilder {
         if (seatIndex < seats.length) {
           Seat seat = seats[seatIndex];
           var selected = isSeatSelected(seat);
+          var booked = isBookedSeat(seat);
           Widget seatWidget;
 
           switch (seat.category) {
@@ -53,6 +65,7 @@ class SeatBuilder {
                     },
                     seatStatus: seat.status!,
                     isSelected: selected,
+                    isBooked: booked,
                   ),
                 ),
               );
@@ -68,6 +81,7 @@ class SeatBuilder {
                     },
                     seatStatus: seat.status!,
                     isSelected: selected,
+                    isBooked: booked,
                   ),
                 ),
               );
@@ -84,6 +98,7 @@ class SeatBuilder {
                     },
                     seatStatus: seat.status!,
                     isSelected: selected,
+                    isBooked: booked,
                   ),
                 ),
               );

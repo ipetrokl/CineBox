@@ -10,6 +10,7 @@ import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
+import 'package:cinebox_mobile/providers/booking_seat_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
@@ -17,6 +18,7 @@ import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/payment_provider.dart';
 import 'package:cinebox_mobile/providers/promotion_provider.dart';
 import 'package:cinebox_mobile/providers/ticket_provider.dart';
+import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,7 @@ class _BookingScreenState extends State<BookingScreen> {
   late PaymentProvider _paymentProvider;
   late LoggedInUserProvider _loggedInUserProvider;
   late TicketProvider _ticketProvider;
+  late BookingSeatProvider _bookingSeatProvider;
   final TextEditingController _promoCodeController = TextEditingController();
   final FocusNode _promoCodeFocusNode = FocusNode();
   final Random _random = Random();
@@ -80,6 +83,7 @@ class _BookingScreenState extends State<BookingScreen> {
     _paymentProvider = context.read<PaymentProvider>();
     _loggedInUserProvider = context.read<LoggedInUserProvider>();
     _ticketProvider = context.read<TicketProvider>();
+    _bookingSeatProvider = context.read<BookingSeatProvider>();
     _calculateTotal();
   }
 
@@ -400,33 +404,48 @@ class _BookingScreenState extends State<BookingScreen> {
       await Stripe.instance.presentPaymentSheet();
 
       for (var item in _cartProvider.cart.items) {
-        Map<String, dynamic> request = {
+        Map<String, dynamic> bookingRequest = {
           "userId": _loggedInUserProvider.user!.id,
           "screeningId": item.screening.id,
           "price": totalAmount,
           "promotionId": promoCodeId,
         };
 
-        Booking booking = await _bookingProvider.insert(request);
+        Booking booking = await _bookingProvider.insert(bookingRequest);
 
         for (var seat in item.selectedSeats) {
           String ticketCode = _generateTicketCode();
           String qrCode = await _generateQRCode(ticketCode);
 
-          Map<String, dynamic> request = {
+          Map<String, dynamic> ticketRequest = {
             "bookingId": booking.id,
             "ticketCode": ticketCode,
             "qrCode": qrCode,
             "price": _ticketPrice(item.screening, seat),
           };
 
-          await _ticketProvider.insert(request);
+          await _ticketProvider.insert(ticketRequest);
+
+          Map<String, dynamic> bookingTicketRequest = {
+            "bookingId": booking.id,
+            "seatId": seat.id,
+          };
+
+          await _bookingSeatProvider.insert(bookingTicketRequest);
         }
       }
 
       _clearCartAndResetFields();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Payment Successful")));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MovieListScreen(
+            cinemaId: widget.cinemaId,
+            initialDate: widget.initialDate,
+            cinemaName: widget.cinemaName,
+            message: "Payment Successful",
+          ),
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Payment Failed: ${e.toString()}")));

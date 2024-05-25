@@ -26,6 +26,12 @@ namespace CineBox.Services.Booking
                     .Where(x => x.User.Name.Contains(search.FTS) || x.Screening.Hall.Name.Contains(search.FTS));
             }
 
+            if (search?.ScreeningId != null)
+            {
+                filteredQuery = filteredQuery
+                    .Where(x => x.ScreeningId == search.ScreeningId);
+            }
+
             return filteredQuery;
         }
     }

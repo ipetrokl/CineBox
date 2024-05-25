@@ -1,5 +1,6 @@
 import 'package:cinebox_mobile/providers/actor_provider.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
+import 'package:cinebox_mobile/providers/booking_seat_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
@@ -27,7 +28,8 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Stripe.publishableKey = 'pk_test_51PJftNCAqDQvgEGdStJJ2cR34K5D4pfNeBdzoWmLf4QWcIhuGRakIClYXZ7mF5j9lX0Ckc0sW37gi07WbOln6gyO00XrpOnDVK';
+  Stripe.publishableKey =
+      'pk_test_51PJftNCAqDQvgEGdStJJ2cR34K5D4pfNeBdzoWmLf4QWcIhuGRakIClYXZ7mF5j9lX0Ckc0sW37gi07WbOln6gyO00XrpOnDVK';
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => MovieProvider()),
@@ -46,6 +48,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => NewsProvider()),
       ChangeNotifierProvider(create: (_) => TicketProvider()),
       ChangeNotifierProvider(create: (_) => PaymentProvider()),
+      ChangeNotifierProvider(create: (_) => BookingSeatProvider()),
     ],
     child: MyMaterialApp(),
   ));
@@ -73,11 +76,15 @@ class MyMaterialApp extends StatelessWidget {
           final cinemaId = args['cinemaId'] as int;
           final initialDate = args['initialDate'] as DateTime;
           final cinemaName = args['cinemaName'] as String;
+          final message =
+              args.containsKey('message') ? args['message'] as String : null;
           return MaterialPageRoute(
             builder: (context) => MovieListScreen(
-                cinemaId: cinemaId,
-                initialDate: initialDate,
-                cinemaName: cinemaName),
+              cinemaId: cinemaId,
+              initialDate: initialDate,
+              cinemaName: cinemaName,
+              message: message,
+            ),
           );
         }
         if (settings.name == CartScreen.routeName) {

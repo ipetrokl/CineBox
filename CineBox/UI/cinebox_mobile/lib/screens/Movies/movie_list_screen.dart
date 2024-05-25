@@ -13,7 +13,7 @@ import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/providers/screening_provider.dart';
 import 'package:cinebox_mobile/screens/Review/review_add_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
-import 'package:cinebox_mobile/screens/reservation_screen.dart';
+import 'package:cinebox_mobile/screens/screening_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +26,14 @@ class MovieListScreen extends StatefulWidget {
   final int cinemaId;
   final DateTime initialDate;
   final String cinemaName;
+  final String? message;
 
   const MovieListScreen(
       {super.key,
       required this.cinemaId,
       required this.initialDate,
-      required this.cinemaName});
+      required this.cinemaName,
+      this.message});
 
   @override
   State<MovieListScreen> createState() => _movieListScreenState();
@@ -62,6 +64,16 @@ class _movieListScreenState extends State<MovieListScreen> {
     _screeningProvider = context.read<ScreeningProvider>();
     _reviewProvider = context.read<ReviewProvider>();
     _hallProvider = context.read<HallProvider>();
+    if (widget.message != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.message!),
+            backgroundColor: const Color.fromRGBO(97, 72, 199, 1)
+          ),
+        );
+      });
+    }
     print("called initState");
     loadData();
   }
@@ -466,7 +478,7 @@ class _movieListScreenState extends State<MovieListScreen> {
                                       onTap: () {
                                         showDialog(
                                           context: context,
-                                          builder: (_) => ReservationScreen(
+                                          builder: (_) => ScreeningScreen(
                                             onChanged: (int value) {},
                                             movie: movie,
                                             screening: screening,

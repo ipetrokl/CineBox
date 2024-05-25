@@ -1,7 +1,11 @@
+import 'package:cinebox_mobile/models/Booking/booking.dart';
+import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:cinebox_mobile/models/Cinema/cinema.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
+import 'package:cinebox_mobile/providers/booking_provider.dart';
+import 'package:cinebox_mobile/providers/booking_seat_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/hall_seats.dart';
@@ -16,13 +20,13 @@ import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
 
-class ReservationScreen extends StatefulWidget {
+class ScreeningScreen extends StatefulWidget {
   final int initialValue;
   final ValueChanged<int> onChanged;
   final Movie movie;
   final Screening screening;
   final int cinemaId;
-  const ReservationScreen(
+  const ScreeningScreen(
       {super.key,
       this.initialValue = 0,
       required this.onChanged,
@@ -31,13 +35,17 @@ class ReservationScreen extends StatefulWidget {
       required this.cinemaId});
 
   @override
-  State<ReservationScreen> createState() => _ReservationScreenState();
+  State<ScreeningScreen> createState() => _ScreeningScreenState();
 }
 
-class _ReservationScreenState extends State<ReservationScreen> {
+class _ScreeningScreenState extends State<ScreeningScreen> {
   late CartProvider _cartProvider;
   late SeatProvider _seatProvider;
+  late BookingProvider _bookingProvider;
+  late BookingSeatProvider _bookingSeatProvider;
   SearchResult<Seat>? seats;
+  SearchResult<Booking>? bookings;
+  SearchResult<BookingSeat>? bookingSeats;
   late int _counter = 0;
   List<Seat> selectedSeats = [];
 
@@ -46,16 +54,27 @@ class _ReservationScreenState extends State<ReservationScreen> {
     super.initState();
     _cartProvider = context.read<CartProvider>();
     _seatProvider = context.read<SeatProvider>();
+    _bookingProvider = context.read<BookingProvider>();
+    _bookingSeatProvider = context.read<BookingSeatProvider>();
     fetchSeats();
     // _counter = widget.initialValue;
   }
 
   Future fetchSeats() async {
     try {
-      var data =
+      var seatsData =
           await _seatProvider.get(filter: {'hallId': widget.screening.hallId});
+
+      var bookingData = await _bookingProvider
+          .get(filter: {'screeningId': widget.screening.id});
+
+      var bookingIds = bookingData.result.map((booking) => booking.id).toList();
+      var bookingSeatsData = await _bookingSeatProvider
+          .get(filter: {'bookingIds': bookingIds});
       setState(() {
-        seats = data;
+        seats = seatsData;
+        bookings = bookingData;
+        bookingSeats = bookingSeatsData;
         for (var item in _cartProvider.cart.items) {
           if (widget.screening.id == item.screening.id) {
             selectedSeats = item.selectedSeats;
@@ -308,7 +327,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
               });
             },
             seats: seats!.result,
-            selectedSeats: selectedSeats),
+            selectedSeats: selectedSeats,
+            bookedSeats: bookingSeats!.result),
       );
     }
   }

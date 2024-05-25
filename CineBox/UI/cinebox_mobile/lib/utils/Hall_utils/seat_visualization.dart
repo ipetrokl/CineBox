@@ -6,13 +6,15 @@ class SeatVisualization extends StatefulWidget {
   final ValueChanged<int> onChanged;
   final bool seatStatus;
   final bool isSelected;
+  final bool isBooked;
 
   const SeatVisualization(
       {Key? key,
       required this.type,
       required this.onChanged,
       required this.seatStatus,
-      this.isSelected = false})
+      this.isSelected = false,
+      required this.isBooked})
       : super(key: key);
 
   @override
@@ -57,9 +59,12 @@ class _SeatVisualizationState extends State<SeatVisualization> {
     if (!widget.seatStatus) {
       color = Colors.grey;
     }
+    if (widget.isBooked) {
+      color = const Color.fromRGBO(255, 0, 0, 1);
+    }
 
     return GestureDetector(
-      onTap: widget.seatStatus
+      onTap: (widget.seatStatus && !widget.isBooked)
           ? () {
               setState(() {
                 _isSelected = !_isSelected;
