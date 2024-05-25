@@ -12,6 +12,8 @@ namespace CineBox.Model.ViewModels
         public decimal Price { get; set; }
 
         public int PromotionId { get; set; }
+
+        public virtual Screening Screening { get; set; } = null!;
     }
 }
 

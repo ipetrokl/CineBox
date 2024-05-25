@@ -23,7 +23,5 @@ public partial class Booking
 
     public virtual Screening Screening { get; set; } = null!;
 
-    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
-
     public virtual User User { get; set; } = null!;
 }

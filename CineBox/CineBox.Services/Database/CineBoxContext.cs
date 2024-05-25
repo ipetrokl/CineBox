@@ -51,7 +51,6 @@ public partial class CineBoxContext : DbContext
 
     public virtual DbSet<UsersRole> UsersRoles { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Actor>(entity =>
@@ -388,8 +387,10 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Ticket");
 
+            entity.HasIndex(e => e.BookingSeatId, "UQ__Ticket__C073D47C7F315E70").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BookingId).HasColumnName("booking_id");
+            entity.Property(e => e.BookingSeatId).HasColumnName("booking_seat_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -400,11 +401,17 @@ public partial class CineBoxContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("ticket_code");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Booking).WithMany(p => p.Tickets)
-                .HasForeignKey(d => d.BookingId)
+            entity.HasOne(d => d.BookingSeat).WithOne(p => p.Ticket)
+                .HasForeignKey<Ticket>(d => d.BookingSeatId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Ticket__booking___5070F446");
+                .HasConstraintName("FK_Ticket_BookingSeat");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Ticket_User");
         });
 
         modelBuilder.Entity<User>(entity =>

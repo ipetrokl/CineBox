@@ -68,9 +68,8 @@ class _movieListScreenState extends State<MovieListScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(widget.message!),
-            backgroundColor: const Color.fromRGBO(97, 72, 199, 1)
-          ),
+              content: Text(widget.message!),
+              backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
         );
       });
     }
@@ -195,16 +194,20 @@ class _movieListScreenState extends State<MovieListScreen> {
               _buildDateNavigation(),
               Container(
                 height: availableScreenHeight - 199,
-                child: GridView(
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 1.6,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 30,
+                child: Scrollbar(
+                  trackVisibility: true,
+                  child: GridView(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      childAspectRatio: 1.6,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 30,
+                    ),
+                    scrollDirection: Axis.vertical,
+                    children: _buildMovieCardList(),
                   ),
-                  scrollDirection: Axis.vertical,
-                  children: _buildMovieCardList(),
                 ),
               )
             ],

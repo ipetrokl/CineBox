@@ -14,4 +14,6 @@ public partial class BookingSeat
     public virtual Booking Booking { get; set; } = null!;
 
     public virtual Seat Seat { get; set; } = null!;
+
+    public virtual Ticket? Ticket { get; set; }
 }

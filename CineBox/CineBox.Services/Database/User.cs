@@ -27,5 +27,7 @@ public partial class User
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
+    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+
     public virtual ICollection<UsersRole> UsersRoles { get; set; } = new List<UsersRole>();
 }

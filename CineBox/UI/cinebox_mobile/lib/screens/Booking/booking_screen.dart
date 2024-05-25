@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:cinebox_mobile/models/Booking/booking.dart';
+import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Promotion/promotion.dart';
@@ -247,11 +248,14 @@ class _BookingScreenState extends State<BookingScreen> {
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
               color: const Color.fromARGB(200, 21, 36, 118), width: 1)),
-      child: ListView.builder(
-        itemCount: _cartProvider.cart.items.length,
-        itemBuilder: (context, index) {
-          return _buildProductCard(_cartProvider.cart.items[index], index);
-        },
+      child: Scrollbar(
+        trackVisibility: true,
+        child: ListView.builder(
+          itemCount: _cartProvider.cart.items.length,
+          itemBuilder: (context, index) {
+            return _buildProductCard(_cartProvider.cart.items[index], index);
+          },
+        ),
       ),
     );
   }
@@ -417,25 +421,28 @@ class _BookingScreenState extends State<BookingScreen> {
           String ticketCode = _generateTicketCode();
           String qrCode = await _generateQRCode(ticketCode);
 
-          Map<String, dynamic> ticketRequest = {
-            "bookingId": booking.id,
-            "ticketCode": ticketCode,
-            "qrCode": qrCode,
-            "price": _ticketPrice(item.screening, seat),
-          };
-
-          await _ticketProvider.insert(ticketRequest);
-
           Map<String, dynamic> bookingTicketRequest = {
             "bookingId": booking.id,
             "seatId": seat.id,
           };
 
-          await _bookingSeatProvider.insert(bookingTicketRequest);
+          BookingSeat bookingSeat =
+              await _bookingSeatProvider.insert(bookingTicketRequest);
+
+          Map<String, dynamic> ticketRequest = {
+            "bookingSeatId": bookingSeat.bookingSeatId,
+            "ticketCode": ticketCode,
+            "qrCode": qrCode,
+            "price": _ticketPrice(item.screening, seat),
+            "userId": _loggedInUserProvider.user!.id,
+          };
+
+          await _ticketProvider.insert(ticketRequest);
         }
       }
 
       _clearCartAndResetFields();
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => MovieListScreen(

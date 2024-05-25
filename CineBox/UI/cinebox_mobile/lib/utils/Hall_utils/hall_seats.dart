@@ -54,7 +54,7 @@ class SeatBuilder {
           Widget seatWidget;
 
           switch (seat.category) {
-            case "solo":
+            case "Single":
               seatWidget = Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
@@ -70,7 +70,7 @@ class SeatBuilder {
                 ),
               );
               break;
-            case "disabled":
+            case "Disabled":
               seatWidget = Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
@@ -86,7 +86,7 @@ class SeatBuilder {
                 ),
               );
               break;
-            case "love":
+            case "Double":
               seatWidget = Expanded(
                 flex: 2,
                 child: Padding(

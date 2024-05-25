@@ -12,7 +12,13 @@ Booking _$BookingFromJson(Map<String, dynamic> json) => Booking(
       json['screeningId'] as int?,
       (json['price'] as num?)?.toDouble(),
       json['promotionId'] as int?,
-    );
+    )
+      ..screening = json['screening'] == null
+          ? null
+          : Screening.fromJson(json['screening'] as Map<String, dynamic>)
+      ..bookingSeats = (json['bookingSeats'] as List<dynamic>?)
+          ?.map((e) => BookingSeat.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$BookingToJson(Booking instance) => <String, dynamic>{
       'id': instance.id,
@@ -20,4 +26,6 @@ Map<String, dynamic> _$BookingToJson(Booking instance) => <String, dynamic>{
       'screeningId': instance.screeningId,
       'price': instance.price,
       'promotionId': instance.promotionId,
+      'screening': instance.screening,
+      'bookingSeats': instance.bookingSeats,
     };

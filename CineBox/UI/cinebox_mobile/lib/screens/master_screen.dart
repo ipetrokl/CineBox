@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
+import 'package:cinebox_mobile/screens/Ticket/ticket_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/utils/drawer.dart';
@@ -55,7 +56,7 @@ class _MasterScreenState extends State<MasterScreen> {
         },
       );
     } else if (currentIndex == 1) {
-      Navigator.pushNamed(context, CartScreen.routeName, arguments: {
+      Navigator.pushNamed(context, TicketScreen.routeName, arguments: {
         'cinemaId': widget.cinemaId,
         'initialDate': widget.initialDate,
         'cinemaName': widget.cinemaName

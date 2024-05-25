@@ -63,7 +63,9 @@ class _CartScreenState extends State<CartScreen> {
       cinemaName: widget.cinemaName,
       child: Column(
         children: [
-          Expanded(child: _buildProductCardList()),
+          Expanded(
+              child: Scrollbar(
+                  trackVisibility: true, child: _buildProductCardList())),
           const SizedBox(height: 10),
           Row(
             children: [
@@ -122,13 +124,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildProductCardList() {
-    return Container(
-      child: ListView.builder(
-        itemCount: _cartProvider.cart.items.length,
-        itemBuilder: (context, index) {
-          return _buildProductCard(_cartProvider.cart.items[index], index);
-        },
-      ),
+    return ListView.builder(
+      itemCount: _cartProvider.cart.items.length,
+      itemBuilder: (context, index) {
+        return _buildProductCard(_cartProvider.cart.items[index], index);
+      },
     );
   }
 

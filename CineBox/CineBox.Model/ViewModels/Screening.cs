@@ -14,6 +14,10 @@ namespace CineBox.Model.ViewModels
         public DateTime ScreeningTime { get; set; }
 
         public decimal Price { get; set; }
+
+        public virtual Hall Hall { get; set; } = null!;
+
+        public virtual Movie Movie { get; set; } = null!;
     }
 }
 

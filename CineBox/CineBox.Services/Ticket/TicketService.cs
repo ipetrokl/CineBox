@@ -24,6 +24,19 @@ namespace CineBox.Services.Ticket
                     .Where(x => x.TicketCode.Contains(search.FTS));
             }
 
+            if (search?.currentDate != null && search?.UserId != null)
+            {
+                filteredQuery = filteredQuery
+                   .Include(x => x.BookingSeat)
+                        .ThenInclude(b => b.Booking)
+                            .ThenInclude(c => c.Screening)
+                                .ThenInclude(d => d.Movie)
+                    .Include(x => x.BookingSeat)
+                        .ThenInclude(b => b.Seat)
+                            .ThenInclude(c => c.Hall)
+                    .Where(x => x.BookingSeat.Booking.Screening.ScreeningTime.AddHours(1) >= search.currentDate && x.UserId == search.UserId);
+            }
+
             return filteredQuery;
         }
     }
