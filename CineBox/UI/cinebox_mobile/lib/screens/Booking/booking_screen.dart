@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -27,10 +28,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/intl.dart';
+import 'package:paypal_sdk/core.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import '../../utils/util.dart';
 
@@ -77,7 +82,7 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     _cartProvider = context.watch<CartProvider>();
     _bookingProvider = context.read<BookingProvider>();
@@ -221,14 +226,16 @@ class _BookingScreenState extends State<BookingScreen> {
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 8, bottom: 5),
-                              child: _buildBuyButton(),
-                            ),
-                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _buildPayPalButton(),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 8, bottom: 5),
+                                  child: _buildBuyButton(),
+                                ),
+                              ]),
                         ],
                       ),
                     ),
@@ -388,6 +395,101 @@ class _BookingScreenState extends State<BookingScreen> {
       ),
       onPressed: () {
         _makeBookingAndTickets();
+      },
+    );
+  }
+
+  Widget _buildPayPalButton() {
+    double totalAmount = _calculateTotal();
+    return IconButton(
+      iconSize: 23,
+      padding: EdgeInsets.only(right: 10),
+      icon: const Icon(Icons.paypal),
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => PaypalCheckout(
+            sandboxMode: true,
+            clientId:
+                "AfUL3htfyisqFkbLdh3XDkGsv3vqaZri84h1DyH_iVADv_nUc5RAOZ-3Y9arQF3TXlKa7iNY91F3t2yY",
+            secretKey:
+                "EFd73fFBj1_MQiiekdCboJjtx2tS8jsm9b9vTxNlR5ZWCS_fCsA7tXZpHGaCHaCf43Wu836587O_gI_e",
+            returnURL: "success.snippetcoder.com",
+            cancelURL: "cancel.snippetcoder.com",
+            transactions: [
+              {
+                "amount": {
+                  "total": totalAmount.toString(),
+                  "currency": "EUR",
+                },
+              }
+            ],
+            note: "Contact us for any questions on your order.",
+            onSuccess: (Map params) async {
+              for (var item in _cartProvider.cart.items) {
+                Map<String, dynamic> bookingRequest = {
+                  "userId": _loggedInUserProvider.user!.id,
+                  "screeningId": item.screening.id,
+                  "price": totalAmount,
+                  "promotionId": promoCodeId,
+                };
+
+                Booking booking = await _bookingProvider.insert(bookingRequest);
+
+                int paymentId = await _insertPaymentRecord(
+                    booking.id, totalAmount, 'payed, booked');
+
+                for (var seat in item.selectedSeats) {
+                  String ticketCode = _generateTicketCode();
+                  String qrCode = await _generateQRCode(ticketCode);
+
+                  Map<String, dynamic> bookingTicketRequest = {
+                    "bookingId": booking.id,
+                    "seatId": seat.id,
+                  };
+
+                  BookingSeat bookingSeat =
+                      await _bookingSeatProvider.insert(bookingTicketRequest);
+
+                  await _updatePaymentRecord(paymentId, booking.id!,
+                      totalAmount, 'payed, booked, seats');
+
+                  Map<String, dynamic> ticketRequest = {
+                    "bookingSeatId": bookingSeat.bookingSeatId,
+                    "ticketCode": ticketCode,
+                    "qrCode": qrCode,
+                    "price": _ticketPrice(item.screening, seat),
+                    "userId": _loggedInUserProvider.user!.id,
+                  };
+
+                  await _ticketProvider.insert(ticketRequest);
+
+                  await _updatePaymentRecord(
+                      paymentId, booking.id!, totalAmount, 'successfully');
+                }
+              }
+
+              _clearCartAndResetFields();
+
+              Navigator.of(context, rootNavigator: true).push(
+                MaterialPageRoute(
+                  builder: (context) => MovieListScreen(
+                    cinemaId: widget.cinemaId,
+                    initialDate: widget.initialDate,
+                    cinemaName: widget.cinemaName,
+                    message: "Payment Successful",
+                  ),
+                ),
+              );
+            },
+            onError: (error) {
+              print("onError: $error");
+              Navigator.pop(context);
+            },
+            onCancel: () {
+              print('cancelled:');
+            },
+          ),
+        ));
       },
     );
   }

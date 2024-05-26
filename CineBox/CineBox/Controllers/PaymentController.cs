@@ -3,6 +3,7 @@ using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Payment;
 using Microsoft.AspNetCore.Mvc;
+using PayPal.Api;
 
 namespace CineBox.Controllers
 {
@@ -21,6 +22,13 @@ namespace CineBox.Controllers
         {
             var paymentIntent = await _paymentService.CreatePaymentIntent(request.Amount);
             return Ok(new { clientSecret = paymentIntent.ClientSecret });
+        }
+
+        [HttpPost("create-paypal-payment")]
+        public async Task<IActionResult> CreatePayPalPayment([FromBody] PaymentRequest request)
+        {
+            var payment = await _paymentService.CreatePayPalPayment(request.Amount, "https://your-redirect-url/success", "https://your-redirect-url/cancel");
+            return Ok(payment);
         }
     }
 

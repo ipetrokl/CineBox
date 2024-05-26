@@ -52,6 +52,7 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IUsersRoleService, UsersRoleService>();
 builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<StripePaymentService>();
+builder.Services.AddTransient<PayPalPaymentService>();
 
 
 builder.Services.AddControllers(x =>
