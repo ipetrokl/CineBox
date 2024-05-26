@@ -105,13 +105,14 @@ class _TicketScreenState extends State<TicketScreen> {
                 child: Scrollbar(
                   trackVisibility: true,
                   child: GridView(
-                    padding: EdgeInsets.only(left: 15, right: 15),
+                    padding: EdgeInsets.only(
+                        left: 15, right: 15, top: 10, bottom: 5),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       childAspectRatio: 2.8,
                       crossAxisSpacing: 10,
-                      mainAxisSpacing: 30,
+                      mainAxisSpacing: 20,
                     ),
                     scrollDirection: Axis.vertical,
                     children: _buildTicketList(),
@@ -161,41 +162,117 @@ class _TicketScreenState extends State<TicketScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, top: 10),
-                    child: Column(
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "Date: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                    DateFormat('dd.MMMM.yyyy.').format(ticket
+                                        .bookingSeat!
+                                        .booking!
+                                        .screening!
+                                        .screeningTime!),
+                                    style: const TextStyle(fontSize: 10)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Hall: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  ticket.bookingSeat!.booking!.screening!.hall!
+                                      .name!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Seat number: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  ticket.bookingSeat!.seat!.seatNumber!
+                                      .toString(),
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Price: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                    ticket.price! % 1 == 0
+                                        ? "${ticket.price!.toInt()} €"
+                                        : "${ticket.price!.toStringAsFixed(2)} €",
+                                    style: const TextStyle(fontSize: 10)),
+                              ],
+                            )
+                          ]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
                               const Text(
-                                "Date: ",
+                                "Time: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                 ),
                               ),
                               Text(
-                                  DateFormat('dd.MMMM.yyyy.').format(ticket
-                                      .bookingSeat!
-                                      .booking!
-                                      .screening!
-                                      .screeningTime!),
+                                  "${DateFormat('HH:mm').format(ticket.bookingSeat!.booking!.screening!.screeningTime!)} h",
                                   style: const TextStyle(fontSize: 10)),
                             ],
                           ),
                           Row(
                             children: [
                               const Text(
-                                "Hall: ",
+                                "Screening: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                 ),
                               ),
                               Text(
-                                ticket.bookingSeat!.booking!.screening!.hall!
-                                    .name!,
+                                ticket
+                                    .bookingSeat!.booking!.screening!.category!,
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
@@ -205,97 +282,26 @@ class _TicketScreenState extends State<TicketScreen> {
                           Row(
                             children: [
                               const Text(
-                                "Seat number: ",
+                                "Seat type: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                 ),
                               ),
                               Text(
-                                ticket.bookingSeat!.seat!.seatNumber!
-                                    .toString(),
+                                ticket.bookingSeat!.seat!.category!.toString(),
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                "Price: ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                  ticket.price! % 1 == 0
-                                      ? "${ticket.price!.toInt()} €"
-                                      : "${ticket.price!.toStringAsFixed(2)} €",
-                                  style: const TextStyle(fontSize: 10)),
                             ],
                           )
-                        ]),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "Time: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                                "${DateFormat('HH:mm').format(ticket.bookingSeat!.booking!.screening!.screeningTime!)} h",
-                                style: const TextStyle(fontSize: 10)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Screening: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              ticket.bookingSeat!.booking!.screening!.category!,
-                              style: const TextStyle(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Seat type: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              ticket.bookingSeat!.seat!.category!.toString(),
-                              style: const TextStyle(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40.0),
+                    padding: const EdgeInsets.only(right: 12.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

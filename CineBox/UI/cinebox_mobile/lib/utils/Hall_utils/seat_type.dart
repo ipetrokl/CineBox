@@ -1,3 +1,3 @@
 enum SeatType {
-single, lovers, disabled, empty
+single, double, disabled, empty
 }

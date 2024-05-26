@@ -92,7 +92,7 @@ class SeatBuilder {
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: SeatVisualization(
-                    type: SeatType.lovers,
+                    type: SeatType.double,
                     onChanged: (count) {
                       toggleSeatSelection(seat);
                     },

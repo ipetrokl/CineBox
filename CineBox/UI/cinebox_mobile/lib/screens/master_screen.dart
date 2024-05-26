@@ -1,5 +1,8 @@
 import 'package:badges/badges.dart';
+import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
+import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
+import 'package:cinebox_mobile/providers/ticket_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/Ticket/ticket_screen.dart';
@@ -30,6 +33,8 @@ class MasterScreen extends StatefulWidget {
 
 class _MasterScreenState extends State<MasterScreen> {
   late CartProvider _cartProvider;
+  late TicketProvider _ticketProvider;
+  late LoggedInUserProvider _loggedInUserProvider;
   int currentIndex = 0;
 
   int _calculateTotalSelectedScreeningsCount() {
@@ -39,6 +44,16 @@ class _MasterScreenState extends State<MasterScreen> {
       totalCount += item.count;
     }
     return totalCount;
+  }
+
+  Future<int> _calculateTickets() async {
+    _ticketProvider = context.watch<TicketProvider>();
+    _loggedInUserProvider = context.read<LoggedInUserProvider>();
+    var ticketdata = await _ticketProvider.get(filter: {
+      'currentDate': DateTime.now(),
+      'userId': _loggedInUserProvider.user!.id
+    });
+    return ticketdata.result.length;
   }
 
   void _onItemTapped(int index) {
@@ -114,7 +129,54 @@ class _MasterScreenState extends State<MasterScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
+            icon: Container(
+              width: 60,
+              child: Stack(
+                children: <Widget>[
+                  Center(child: Icon(Icons.movie)),
+                  FutureBuilder<int>(
+                    future: _calculateTickets(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return SizedBox(); // Prikazuje prazno mjesto dok čekate
+                      } else if (snapshot.hasError) {
+                        return Positioned(
+                          right: 1,
+                          top: 0,
+                          child: Text("Error",
+                              style: TextStyle(color: Colors.red)),
+                        );
+                      } else {
+                        if (snapshot.data! > 0) {
+                          return Positioned(
+                            right: 1,
+                            top: 0,
+                            child: Badge(
+                              badgeContent: SizedBox(
+                                width: 16,
+                                child: Center(
+                                  child: Text(
+                                    snapshot.data!.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                              badgeStyle: BadgeStyle(
+                                badgeColor: Colors.purple.shade300,
+                                padding: EdgeInsets.all(3),
+                              ),
+                              position: BadgePosition.topEnd(top: 0, end: 0),
+                            ),
+                          );
+                        }
+                        return SizedBox();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
             label: 'Tickets',
           ),
           BottomNavigationBarItem(

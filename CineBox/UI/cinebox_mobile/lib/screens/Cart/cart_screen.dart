@@ -92,26 +92,29 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     const Divider(
                         thickness: 1, color: Color.fromRGBO(97, 72, 199, 1)),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          padding: EdgeInsets.all(5),
-                          backgroundColor:
-                              const Color.fromRGBO(97, 72, 199, 1)),
-                      child: const Text(
-                        "Proceed to payment",
-                        style: TextStyle(fontSize: 15),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: EdgeInsets.all(5),
+                            backgroundColor:
+                                const Color.fromRGBO(97, 72, 199, 1)),
+                        child: const Text(
+                          "Proceed to payment",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, BookingScreen.routeName,
+                              arguments: {
+                                'cinemaId': widget.cinemaId,
+                                'initialDate': widget.initialDate,
+                                'cinemaName': widget.cinemaName
+                              });
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, BookingScreen.routeName,
-                            arguments: {
-                              'cinemaId': widget.cinemaId,
-                              'initialDate': widget.initialDate,
-                              'cinemaName': widget.cinemaName
-                            });
-                      },
                     ),
                   ],
                 ),
@@ -303,7 +306,7 @@ class _CartScreenState extends State<CartScreen> {
   String _formatPrice(Screening screening, List<Seat> seats, CartItem item) {
     double amount = 0;
     for (var seat in seats) {
-      if (seat.category == "love") {
+      if (seat.category == "Double") {
         amount += screening.price! * 2;
       } else {
         amount += screening.price!;

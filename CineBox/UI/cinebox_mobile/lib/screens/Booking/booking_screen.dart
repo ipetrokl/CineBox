@@ -6,6 +6,7 @@ import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
+import 'package:cinebox_mobile/models/Payment/payment.dart';
 import 'package:cinebox_mobile/models/Promotion/promotion.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
@@ -417,6 +418,9 @@ class _BookingScreenState extends State<BookingScreen> {
 
         Booking booking = await _bookingProvider.insert(bookingRequest);
 
+        int paymentId = await _insertPaymentRecord(
+            booking.id, totalAmount, 'payed, booked');
+
         for (var seat in item.selectedSeats) {
           String ticketCode = _generateTicketCode();
           String qrCode = await _generateQRCode(ticketCode);
@@ -429,6 +433,9 @@ class _BookingScreenState extends State<BookingScreen> {
           BookingSeat bookingSeat =
               await _bookingSeatProvider.insert(bookingTicketRequest);
 
+          await _updatePaymentRecord(
+              paymentId, booking.id!, totalAmount, 'payed, booked, seats');
+
           Map<String, dynamic> ticketRequest = {
             "bookingSeatId": bookingSeat.bookingSeatId,
             "ticketCode": ticketCode,
@@ -438,6 +445,9 @@ class _BookingScreenState extends State<BookingScreen> {
           };
 
           await _ticketProvider.insert(ticketRequest);
+
+          await _updatePaymentRecord(
+              paymentId, booking.id!, totalAmount, 'successfully');
         }
       }
 
@@ -506,7 +516,7 @@ class _BookingScreenState extends State<BookingScreen> {
   String _formatPrice(Screening screening, List<Seat> seats, CartItem item) {
     double amount = 0;
     for (var seat in seats) {
-      if (seat.category == "love") {
+      if (seat.category == "Double") {
         amount += screening.price! * 2;
       } else {
         amount += screening.price!;
@@ -539,12 +549,36 @@ class _BookingScreenState extends State<BookingScreen> {
 
   double _ticketPrice(Screening screening, Seat seat) {
     double price = 0;
-    if (seat.category == "love") {
+    if (seat.category == "Double") {
       price = (screening.price! * 2) - (screening.price! * 2 * discount);
     } else {
       price = screening.price! - (screening.price! * discount);
     }
 
     return price;
+  }
+
+  Future<int> _insertPaymentRecord(
+      int? bookingId, double amount, String status) async {
+    Map<String, dynamic> paymentRequest = {
+      "bookingId": bookingId,
+      "amount": amount,
+      "paymentStatus": status,
+    };
+
+    Payment payment = await _paymentProvider.insert(paymentRequest);
+
+    return payment.id!;
+  }
+
+  Future<void> _updatePaymentRecord(
+      int paymentId, int bookingId, double amount, String status) async {
+    Map<String, dynamic> paymentUpdateRequest = {
+      "bookingId": bookingId,
+      "amount": amount,
+      "paymentStatus": status,
+    };
+
+    await _paymentProvider.update(paymentId, paymentUpdateRequest);
   }
 }

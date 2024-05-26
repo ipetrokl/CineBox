@@ -39,7 +39,7 @@ class _SeatVisualizationState extends State<SeatVisualization> {
         color = Colors.green.shade400;
         icon = Icons.event_seat;
         break;
-      case SeatType.lovers:
+      case SeatType.double:
         color = Colors.green.shade400;
         icon = Icons.favorite;
         break;

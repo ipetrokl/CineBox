@@ -10,11 +10,11 @@ namespace CineBox.Services.Payment
             StripeConfiguration.ApiKey = "sk_test_51PJftNCAqDQvgEGdk2nBewQDfGsLxBWhNmpZnT57RhIFRs4p4nBuYXLS8qNKvgJI5Q3s463GCADUyM4qvGhNe9W000hy47MQkZ";
         }
 
-        public async Task<PaymentIntent> CreatePaymentIntent(decimal amount, string currency = "usd")
+        public async Task<PaymentIntent> CreatePaymentIntent(decimal amount, string currency = "eur")
         {
             var options = new PaymentIntentCreateOptions
             {
-                Amount = (long)(amount * 100), // Amount is in cents
+                Amount = (long)(amount * 100),
                 Currency = currency,
             };
             var service = new PaymentIntentService();
