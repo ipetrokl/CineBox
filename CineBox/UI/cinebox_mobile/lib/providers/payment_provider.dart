@@ -1,11 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cinebox_mobile/models/Payment/payment.dart';
 import 'package:cinebox_mobile/providers/base_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PaymentProvider extends BaseProvider<Payment> {
+  final String _baseURL = Platform.isIOS
+      ? "http://localhost:7137" // iOS
+      : "http://10.0.2.2:7137"; // Android
+
   PaymentProvider() : super("Payment");
 
   @override
@@ -14,7 +21,7 @@ class PaymentProvider extends BaseProvider<Payment> {
   }
 
   Future<String> createPaymentIntent(double amount) async {
-    var url = "http://localhost:7137/Payment/create-payment-intent";
+    var url = "$_baseURL/Payment/create-payment-intent";
     var uri = Uri.parse(url);
 
     var body = jsonEncode({'amount': amount});
@@ -35,31 +42,34 @@ class PaymentProvider extends BaseProvider<Payment> {
     }
   }
 
-  Future<String> getAccessToken() async {
-    final clientID =
-        'AfUL3htfyisqFkbLdh3XDkGsv3vqaZri84h1DyH_iVADv_nUc5RAOZ-3Y9arQF3TXlKa7iNY91F3t2yY';
-    final secret =
-        'EFd73fFBj1_MQiiekdCboJjtx2tS8jsm9b9vTxNlR5ZWCS_fCsA7tXZpHGaCHaCf43Wu836587O_gI_e';
+  Future<String> createPayPalPayment(double amount) async {
+    var url = "$_baseURL/Payment/create-paypal-payment";
+    var uri = Uri.parse(url);
 
-    final url = Uri.parse('https://api.paypal.com/v1/oauth2/token');
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$clientID:$secret'))}',
-      },
-      body: {
-        'grant_type': 'client_credentials',
-      },
-    );
+    var body = jsonEncode({
+      'amount': amount,
+    });
+    var headers = createHeaders();
+
+    var response = await http.post(uri, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final accessToken = responseBody['access_token'];
-      return accessToken;
+      final Map<String, dynamic> paymentData = jsonDecode(response.body);
+      final List<dynamic> links = paymentData['links'];
+
+      final Map<String, dynamic>? approvalUrl = links.firstWhere(
+        (link) => link['rel'] == 'approval_url',
+        orElse: () => null,
+      );
+
+      if (approvalUrl != null) {
+        final String checkoutUrl = approvalUrl['href'];
+        return checkoutUrl;
+      } else {
+        throw Exception('Approval URL not found');
+      }
     } else {
-      throw Exception('Failed to get access token');
+      throw Exception('Failed to create PayPal payment');
     }
   }
 }

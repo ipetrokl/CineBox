@@ -27,7 +27,7 @@ namespace CineBox.Controllers
         [HttpPost("create-paypal-payment")]
         public async Task<IActionResult> CreatePayPalPayment([FromBody] PaymentRequest request)
         {
-            var payment = await _paymentService.CreatePayPalPayment(request.Amount, "https://your-redirect-url/success", "https://your-redirect-url/cancel");
+            var payment = await _paymentService.CreatePayPalPayment(request.Amount);
             return Ok(payment);
         }
     }

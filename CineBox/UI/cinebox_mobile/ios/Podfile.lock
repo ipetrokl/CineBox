@@ -1,13 +1,5 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_inappwebview (0.0.1):
-    - Flutter
-    - flutter_inappwebview/Core (= 0.0.1)
-    - OrderedSet (~> 5.0)
-  - flutter_inappwebview/Core (0.0.1):
-    - Flutter
-    - OrderedSet (~> 5.0)
-  - OrderedSet (5.0.0)
   - Stripe (23.22.1):
     - StripeApplePay (= 23.22.1)
     - StripeCore (= 23.22.1)
@@ -44,15 +36,19 @@ PODS:
     - StripeUICore (= 23.22.1)
   - StripeUICore (23.22.1):
     - StripeCore (= 23.22.1)
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
-    - OrderedSet
     - Stripe
     - StripeApplePay
     - StripeCore
@@ -65,15 +61,15 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_inappwebview:
-    :path: ".symlinks/plugins/flutter_inappwebview/ios"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_inappwebview: 3d32228f1304635e7c028b0d4252937730bbc6cf
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   Stripe: b65e9f748f8f51b51e015b0d72f5474dc0708788
   stripe_ios: 433385aa051f8965915d495744946ee5a5d657db
   StripeApplePay: 4a2fef6cd4e1e9b2c0849919fc7b3a9c5c3684b1
@@ -83,6 +79,8 @@ SPEC CHECKSUMS:
   StripePaymentSheet: a25d920bb3bb5e2580696476482dc7df9cb5e4e2
   StripePaymentsUI: 66088abec88754bbdd522ef227dfdbb2265a653e
   StripeUICore: b193c7d35e9cd1b04bc9ed4a6fb8c548fcee83fa
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 

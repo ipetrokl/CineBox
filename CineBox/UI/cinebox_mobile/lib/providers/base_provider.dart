@@ -12,13 +12,12 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
   BaseProvider(String endpoint) {
     _endPoint = endpoint;
-    _baseURL = const String.fromEnvironment("baseUrl",
-        //macOs app test
-        // defaultValue: "http://10.0.2.2:7137/");
-        //Simulator ios test
-        defaultValue: "http://localhost:7137/");
-        //Iphone test
-        //defaultValue: "http://192.168.1.65:7137/");
+    _baseURL = Platform.isIOS
+        ? "http://localhost:7137/" // iOS
+        : "http://10.0.2.2:7137/"; // Android
+
+    //Iphone test
+    //defaultValue: "http://192.168.1.65:7137/");
   }
 
   Future<SearchResult<T>> get({dynamic filter}) async {

@@ -77,10 +77,10 @@ packages:
     dependency: transitive
     description:
       name: build_daemon
-      sha256: "0343061a33da9c5810b2d6cee51945127d8f4c060b7fbdd9d54917f0a3feaaa1"
+      sha256: "79b2aef6ac2ed00046867ed354c88778c9c0f029df8a20fe10b5436826721ef9"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   build_resolvers:
     dependency: transitive
     description:
@@ -93,10 +93,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "3ac61a79bfb6f6cc11f693591063a7f19a7af628dc52f141743edac5c16e8c22"
+      sha256: "1414d6d733a85d8ad2f1dfcb3ea7945759e35a123cb99ccfac75d0758f75edfa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.9"
+    version: "2.4.10"
   build_runner_core:
     dependency: transitive
     description:
@@ -230,30 +230,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_dotenv:
-    dependency: "direct main"
-    description:
-      name: flutter_dotenv
-      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
   flutter_form_builder:
     dependency: "direct main"
     description:
       name: flutter_form_builder
-      sha256: "560eb5e367d81170c6ade1e7ae63ecc5167936ae2cdfaae8a345e91bce19d2f2"
+      sha256: "447f8808f68070f7df968e8063aada3c9d2e90e789b5b70f3b44e4b315212656"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.1"
-  flutter_inappwebview:
-    dependency: transitive
-    description:
-      name: flutter_inappwebview
-      sha256: d198297060d116b94048301ee6749cd2e7d03c1f2689783f52d210a6b7aba350
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.8.0"
+    version: "9.3.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -262,14 +246,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  flutter_paypal_checkout:
-    dependency: "direct main"
-    description:
-      name: flutter_paypal_checkout
-      sha256: "5cc8bd4e67acb9befbbc935a0f2d4d468ddb8e5120a24ad21ed7518b44b47b2e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   flutter_stripe:
     dependency: "direct main"
     description:
@@ -288,6 +264,11 @@ packages:
     version: "1.1.6"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -327,10 +308,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.6"
+    version: "1.2.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -375,42 +356,42 @@ packages:
     dependency: transitive
     description:
       name: json_annotation
-      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.1"
+    version: "4.9.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
-      sha256: aa1f5a8912615733e0fdc7a02af03308933c93235bdc8d50d0b0c8a8ccb0b969
+      sha256: ea1432d167339ea9b5bb153f0571d0039607a873d6e04e0117af043f14a1fd4b
       url: "https://pub.dev"
     source: hosted
-    version: "6.7.1"
+    version: "6.8.0"
   leak_tracker:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "78eb209deea09858f5269f5a5b02be4049535f568c07b275096836f01ea323fa"
+      sha256: "7f0df31977cb2c0b88585095d168e689669a2cc9b97c309665e3386f3e9d341a"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.0"
+    version: "10.0.4"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: b46c5e37c19120a8a01918cfaf293547f47269f7cb4b0058f21531c2465d6ef0
+      sha256: "06e98f569d004c1315b991ded39924b21af84cf14cc94791b8aea337d25b57f8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "3.0.3"
   leak_tracker_testing:
     dependency: transitive
     description:
       name: leak_tracker_testing
-      sha256: a597f72a664dbd293f3bfc51f9ba69816f84dcd403cdac7066cb3f6003f3ab47
+      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "3.0.1"
   lints:
     dependency: transitive
     description:
@@ -455,10 +436,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: d584fa6707a52763a52446f02cc621b077888fb63b93bbcb1143a7be5a0c0c04
+      sha256: "7687075e408b093f36e6bbf6c91878cc0d4cd10f409506f7bc996f68220b9136"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.0"
+    version: "1.12.0"
   mime:
     dependency: transitive
     description:
@@ -507,14 +488,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  paypal_sdk:
-    dependency: "direct main"
-    description:
-      name: paypal_sdk
-      sha256: "768e95f6cfd39a6ced6de18b49aa04dba7a81f103b1670bfc0d25e37dcb648b0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.7"
   petitparser:
     dependency: transitive
     description:
@@ -591,10 +564,10 @@ packages:
     dependency: transitive
     description:
       name: shelf_web_socket
-      sha256: "9ca081be41c60190ebcb4766b2486a7d50261db7bd0f5d9615f2d653637a84c1"
+      sha256: "073c147238594ecd0d193f3456a5fe91c4b0abbcc68bf5cd95b36c4e194ac611"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -692,10 +665,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "5c2f730018264d276c20e4f1503fd1308dfbbae39ec8ee63c5236311ac06954b"
+      sha256: "9955ae474176f7ac8ee4e989dadfb411a58c30415bcfb648fa04b2b8a03afa7f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
+    version: "0.7.0"
   timing:
     dependency: transitive
     description:
@@ -712,6 +685,70 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      sha256: "6ce1e04375be4eed30548f10a315826fd933c1e493206eab82eed01f438c8d2e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.6"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      sha256: "17cd5e205ea615e2c6ea7a77323a11712dffa0720a8a90540db57a01347f9ad9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.2"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      sha256: "7068716403343f6ba4969b4173cbf3b84fc768042124bc2c011e5d782b24fe89"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.0"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      sha256: ab360eb661f8879369acac07b6bb3ff09d9471155357da8443fd5d3cf7363811
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      sha256: "9a1a42d5d2d95400c795b2914c36fdcb525870c752569438e4ebb09a2b5d90de"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      sha256: "8d9e750d8c9338601e709cd0885f95825086bd8b642547f26bda435aade95d8a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.1"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      sha256: ecf9725510600aa2bb6d7ddabe16357691b6d2805f66216a97d1b881e21beff7
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   vector_math:
     dependency: transitive
     description:
@@ -724,10 +761,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: b3d56ff4341b8f182b96aceb2fa20e3dcb336b9f867bc0eafc0de10f1048e957
+      sha256: "3923c89304b715fb1eb6423f017651664a03bf5f4b29983627c4da791f74a4ec"
       url: "https://pub.dev"
     source: hosted
-    version: "13.0.0"
+    version: "14.2.1"
   watcher:
     dependency: transitive
     description:
@@ -744,14 +781,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  web_socket:
+    dependency: transitive
+    description:
+      name: web_socket
+      sha256: "217f49b5213796cb508d6a942a5dc604ce1cb6a0a6b3d8cb3f0c314f0ecea712"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   web_socket_channel:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: "58c6666b342a38816b2e7e50ed0f1e261959630becd4c879c4f26bfa14aa5a42"
+      sha256: a2d56211ee4d35d9b344d9d4ce60f362e4f5d1aafb988302906bd732bc731276
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.5"
+    version: "3.0.0"
+  webview_flutter:
+    dependency: "direct main"
+    description:
+      name: webview_flutter
+      sha256: "6869c8786d179f929144b4a1f86e09ac0eddfe475984951ea6c634774c16b522"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.0"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      sha256: "2282ba2320af34b2bd5320156c664d73f3f022341ed78847bc87723bf88c142f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.16.2"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      sha256: d937581d6e558908d7ae3dc1989c4f87b786891ab47bb9df7de548a151779d8d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.0"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      sha256: "7affdf9d680c015b11587181171d3cad8093e449db1f7d9f0f08f4f33d24f9a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.13.1"
   xml:
     dependency: transitive
     description:
@@ -769,5 +846,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.1 <4.0.0"
-  flutter: ">=3.16.0"
+  dart: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
