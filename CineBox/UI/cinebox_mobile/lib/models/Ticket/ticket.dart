@@ -1,4 +1,3 @@
-import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:json_annotation/json_annotation.dart';
 

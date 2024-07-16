@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:cinebox_mobile/models/Actor/actor.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Review/review.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/providers/actor_provider.dart';
-import 'package:cinebox_mobile/providers/cart_provider.dart';
-import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/providers/movie_actor_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
@@ -41,12 +38,10 @@ class MovieListScreen extends StatefulWidget {
 
 class _movieListScreenState extends State<MovieListScreen> {
   late MovieProvider _movieProvider;
-  late CartProvider _cartProvider;
   late ActorProvider _actorProvider;
   late MovieActorProvider _movieActorProvider;
   late ScreeningProvider _screeningProvider;
   late ReviewProvider _reviewProvider;
-  late HallProvider _hallProvider;
   SearchResult<Movie>? result;
   SearchResult<Review>? result2;
   final TextEditingController _searchController = TextEditingController();
@@ -58,12 +53,10 @@ class _movieListScreenState extends State<MovieListScreen> {
     super.initState();
     selectedDate = widget.initialDate;
     _movieProvider = context.read<MovieProvider>();
-    _cartProvider = context.read<CartProvider>();
     _actorProvider = context.read<ActorProvider>();
     _movieActorProvider = context.read<MovieActorProvider>();
     _screeningProvider = context.read<ScreeningProvider>();
     _reviewProvider = context.read<ReviewProvider>();
-    _hallProvider = context.read<HallProvider>();
     if (widget.message != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -272,10 +265,7 @@ class _movieListScreenState extends State<MovieListScreen> {
           child: Row(
             children: [
               InkWell(
-                onTap: () {
-                  // Navigator.pushNamed(context,
-                  //     "${ProductDetailsScreen.routeName}/${x.proizvodId}");
-                },
+                onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
@@ -488,8 +478,6 @@ class _movieListScreenState extends State<MovieListScreen> {
                                             cinemaId: widget.cinemaId,
                                           ),
                                         );
-                                        // _cartProvider.addToCart(
-                                        //     movie, screening, widget.cinemaId);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

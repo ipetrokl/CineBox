@@ -1,6 +1,5 @@
 import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
-import 'package:cinebox_mobile/models/Cinema/cinema.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
@@ -10,8 +9,6 @@ import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/hall_seats.dart';
 import 'package:cinebox_mobile/utils/Hall_utils/screen_object.dart';
-import 'package:cinebox_mobile/utils/Hall_utils/seat_visualization.dart';
-import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +54,6 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
     _bookingProvider = context.read<BookingProvider>();
     _bookingSeatProvider = context.read<BookingSeatProvider>();
     fetchSeats();
-    // _counter = widget.initialValue;
   }
 
   Future fetchSeats() async {
@@ -86,22 +82,6 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
     }
   }
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //     widget.onChanged(_counter);
-  //   });
-  // }
-
-  // void _decrementCounter() {
-  //   setState(() {
-  //     if (_counter > 0) {
-  //       _counter--;
-  //       widget.onChanged(_counter);
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -112,8 +92,6 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // const SizedBox(height: 10.0),
-            // _buildCounterWidget(),
             const SizedBox(height: 30.0),
             _buildCurvedScreen(),
             Container(
@@ -200,47 +178,6 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
       ),
     );
   }
-
-  // Widget _buildCounterWidget() {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-  //       children: [
-  //         Container(
-  //           decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(15),
-  //               color: Color.fromARGB(255, 218, 205, 205)),
-  //           child: Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 const Text(
-  //                   'Number of seats: ',
-  //                   style: TextStyle(fontSize: 12),
-  //                 ),
-  //                 Row(
-  //                   children: [
-  //                     IconButton(
-  //                       onPressed: _decrementCounter,
-  //                       icon: const Icon(Icons.remove),
-  //                     ),
-  //                     Text(_counter.toString()),
-  //                     IconButton(
-  //                       onPressed: _incrementCounter,
-  //                       icon: const Icon(Icons.add),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _buildSeatInfos() {
     return Padding(

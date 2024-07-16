@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Review/review.dart';
-import 'package:cinebox_mobile/models/Users/users.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/movie_provider.dart';
 import 'package:cinebox_mobile/providers/review_provider.dart';
-import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -31,7 +26,6 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
   Map<String, dynamic> _initialValue = {};
   late ReviewProvider _reviewProvider;
   late MovieProvider _movieProvider;
-  late LoggedInUserProvider _loggedInUserProvider;
   SearchResult<Movie>? movieResult;
   bool isLoading = true;
   int? _selectedRating;
@@ -49,20 +43,12 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
 
     _reviewProvider = context.read<ReviewProvider>();
     _movieProvider = context.read<MovieProvider>();
-    _loggedInUserProvider = context.read<LoggedInUserProvider>();
     initForm();
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   Future initForm() async {

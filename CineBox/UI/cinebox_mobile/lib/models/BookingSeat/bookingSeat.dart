@@ -1,6 +1,5 @@
 import 'package:cinebox_mobile/models/Booking/booking.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
-import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bookingSeat.g.dart';

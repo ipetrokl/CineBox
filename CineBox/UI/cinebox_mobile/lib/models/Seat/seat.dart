@@ -1,4 +1,3 @@
-import 'package:cinebox_mobile/utils/Hall_utils/seat_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'seat.g.dart';

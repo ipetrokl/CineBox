@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
@@ -10,16 +8,12 @@ import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/screens/Booking/booking_screen.dart';
-import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/util.dart';
 
 class CartScreen extends StatefulWidget {
   static const String routeName = "/cart";
@@ -43,13 +37,11 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _cartProvider = context.watch<CartProvider>();
     _bookingProvider = context.read<BookingProvider>();
@@ -102,18 +94,23 @@ class _CartScreenState extends State<CartScreen> {
                             padding: EdgeInsets.all(5),
                             backgroundColor:
                                 const Color.fromRGBO(97, 72, 199, 1)),
+                        onPressed: _cartProvider.cart.items.isEmpty
+                            ? () {
+                                _showEmptyCartMessage(context);
+                              }
+                            : () {
+                                Navigator.pushNamed(
+                                    context, BookingScreen.routeName,
+                                    arguments: {
+                                      'cinemaId': widget.cinemaId,
+                                      'initialDate': widget.initialDate,
+                                      'cinemaName': widget.cinemaName
+                                    });
+                              },
                         child: const Text(
                           "Proceed to payment",
                           style: TextStyle(fontSize: 15),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, BookingScreen.routeName,
-                              arguments: {
-                                'cinemaId': widget.cinemaId,
-                                'initialDate': widget.initialDate,
-                                'cinemaName': widget.cinemaName
-                              });
-                        },
                       ),
                     ),
                   ],
@@ -123,6 +120,26 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showEmptyCartMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Empty Cart'),
+          content: Text('Your cart is empty. Please add items to proceed.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

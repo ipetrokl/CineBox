@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -8,10 +7,8 @@ import 'package:cinebox_mobile/models/BookingSeat/bookingSeat.dart';
 import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Payment/payment.dart';
-import 'package:cinebox_mobile/models/Promotion/promotion.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
-import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/booking_seat_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
@@ -25,19 +22,13 @@ import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
-//import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../../utils/util.dart';
 
 class BookingScreen extends StatefulWidget {
   static const String routeName = "/booking";
@@ -229,8 +220,6 @@ class _BookingScreenState extends State<BookingScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Ovdje možete dodati gumb za PayPal plaćanje ako ga imate
-                              // Ako ne, možete koristiti _buildBuyButton za stvaranje plaćanja
                               Padding(
                                 padding:
                                     const EdgeInsets.only(right: 8, bottom: 5),
@@ -250,7 +239,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                 padding:
                                     const EdgeInsets.only(right: 8, bottom: 5),
                                 child:
-                                    _buildBuyButton(), // Koristite svoj gumb za obično plaćanje
+                                    _buildBuyButton(),
                               ),
                             ],
                           ),

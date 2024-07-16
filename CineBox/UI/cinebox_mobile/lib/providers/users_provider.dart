@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:cinebox_mobile/models/Users/users.dart';
 import 'package:cinebox_mobile/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 class UsersProvider extends BaseProvider<Users> {
   UsersProvider() : super("Users");

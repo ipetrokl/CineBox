@@ -1,6 +1,5 @@
 import 'package:cinebox_mobile/models/Promotion/promotion.dart';
 import 'package:cinebox_mobile/providers/promotion_provider.dart';
-import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,6 @@ class _PromotionScreenState extends State<PromotionScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _promotionProvider = context.read<PromotionProvider>();
     print("called initState");

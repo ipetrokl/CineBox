@@ -1,34 +1,17 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
-
-import 'package:cinebox_mobile/models/Cart/cart.dart';
-import 'package:cinebox_mobile/models/Movie/movie.dart';
-import 'package:cinebox_mobile/models/Screening/screening.dart';
-import 'package:cinebox_mobile/models/Seat/seat.dart';
 import 'package:cinebox_mobile/models/Ticket/ticket.dart';
-import 'package:cinebox_mobile/providers/booking_provider.dart';
-import 'package:cinebox_mobile/providers/cart_provider.dart';
-import 'package:cinebox_mobile/providers/cinema_provider.dart';
-import 'package:cinebox_mobile/providers/hall_provider.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
-import 'package:cinebox_mobile/providers/movie_provider.dart';
-import 'package:cinebox_mobile/providers/screening_provider.dart';
 import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/providers/ticket_provider.dart';
-import 'package:cinebox_mobile/screens/Booking/booking_screen.dart';
-import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/util.dart';
 
 class TicketScreen extends StatefulWidget {
   static const String routeName = "/ticket";
@@ -68,7 +51,6 @@ class _TicketScreenState extends State<TicketScreen> {
         'userId': _loggedInUserProvider.user!.id
       });
       for (var seat in ticketdata.result) {}
-      // var seatData = await _seatProvider.get(filter: {})
       setState(() {
         result = ticketdata;
       });

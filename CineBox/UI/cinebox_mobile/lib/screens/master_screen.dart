@@ -1,12 +1,10 @@
 import 'package:badges/badges.dart';
-import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
 import 'package:cinebox_mobile/providers/ticket_provider.dart';
 import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/Ticket/ticket_screen.dart';
-import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/utils/drawer.dart';
 import 'package:flutter/material.dart' hide Badge;
@@ -138,7 +136,7 @@ class _MasterScreenState extends State<MasterScreen> {
                     future: _calculateTickets(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return SizedBox(); // Prikazuje prazno mjesto dok čekate
+                        return SizedBox();
                       } else if (snapshot.hasError) {
                         return Positioned(
                           right: 1,

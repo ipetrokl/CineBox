@@ -1,5 +1,3 @@
-import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
-import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/News/news_screen.dart';
 import 'package:cinebox_mobile/screens/Promotion/promotion_screen.dart';
 import 'package:cinebox_mobile/screens/Support/support_screen.dart';

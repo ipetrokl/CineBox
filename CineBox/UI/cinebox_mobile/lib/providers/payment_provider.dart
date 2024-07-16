@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:cinebox_mobile/models/Payment/payment.dart';
 import 'package:cinebox_mobile/providers/base_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PaymentProvider extends BaseProvider<Payment> {
   final String _baseURL = Platform.isIOS

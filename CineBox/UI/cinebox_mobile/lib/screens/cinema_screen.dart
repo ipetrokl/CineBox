@@ -22,7 +22,6 @@ class _CinemaScreenState extends State<CinemaScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cinemaProvider = context.read<CinemaProvider>();
     _cartProvider = context.read<CartProvider>();

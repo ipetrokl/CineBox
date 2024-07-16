@@ -1,8 +1,5 @@
 import 'package:cinebox_mobile/models/News/news.dart';
-import 'package:cinebox_mobile/models/Promotion/promotion.dart';
 import 'package:cinebox_mobile/providers/news_provider.dart';
-import 'package:cinebox_mobile/providers/promotion_provider.dart';
-import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';

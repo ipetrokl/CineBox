@@ -106,7 +106,7 @@ class SeatBuilder {
               break;
             default:
               seatWidget =
-                  SizedBox(); // Prazan widget ako kategorija nije definirana
+                  SizedBox();
           }
 
           rowChildren.add(seatWidget);
