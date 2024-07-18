@@ -44,6 +44,16 @@ namespace CineBox.Services.Movie
                 filteredQuery = filteredQuery.Where(x => search.SelectedDate >= x.PerformedFrom && search.SelectedDate <= x.PerformedTo);
             }
 
+            filteredQuery = filteredQuery
+                .Select(movie => new
+                {
+                    Movie = movie,
+                    AverageRating = movie.Reviews.Any() ? movie.Reviews.Average(r => r.Rating) : 0
+                })
+                .OrderByDescending(m => m.AverageRating)
+                .ThenBy(m => m.Movie.Title)
+                .Select(m => m.Movie);
+
             return filteredQuery;
         }
 
