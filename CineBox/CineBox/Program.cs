@@ -8,6 +8,7 @@ using CineBox.Services.Cinema;
 using CineBox.Services.Database;
 using CineBox.Services.Genre;
 using CineBox.Services.Hall;
+using CineBox.Services.Messaging;
 using CineBox.Services.Movie;
 using CineBox.Services.MovieActor;
 using CineBox.Services.News;
@@ -53,6 +54,7 @@ builder.Services.AddTransient<IUsersRoleService, UsersRoleService>();
 builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<StripePaymentService>();
 builder.Services.AddTransient<PayPalPaymentService>();
+builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 
 builder.Services.AddControllers(x =>

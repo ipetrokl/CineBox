@@ -11,12 +11,14 @@
     <None Remove="Requests\" />
     <None Remove="ViewModels\" />
     <None Remove="Exceptions\" />
+    <None Remove="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SearchObjects\" />
     <Folder Include="Requests\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.29" />

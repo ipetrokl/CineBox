@@ -43,6 +43,7 @@
     <None Remove="Role\" />
     <None Remove="UserRole\" />
     <None Remove="News\" />
+    <None Remove="Messaging\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StateMachine\" />
@@ -63,5 +64,6 @@
     <Folder Include="Role\" />
     <Folder Include="UserRole\" />
     <Folder Include="News\" />
+    <Folder Include="Messaging\" />
   </ItemGroup>
 </Project>

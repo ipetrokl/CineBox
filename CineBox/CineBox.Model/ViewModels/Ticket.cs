@@ -18,6 +18,8 @@ namespace CineBox.Model.ViewModels
         public int BookingSeatId { get; set; }
 
         public virtual BookingSeat BookingSeat { get; set; } = null!;
+
+        public virtual User User { get; set; } = null!;
     }
 }
 
