@@ -6,7 +6,6 @@ using Azure.Core;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
-using CineBox.Services.StateMachine;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

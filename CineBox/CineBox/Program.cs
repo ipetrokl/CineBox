@@ -1,5 +1,4 @@
 ﻿using CineBox;
-using CineBox.Filters;
 using CineBox.Services;
 using CineBox.Services.Actor;
 using CineBox.Services.Booking;
@@ -18,7 +17,6 @@ using CineBox.Services.Review;
 using CineBox.Services.Role;
 using CineBox.Services.Screening;
 using CineBox.Services.Seat;
-using CineBox.Services.StateMachine;
 using CineBox.Services.Ticket;
 using CineBox.Services.UserRole;
 using CineBox.Services.Users;
@@ -32,10 +30,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IMovieService, MovieService>();
-builder.Services.AddTransient<BaseState>();
-builder.Services.AddTransient<InitialMovieState>();
-builder.Services.AddTransient<DraftMovieState>();
-builder.Services.AddTransient<ActiveMovieState>();
 builder.Services.AddTransient<ICinemaService, CinemaService>();
 builder.Services.AddTransient<IScreeningService, ScreeningService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
@@ -57,10 +51,7 @@ builder.Services.AddTransient<PayPalPaymentService>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 
-builder.Services.AddControllers(x =>
-{
-    x.Filters.Add<ErrorFilter>();
-});
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

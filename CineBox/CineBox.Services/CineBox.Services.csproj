@@ -25,7 +25,6 @@
     <ProjectReference Include="..\CineBox.Model\CineBox.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="StateMachine\" />
     <None Remove="Users\" />
     <None Remove="Movie\" />
     <None Remove="Cinema\" />
@@ -46,7 +45,6 @@
     <None Remove="Messaging\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="StateMachine\" />
     <Folder Include="Users\" />
     <Folder Include="Movie\" />
     <Folder Include="Cinema\" />

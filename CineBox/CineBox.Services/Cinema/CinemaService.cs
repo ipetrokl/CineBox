@@ -3,7 +3,6 @@ using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
-using CineBox.Services.StateMachine;
 using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.Cinema

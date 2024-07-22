@@ -20,8 +20,6 @@ namespace CineBox.Model.ViewModels
         public byte[]? Picture { get; set; }
 
         public byte[]? PictureThumb { get; set; }
-
-        public string? StateMachine { get; set; }
     }
 }
 
