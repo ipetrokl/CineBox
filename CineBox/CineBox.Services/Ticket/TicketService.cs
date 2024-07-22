@@ -3,12 +3,8 @@ using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Model.ViewModels;
-using CineBox.Services.Booking;
-using CineBox.Services.BookingSeat;
 using CineBox.Services.Database;
-using CineBox.Services.Hall;
 using CineBox.Services.Messaging;
-using CineBox.Services.Seat;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
