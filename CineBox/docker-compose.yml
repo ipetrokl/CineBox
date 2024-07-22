@@ -1,0 +1,79 @@
+version: '3.4'
+
+services:
+  
+  cinebox-rabbitmq:
+    image: "rabbitmq:3-management"
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+    networks:
+      - cinebox
+  
+  cinebox-sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${DB_PASSWORD}
+      - MSSQL_PID=Developer
+    ports:
+      - 1402:1433
+    expose:
+      - 1433
+    networks:
+      - cinebox
+
+  cinebox-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=${DB_SERVER},${DB_PORT};Database=${DB_NAME};User=${DB_USER};Password=${DB_PASSWORD};ConnectRetryCount=0;TrustServerCertificate=True
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Stripe__ApiKey=${STRIPE_API_KEY}
+      - RABBITMQ_HOST=cinebox-rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASS}
+      - RABBITMQ_VIRTUALHOST=/
+    ports:
+      - 7137:7137
+    networks:
+      - cinebox
+    links:
+      - cinebox-sql
+    depends_on:
+      - cinebox-sql
+      - cinebox-rabbitmq
+
+  mail-service:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile.mailservice
+    environment:
+      - RABBITMQ_HOST=cinebox-rabbitmq
+      - RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASS}
+      - RABBITMQ_VIRTUALHOST=/
+      - OUTLOOK_MAIL=${MAIL_SERVICE_MAIL}
+      - OUTLOOK_PASS=${MAIL_SERVICE_PASS}
+    depends_on:
+      - cinebox-rabbitmq
+      - cinebox-sql
+      - cinebox-api
+    networks:
+      - cinebox
+    ports:
+      - 7101:80
+
+networks:
+  cinebox:
+    driver: bridge
