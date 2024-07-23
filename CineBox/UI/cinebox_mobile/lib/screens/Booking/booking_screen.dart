@@ -238,8 +238,7 @@ class _BookingScreenState extends State<BookingScreen> {
                               Padding(
                                 padding:
                                     const EdgeInsets.only(right: 8, bottom: 5),
-                                child:
-                                    _buildBuyButton(),
+                                child: _buildBuyButton(),
                               ),
                             ],
                           ),
@@ -515,7 +514,14 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
       );
 
-      await Stripe.instance.presentPaymentSheet();
+      try {
+        await Stripe.instance.presentPaymentSheet();
+      } on StripeException catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Payment failed, try again!")),
+          );
+      return;
+      }
 
       for (var item in _cartProvider.cart.items) {
         Map<String, dynamic> bookingRequest = {

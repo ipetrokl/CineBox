@@ -45,6 +45,9 @@ class _CartScreenState extends State<CartScreen> {
     super.didChangeDependencies();
     _cartProvider = context.watch<CartProvider>();
     _bookingProvider = context.read<BookingProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
   }
 
   @override
