@@ -55,7 +55,7 @@ public partial class CineBoxContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost, 1402;Initial Catalog=Cinebox; user=sa; Password=@v@ntur@; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Data Source=localhost, 1402;Initial Catalog=Cinebox; user=sa; Password=Av@ntur@1; TrustServerCertificate=True");
         }
     }
 
