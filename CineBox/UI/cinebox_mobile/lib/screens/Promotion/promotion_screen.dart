@@ -56,6 +56,11 @@ class _PromotionScreenState extends State<PromotionScreen> {
   }
 
   Widget _buildPromotion() {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+    double navigationBarHeight = MediaQuery.of(context).padding.bottom;
+    double availableScreenHeight =
+        screenHeight - statusBarHeight - navigationBarHeight;
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
@@ -85,7 +90,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       thickness: 5, color: Color.fromARGB(200, 21, 36, 118)),
                   SizedBox(height: 10),
                   SizedBox(
-                    height: 575,
+                    height: availableScreenHeight - 201,
                     child: GridView(
                       padding: EdgeInsets.only(left: 5, right: 5),
                       gridDelegate:
