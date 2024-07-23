@@ -17,6 +17,11 @@ namespace CineBox.Services.Database
                 new Role { Id = 2, Name = "guest", Description = "guest" }
             );
 
+            modelBuilder.Entity<UsersRole>().HasData(
+                new UsersRole { UsersRolesId = 1, UserId = 1, RoleId = 1, DateOfModification = DateTime.Now },
+                new UsersRole { UsersRolesId = 2, UserId = 2, RoleId = 2, DateOfModification = DateTime.Now }
+            );
+
             modelBuilder.Entity<Actor>().HasData(
                 new Actor { Id = 1, Name = "Leonardo DiCaprio" },
                 new Actor { Id = 2, Name = "Kate Winslet" }
@@ -274,11 +279,6 @@ namespace CineBox.Services.Database
             modelBuilder.Entity<Payment>().HasData(
                 new Payment { Id = 1, BookingId = 1, Amount = 25.00m, PaymentStatus = "successfully" },
                 new Payment { Id = 2, BookingId = 2, Amount = 30.00m, PaymentStatus = "successfully" }
-            );
-
-            modelBuilder.Entity<UsersRole>().HasData(
-                new UsersRole { UsersRolesId = 1, UserId = 1, RoleId = 1, DateOfModification = DateTime.Now },
-                new UsersRole { UsersRolesId = 2, UserId = 2, RoleId = 2, DateOfModification = DateTime.Now }
             );
 
             modelBuilder.Entity<News>().HasData(
