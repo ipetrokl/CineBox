@@ -38,6 +38,9 @@ services:
       - ConnectionStrings:DefaultConnection=Server=${DB_SERVER},${DB_PORT};Database=${DB_NAME};User=${DB_USER};Password=${DB_PASSWORD};ConnectRetryCount=0;TrustServerCertificate=True
       - ASPNETCORE_ENVIRONMENT=Development
       - Stripe__ApiKey=${STRIPE_API_KEY}
+      - PayPal:ClientId=${PAYPAL_CLIENT_ID}
+      - PayPal:ClientSecret=${PAYPAL_CLIENT_SECRET}
+      - PayPal:Mode=${PAYPAL_MODE}
       - RABBITMQ_HOST=cinebox-rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=${RABBITMQ_USER}
