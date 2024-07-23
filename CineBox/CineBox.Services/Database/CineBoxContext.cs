@@ -51,6 +51,14 @@ public partial class CineBoxContext : DbContext
 
     public virtual DbSet<UsersRole> UsersRoles { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost, 1402;Initial Catalog=Cinebox; user=sa; Password=@v@ntur@; TrustServerCertificate=True");
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Actor>(entity =>
