@@ -29,7 +29,6 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'hallId': widget.seat?.hallId.toString(),
@@ -45,14 +44,7 @@ class _SeatDetailScreenState extends State<SeatDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   Future initForm() async {

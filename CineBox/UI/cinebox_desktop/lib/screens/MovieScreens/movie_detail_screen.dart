@@ -32,7 +32,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'genreId': widget.movie?.genreId.toString(),
@@ -50,14 +49,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   Future initForm() async {

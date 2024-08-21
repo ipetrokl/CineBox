@@ -23,7 +23,6 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'name': widget.role?.name,
@@ -35,14 +34,7 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   @override

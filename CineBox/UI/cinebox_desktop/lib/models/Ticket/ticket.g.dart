@@ -8,7 +8,7 @@ part of 'ticket.dart';
 
 Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
       json['id'] as int?,
-      json['bookingId'] as int?,
+      json['userId'] as int?,
       json['ticketCode'] as String?,
       json['qrCode'] as String?,
       (json['price'] as num?)?.toDouble(),
@@ -16,7 +16,7 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
 
 Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
       'id': instance.id,
-      'bookingId': instance.bookingId,
+      'userId': instance.userId,
       'ticketCode': instance.ticketCode,
       'qrCode': instance.qrCode,
       'price': instance.price,

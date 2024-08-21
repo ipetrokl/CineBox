@@ -5,12 +5,12 @@ part 'ticket.g.dart';
 @JsonSerializable()
 class Ticket {
   int? id;
-  int? bookingId;
+  int? userId;
   String? ticketCode;
   String? qrCode;
   double? price;
 
-  Ticket(this.id, this.bookingId, this.ticketCode, this.qrCode, this.price);
+  Ticket(this.id, this.userId, this.ticketCode, this.qrCode, this.price);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

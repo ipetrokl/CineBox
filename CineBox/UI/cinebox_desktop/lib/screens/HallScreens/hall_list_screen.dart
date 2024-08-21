@@ -20,13 +20,11 @@ class HallListScreen extends StatefulWidget {
 class _HallListScreenState extends State<HallListScreen> {
   SearchResult<Hall>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late HallProvider _hallProvider;
   late CinemaProvider _cinemaProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -67,7 +65,7 @@ class _HallListScreenState extends State<HallListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Hall or cinema name"),
+              decoration: InputDecoration(labelText: "Hall or Cinema name"),
               controller: _ftsController,
             ),
           ),

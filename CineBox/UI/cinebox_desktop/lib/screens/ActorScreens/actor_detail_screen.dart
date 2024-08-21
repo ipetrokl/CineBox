@@ -23,7 +23,6 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'name': widget.actor?.name,
@@ -34,14 +33,7 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   @override

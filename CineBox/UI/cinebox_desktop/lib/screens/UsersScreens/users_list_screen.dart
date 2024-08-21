@@ -18,12 +18,10 @@ class UsersListScreen extends StatefulWidget {
 class _UsersListScreenState extends State<UsersListScreen> {
   SearchResult<Users>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late UsersProvider _usersProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

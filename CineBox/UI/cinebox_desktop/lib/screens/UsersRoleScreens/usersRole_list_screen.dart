@@ -21,15 +21,12 @@ class UsersRoleListScreen extends StatefulWidget {
 
 class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
   SearchResult<UsersRole>? result;
-  TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late UsersRoleProvider _usersRoleProvider;
   late UsersProvider _usersProvider;
   late RoleProvider _roleProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

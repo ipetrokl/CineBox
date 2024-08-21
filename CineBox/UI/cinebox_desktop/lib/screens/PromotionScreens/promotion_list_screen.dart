@@ -18,12 +18,10 @@ class PromotionListScreen extends StatefulWidget {
 class _PromotionListScreenState extends State<PromotionListScreen> {
   SearchResult<Promotion>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late PromotionProvider _promotionProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

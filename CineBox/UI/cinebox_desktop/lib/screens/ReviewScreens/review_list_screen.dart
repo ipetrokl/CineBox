@@ -21,14 +21,12 @@ class ReviewListScreen extends StatefulWidget {
 class _ReviewListScreenState extends State<ReviewListScreen> {
   SearchResult<Review>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late ReviewProvider _reviewProvider;
   late MovieProvider _movieProvider;
   late UsersProvider _usersProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -70,7 +68,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Search"),
+              decoration: InputDecoration(labelText: "User or Comment"),
               controller: _ftsController,
             ),
           ),
@@ -163,36 +161,36 @@ class DataTableSourceRows extends DataTableSource {
     return DataRow(
       cells: [
         DataCell(Text(review.id?.toString() ?? "")),
-                        DataCell(
-                          FutureBuilder<Users?>(
-                            future: usersProvider.getById(review.userId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.name ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(
-                          FutureBuilder<Movie?>(
-                            future: movieProvider.getById(review.movieId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.title ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(Text(review.rating?.toString() ?? "")),
-                        DataCell(Text(review.comment?.toString() ?? "")),
-                            DataCell(IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => onDelete(review.id!),
-                            )),
+        DataCell(
+          FutureBuilder<Users?>(
+            future: usersProvider.getById(review.userId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.name ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(
+          FutureBuilder<Movie?>(
+            future: movieProvider.getById(review.movieId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.title ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(review.rating?.toString() ?? "")),
+        DataCell(Text(review.comment?.toString() ?? "")),
+        DataCell(IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => onDelete(review.id!),
+        )),
       ],
     );
   }

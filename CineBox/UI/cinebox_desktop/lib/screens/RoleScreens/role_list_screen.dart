@@ -18,12 +18,10 @@ class RoleListScreen extends StatefulWidget {
 class _RoleListScreenState extends State<RoleListScreen> {
   SearchResult<Role>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late RoleProvider _roleProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

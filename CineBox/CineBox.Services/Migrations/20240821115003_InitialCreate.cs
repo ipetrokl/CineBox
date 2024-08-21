@@ -155,8 +155,7 @@ namespace CineBox.Services.Migrations
                     performed_to = table.Column<DateTime>(type: "date", nullable: false),
                     director = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    pictureThumb = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    stateMachine = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    pictureThumb = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -445,7 +444,7 @@ namespace CineBox.Services.Migrations
                 values: new object[,]
                 {
                     { 1, "john@example.com", "John", "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", "AE9YsGCoSj4H1vy1RUHkng==", "123-456-7890", true, "Doe", "test" },
-                    { 2, "jane@example.com", "Jane", "hash2", "salt2", "987-654-3210", true, "Smith", "jane_smith" }
+                    { 2, "jane@example.com", "Jane", "CX9GC3inZ7AA7itor/taR6ozGQM=", "YzSwhwHPu3+++d+LsG4kiA==", "987-654-3210", true, "Smith", "guest" }
                 });
 
             migrationBuilder.InsertData(
@@ -463,11 +462,11 @@ namespace CineBox.Services.Migrations
 
             migrationBuilder.InsertData(
                 table: "Movie",
-                columns: new[] { "id", "description", "director", "genre_id", "performed_from", "performed_to", "picture", "pictureThumb", "stateMachine", "title" },
+                columns: new[] { "id", "description", "director", "genre_id", "performed_from", "performed_to", "picture", "pictureThumb", "title" },
                 values: new object[,]
                 {
-                    { 1, "A mind-bending thriller", "Christopher Nolan", 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Inception" },
-                    { 2, "A romantic disaster film", "James Cameron", 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Titanic" }
+                    { 1, "A mind-bending thriller", "Christopher Nolan", 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Inception" },
+                    { 2, "A romantic disaster film", "James Cameron", 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Titanic" }
                 });
 
             migrationBuilder.InsertData(
@@ -475,9 +474,9 @@ namespace CineBox.Services.Migrations
                 columns: new[] { "id", "cinema_id", "created_date", "description", "name" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1420), "25.11.2024. Cinebox Zagreb will not work, See you soon :)", "Public holiday" },
-                    { 2, 1, new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1420), "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00", "New working time" },
-                    { 3, 2, new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1430), "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00", "New working time" }
+                    { 1, 1, new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6200), "25.11.2024. Cinebox Zagreb will not work, See you soon :)", "Public holiday" },
+                    { 2, 1, new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6210), "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00", "New working time" },
+                    { 3, 2, new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6210), "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00", "New working time" }
                 });
 
             migrationBuilder.InsertData(
@@ -485,8 +484,8 @@ namespace CineBox.Services.Migrations
                 columns: new[] { "UsersRolesId", "dateOfModification", "role_id", "user_id" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(980), 1, 1 },
-                    { 2, new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1030), 2, 2 }
+                    { 1, new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(5780), 1, 1 },
+                    { 2, new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(5820), 2, 2 }
                 });
 
             migrationBuilder.InsertData(

@@ -20,12 +20,10 @@ class GenreListScreen extends StatefulWidget {
 class _GenreListScreenState extends State<GenreListScreen> {
   SearchResult<Genre>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late GenreProvider _genreProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -115,7 +113,7 @@ class _GenreListScreenState extends State<GenreListScreen> {
                   )),
           child: PaginatedDataTable(
             header: const Center(
-              child: Text('Cinemas'),
+              child: Text('Genres'),
             ),
             columns: const [
               DataColumn(label: Text('ID')),

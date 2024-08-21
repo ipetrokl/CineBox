@@ -84,11 +84,11 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Booking__3213E83F4DE83FAA");
 
-                    b.HasIndex("PromotionId");
+                    b.HasIndex(new[] { "PromotionId" }, "IX_Booking_promotion_Id");
 
-                    b.HasIndex("ScreeningId");
+                    b.HasIndex(new[] { "ScreeningId" }, "IX_Booking_screening_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_Booking_user_id");
 
                     b.ToTable("Booking", (string)null);
 
@@ -131,9 +131,9 @@ namespace CineBox.Services.Migrations
                     b.HasKey("BookingSeatId")
                         .HasName("PK__BookingS__0F3B47D633C275B0");
 
-                    b.HasIndex("BookingId");
+                    b.HasIndex(new[] { "BookingId" }, "IX_BookingSeat_booking_id");
 
-                    b.HasIndex("SeatId");
+                    b.HasIndex(new[] { "SeatId" }, "IX_BookingSeat_seat_id");
 
                     b.ToTable("BookingSeat", (string)null);
 
@@ -264,7 +264,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Hall__3213E83FD9AF1396");
 
-                    b.HasIndex("CinemaId");
+                    b.HasIndex(new[] { "CinemaId" }, "IX_Hall_cinema_id");
 
                     b.ToTable("Hall", (string)null);
 
@@ -349,12 +349,6 @@ namespace CineBox.Services.Migrations
                         .HasColumnType("varbinary(max)")
                         .HasColumnName("pictureThumb");
 
-                    b.Property<string>("StateMachine")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("stateMachine");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -365,7 +359,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Movie__3213E83F2BD5909A");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex(new[] { "GenreId" }, "IX_Movie_genre_id");
 
                     b.ToTable("Movie", (string)null);
 
@@ -412,9 +406,9 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__MovieAct__3213E83F842B29CF");
 
-                    b.HasIndex("ActorId");
+                    b.HasIndex(new[] { "ActorId" }, "IX_MovieActor_actor_id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex(new[] { "MovieId" }, "IX_MovieActor_movie_id");
 
                     b.ToTable("MovieActor", (string)null);
 
@@ -466,7 +460,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__News__3213E83F8B80E9AE");
 
-                    b.HasIndex("CinemaId");
+                    b.HasIndex(new[] { "CinemaId" }, "IX_News_cinema_id");
 
                     b.ToTable("News");
 
@@ -475,7 +469,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 1,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1420),
+                            CreatedDate = new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6200),
                             Description = "25.11.2024. Cinebox Zagreb will not work, See you soon :)",
                             Name = "Public holiday"
                         },
@@ -483,7 +477,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 2,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1420),
+                            CreatedDate = new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6210),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         },
@@ -491,7 +485,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 3,
                             CinemaId = 2,
-                            CreatedDate = new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1430),
+                            CreatedDate = new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(6210),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         });
@@ -524,7 +518,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Payment__3213E83F05BAE6AD");
 
-                    b.HasIndex("BookingId");
+                    b.HasIndex(new[] { "BookingId" }, "IX_Payment_booking_id");
 
                     b.ToTable("Payment", (string)null);
 
@@ -628,9 +622,9 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Review__3213E83FD26CF094");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex(new[] { "MovieId" }, "IX_Review_movie_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_Review_user_id");
 
                     b.ToTable("Review", (string)null);
 
@@ -746,9 +740,9 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Screenin__3213E83F341DB2BE");
 
-                    b.HasIndex("HallId");
+                    b.HasIndex(new[] { "HallId" }, "IX_Screening_hall_id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex(new[] { "MovieId" }, "IX_Screening_movie_id");
 
                     b.ToTable("Screening", (string)null);
 
@@ -804,7 +798,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Seat__3213E83F0DCCBA47");
 
-                    b.HasIndex("HallId");
+                    b.HasIndex(new[] { "HallId" }, "IX_Seat_hall_id");
 
                     b.ToTable("Seat", (string)null);
 
@@ -2128,7 +2122,7 @@ namespace CineBox.Services.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Ticket__3213E83FBF00AE8F");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_Ticket_user_id");
 
                     b.HasIndex(new[] { "BookingSeatId" }, "UQ__Ticket__C073D47C7F315E70")
                         .IsUnique();
@@ -2257,12 +2251,12 @@ namespace CineBox.Services.Migrations
                             Id = 2,
                             Email = "jane@example.com",
                             Name = "Jane",
-                            PasswordHash = "hash2",
-                            PasswordSalt = "salt2",
+                            PasswordHash = "CX9GC3inZ7AA7itor/taR6ozGQM=",
+                            PasswordSalt = "YzSwhwHPu3+++d+LsG4kiA==",
                             Phone = "987-654-3210",
                             Status = true,
                             Surname = "Smith",
-                            Username = "jane_smith"
+                            Username = "guest"
                         });
                 });
 
@@ -2289,9 +2283,9 @@ namespace CineBox.Services.Migrations
                     b.HasKey("UsersRolesId")
                         .HasName("PK__UsersRol__A9752347C3F9B8FD");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex(new[] { "RoleId" }, "IX_UsersRoles_role_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_UsersRoles_user_id");
 
                     b.ToTable("UsersRoles");
 
@@ -2299,14 +2293,14 @@ namespace CineBox.Services.Migrations
                         new
                         {
                             UsersRolesId = 1,
-                            DateOfModification = new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(980),
+                            DateOfModification = new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(5780),
                             RoleId = 1,
                             UserId = 1
                         },
                         new
                         {
                             UsersRolesId = 2,
-                            DateOfModification = new DateTime(2024, 7, 23, 17, 53, 54, 592, DateTimeKind.Local).AddTicks(1030),
+                            DateOfModification = new DateTime(2024, 8, 21, 13, 50, 3, 778, DateTimeKind.Local).AddTicks(5820),
                             RoleId = 2,
                             UserId = 2
                         });

@@ -1,8 +1,10 @@
 import 'package:cinebox_desktop/models/Booking/booking.dart';
 import 'package:cinebox_desktop/models/Ticket/ticket.dart';
+import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/ticket_provider.dart';
+import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +21,11 @@ class TicketListScreen extends StatefulWidget {
 class _TicketListScreenState extends State<TicketListScreen> {
   SearchResult<Ticket>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late TicketProvider _ticketProvider;
-  late BookingProvider _bookingProvider;
+  late UsersProvider _usersProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -33,7 +33,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
   void initState() {
     super.initState();
     _ticketProvider = context.read<TicketProvider>();
-    _bookingProvider = context.read<BookingProvider>();
+    _usersProvider = context.read<UsersProvider>();
     _fetchData();
   }
 
@@ -108,14 +108,14 @@ class _TicketListScreenState extends State<TicketListScreen> {
             ),
             columns: const [
               DataColumn(label: Text('ID')),
-              DataColumn(label: Text('Booking Id')),
+              DataColumn(label: Text('User Id')),
               DataColumn(label: Text('Ticket Code')),
               DataColumn(label: Text('QR Code')),
               DataColumn(label: Text('Price')),
             ],
             source: DataTableSourceRows(
               result?.result ?? [],
-              _bookingProvider,
+              _usersProvider,
             ),
             showCheckboxColumn: false,
           ),
@@ -127,9 +127,9 @@ class _TicketListScreenState extends State<TicketListScreen> {
 
 class DataTableSourceRows extends DataTableSource {
   final List<Ticket> tickets;
-  final BookingProvider bookingProvider;
+  final UsersProvider usersProvider;
 
-  DataTableSourceRows(this.tickets, this.bookingProvider);
+  DataTableSourceRows(this.tickets, this.usersProvider);
 
   @override
   DataRow getRow(int index) {
@@ -138,8 +138,8 @@ class DataTableSourceRows extends DataTableSource {
       cells: [
         DataCell(Text(ticket.id?.toString() ?? "")),
         DataCell(
-          FutureBuilder<Booking?>(
-            future: bookingProvider.getById(ticket.bookingId!),
+          FutureBuilder<Users?>(
+            future: usersProvider.getById(ticket.userId!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(snapshot.data?.id.toString() ?? '');

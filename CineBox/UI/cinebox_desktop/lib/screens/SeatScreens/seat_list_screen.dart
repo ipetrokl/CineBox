@@ -20,13 +20,11 @@ class SeatListScreen extends StatefulWidget {
 class _SeatListScreenState extends State<SeatListScreen> {
   SearchResult<Seat>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late SeatProvider _seatProvider;
   late HallProvider _hallProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -67,7 +65,7 @@ class _SeatListScreenState extends State<SeatListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Search"),
+              decoration: InputDecoration(labelText: "Hall or Category"),
               controller: _ftsController,
             ),
           ),

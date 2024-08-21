@@ -80,6 +80,12 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Booking");
 
+            entity.HasIndex(e => e.PromotionId, "IX_Booking_promotion_Id");
+
+            entity.HasIndex(e => e.ScreeningId, "IX_Booking_screening_id");
+
+            entity.HasIndex(e => e.UserId, "IX_Booking_user_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
@@ -109,6 +115,10 @@ public partial class CineBoxContext : DbContext
             entity.HasKey(e => e.BookingSeatId).HasName("PK__BookingS__0F3B47D633C275B0");
 
             entity.ToTable("BookingSeat");
+
+            entity.HasIndex(e => e.BookingId, "IX_BookingSeat_booking_id");
+
+            entity.HasIndex(e => e.SeatId, "IX_BookingSeat_seat_id");
 
             entity.Property(e => e.BookingSeatId).HasColumnName("bookingSeatId");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
@@ -161,6 +171,8 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Hall");
 
+            entity.HasIndex(e => e.CinemaId, "IX_Hall_cinema_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CinemaId).HasColumnName("cinema_id");
             entity.Property(e => e.Name)
@@ -180,6 +192,8 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Movie");
 
+            entity.HasIndex(e => e.GenreId, "IX_Movie_genre_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .IsUnicode(false)
@@ -197,10 +211,6 @@ public partial class CineBoxContext : DbContext
                 .HasColumnName("performed_to");
             entity.Property(e => e.Picture).HasColumnName("picture");
             entity.Property(e => e.PictureThumb).HasColumnName("pictureThumb");
-            entity.Property(e => e.StateMachine)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("stateMachine");
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -217,6 +227,10 @@ public partial class CineBoxContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__MovieAct__3213E83F842B29CF");
 
             entity.ToTable("MovieActor");
+
+            entity.HasIndex(e => e.ActorId, "IX_MovieActor_actor_id");
+
+            entity.HasIndex(e => e.MovieId, "IX_MovieActor_movie_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ActorId).HasColumnName("actor_id");
@@ -236,6 +250,8 @@ public partial class CineBoxContext : DbContext
         modelBuilder.Entity<News>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__News__3213E83F8B80E9AE");
+
+            entity.HasIndex(e => e.CinemaId, "IX_News_cinema_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CinemaId).HasColumnName("cinema_id");
@@ -261,6 +277,8 @@ public partial class CineBoxContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Payment__3213E83F05BAE6AD");
 
             entity.ToTable("Payment");
+
+            entity.HasIndex(e => e.BookingId, "IX_Payment_booking_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount)
@@ -303,6 +321,10 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Review");
 
+            entity.HasIndex(e => e.MovieId, "IX_Review_movie_id");
+
+            entity.HasIndex(e => e.UserId, "IX_Review_user_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Comment)
                 .IsUnicode(false)
@@ -343,6 +365,10 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Screening");
 
+            entity.HasIndex(e => e.HallId, "IX_Screening_hall_id");
+
+            entity.HasIndex(e => e.MovieId, "IX_Screening_movie_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category)
                 .HasMaxLength(255)
@@ -374,6 +400,8 @@ public partial class CineBoxContext : DbContext
 
             entity.ToTable("Seat");
 
+            entity.HasIndex(e => e.HallId, "IX_Seat_hall_id");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category)
                 .HasMaxLength(255)
@@ -394,6 +422,8 @@ public partial class CineBoxContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Ticket__3213E83FBF00AE8F");
 
             entity.ToTable("Ticket");
+
+            entity.HasIndex(e => e.UserId, "IX_Ticket_user_id");
 
             entity.HasIndex(e => e.BookingSeatId, "UQ__Ticket__C073D47C7F315E70").IsUnique();
 
@@ -463,6 +493,10 @@ public partial class CineBoxContext : DbContext
         modelBuilder.Entity<UsersRole>(entity =>
         {
             entity.HasKey(e => e.UsersRolesId).HasName("PK__UsersRol__A9752347C3F9B8FD");
+
+            entity.HasIndex(e => e.RoleId, "IX_UsersRoles_role_id");
+
+            entity.HasIndex(e => e.UserId, "IX_UsersRoles_user_id");
 
             entity.Property(e => e.DateOfModification)
                 .HasColumnType("datetime")

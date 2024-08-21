@@ -27,7 +27,6 @@ class _MovieActorListScreenState extends State<MovieActorListScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

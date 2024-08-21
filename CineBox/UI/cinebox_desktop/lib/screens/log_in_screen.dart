@@ -14,14 +14,12 @@ class LoginPage extends StatelessWidget {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late MovieProvider _movieProvider;
   late UsersProvider _usersProvider;
   late RoleProvider _roleProvider;
   late UsersRoleProvider _usersRoleProvider;
 
   @override
   Widget build(BuildContext context) {
-    _movieProvider = context.read<MovieProvider>();
     _usersProvider = context.read<UsersProvider>();
     _roleProvider = context.read<RoleProvider>();
     _usersRoleProvider = context.read<UsersRoleProvider>();

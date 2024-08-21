@@ -23,8 +23,6 @@ public partial class Movie
 
     public byte[]? PictureThumb { get; set; }
 
-    public string? StateMachine { get; set; }
-
     public virtual Genre Genre { get; set; } = null!;
 
     public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();

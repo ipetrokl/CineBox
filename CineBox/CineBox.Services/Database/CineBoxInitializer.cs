@@ -9,7 +9,7 @@ namespace CineBox.Services.Database
         {
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, Username = "test", PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==", Email = "john@example.com", Name = "John", Surname = "Doe", Phone = "123-456-7890", Status = true },
-                new User { Id = 2, Username = "jane_smith", PasswordHash = "hash2", PasswordSalt = "salt2", Email = "jane@example.com", Name = "Jane", Surname = "Smith", Phone = "987-654-3210", Status = true }
+                new User { Id = 2, Username = "guest", PasswordHash = "CX9GC3inZ7AA7itor/taR6ozGQM=", PasswordSalt = "YzSwhwHPu3+++d+LsG4kiA==", Email = "jane@example.com", Name = "Jane", Surname = "Smith", Phone = "987-654-3210", Status = true }
             );
 
             modelBuilder.Entity<Role>().HasData(

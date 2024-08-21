@@ -33,7 +33,6 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'userId': widget.usersRole?.userId.toString(),
@@ -49,14 +48,7 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   Future initForm() async {

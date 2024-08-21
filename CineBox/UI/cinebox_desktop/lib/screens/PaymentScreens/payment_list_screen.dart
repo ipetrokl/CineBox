@@ -20,13 +20,11 @@ class PaymentListScreen extends StatefulWidget {
 class _PaymentListScreenState extends State<PaymentListScreen> {
   SearchResult<Payment>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late PaymentProvider _paymentProvider;
   late BookingProvider _bookingProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -87,17 +85,7 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
               child: const Text("Search")),
           SizedBox(
             width: 20,
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => HallDetailScreen(
-                            hall: null,
-                          )),
-                );
-              },
-              child: const Text("Add"))
+          )
         ],
       ),
     );
@@ -136,8 +124,7 @@ class DataTableSourceRows extends DataTableSource {
   final List<Payment> payments;
   final BookingProvider bookingProvider;
 
-  DataTableSourceRows(
-      this.payments, this.bookingProvider);
+  DataTableSourceRows(this.payments, this.bookingProvider);
 
   @override
   DataRow getRow(int index) {
@@ -145,20 +132,20 @@ class DataTableSourceRows extends DataTableSource {
     return DataRow(
       cells: [
         DataCell(Text(payment.id?.toString() ?? "")),
-                        DataCell(
-                          FutureBuilder<Booking?>(
-                            future: bookingProvider.getById(payment.bookingId!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(snapshot.data?.id.toString() ?? '');
-                              } else {
-                                return CircularProgressIndicator();
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(Text(payment.amount?.toString() ?? "")),
-                        DataCell(Text(payment.paymentStatus?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<Booking?>(
+            future: bookingProvider.getById(payment.bookingId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.id.toString() ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(Text(payment.amount?.toString() ?? "")),
+        DataCell(Text(payment.paymentStatus?.toString() ?? "")),
       ],
     );
   }

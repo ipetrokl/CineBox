@@ -23,7 +23,6 @@ class BookingListScreen extends StatefulWidget {
 class _BookingListScreenState extends State<BookingListScreen> {
   SearchResult<Booking>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late BookingProvider _bookingProvider;
   late UsersProvider _usersProvider;
   late ScreeningProvider _screeningProvider;
@@ -31,7 +30,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

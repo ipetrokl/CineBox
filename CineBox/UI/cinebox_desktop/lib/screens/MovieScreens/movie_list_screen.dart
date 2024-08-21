@@ -27,7 +27,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -86,13 +85,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              print("Back proceed");
-              //Navigator.of(context).pop();
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //       builder: (context) => const MovieDetailScreen()),
-              // );
-
               var data = await _movieProvider.get(filter: {
                 'fts': _ftsController.text,
                 'description': _descriptionController.text
@@ -101,7 +93,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
               setState(() {
                 result = data;
               });
-              // print("data: ${data.result[0].title}");
             },
             child: const Text("Search"),
           ),

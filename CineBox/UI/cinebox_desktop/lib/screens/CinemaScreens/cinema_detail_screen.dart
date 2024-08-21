@@ -23,7 +23,6 @@ class _CinemaDetailScreenState extends State<CinemaDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = {
       'name': widget.cinema?.name,
@@ -35,14 +34,7 @@ class _CinemaDetailScreenState extends State<CinemaDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
-    // if (widget.movie != null) {
-    //   setState(() {
-    //     _formKey.currentState?.patchValue({'title': widget.movie?.title});
-    //   });
-    // }
   }
 
   @override

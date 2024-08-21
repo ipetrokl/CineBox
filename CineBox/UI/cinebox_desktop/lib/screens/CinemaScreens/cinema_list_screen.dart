@@ -18,12 +18,11 @@ class CinemaListScreen extends StatefulWidget {
 class _CinemaListScreenState extends State<CinemaListScreen> {
   SearchResult<Cinema>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   late CinemaProvider _cinemaProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -72,8 +71,8 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
           ),
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Location"),
-              controller: _descriptionController,
+              decoration: InputDecoration(labelText: "Name"),
+              controller: _nameController,
             ),
           ),
           const SizedBox(
@@ -81,22 +80,14 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                print("Back proceed");
-                //Navigator.of(context).pop();
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //       builder: (context) => const MovieDetailScreen()),
-                // );
-
                 var data = await _cinemaProvider.get(filter: {
                   'fts': _ftsController.text,
-                  'description': _descriptionController.text
+                  'name': _nameController.text
                 });
 
                 setState(() {
                   result = data;
                 });
-                // print("data: ${data.result[0].title}");
               },
               child: const Text("Search")),
           SizedBox(

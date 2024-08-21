@@ -19,13 +19,11 @@ class NewsListScreen extends StatefulWidget {
 class _NewsListScreenState extends State<NewsListScreen> {
   SearchResult<News>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late NewsProvider _newsProvider;
   late CinemaProvider _cinemaProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

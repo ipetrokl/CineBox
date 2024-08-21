@@ -25,13 +25,12 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
   late ScreeningProvider _screeningProvider;
   SearchResult<Screening>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _categoryController = TextEditingController();
   late MovieProvider _movieProvider;
   late HallProvider _hallProvider;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -83,7 +82,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           Expanded(
             child: TextField(
               decoration: InputDecoration(labelText: "Category"),
-              controller: _descriptionController,
+              controller: _categoryController,
             ),
           ),
           const SizedBox(
@@ -91,22 +90,14 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                print("Back proceed");
-                //Navigator.of(context).pop();
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //       builder: (context) => const MovieDetailScreen()),
-                // );
-
                 var data = await _screeningProvider.get(filter: {
                   'fts': _ftsController.text,
-                  'description': _descriptionController.text
+                  'category': _categoryController.text
                 });
 
                 setState(() {
                   result = data;
                 });
-                // print("data: ${data.result[0].title}");
               },
               child: const Text("Search")),
           SizedBox(
