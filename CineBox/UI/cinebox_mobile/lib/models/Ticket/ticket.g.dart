@@ -7,11 +7,11 @@ part of 'ticket.dart';
 // **************************************************************************
 
 Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket()
-  ..id = json['id'] as int?
+  ..id = (json['id'] as num?)?.toInt()
   ..ticketCode = json['ticketCode'] as String?
   ..qrCode = json['qrCode'] as String?
   ..price = (json['price'] as num?)?.toDouble()
-  ..bookingSeatId = json['bookingSeatId'] as int?
+  ..bookingSeatId = (json['bookingSeatId'] as num?)?.toInt()
   ..bookingSeat = json['bookingSeat'] == null
       ? null
       : BookingSeat.fromJson(json['bookingSeat'] as Map<String, dynamic>);

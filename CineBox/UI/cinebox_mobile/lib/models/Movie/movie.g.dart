@@ -7,8 +7,8 @@ part of 'movie.dart';
 // **************************************************************************
 
 Movie _$MovieFromJson(Map<String, dynamic> json) => Movie()
-  ..id = json['id'] as int?
-  ..genreId = json['genreId'] as int?
+  ..id = (json['id'] as num?)?.toInt()
+  ..genreId = (json['genreId'] as num?)?.toInt()
   ..title = json['title'] as String?
   ..description = json['description'] as String?
   ..performedFrom = json['performedFrom'] == null
@@ -17,7 +17,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie()
   ..performedTo = json['performedTo'] == null
       ? null
       : DateTime.parse(json['performedTo'] as String)
-  ..duration = json['duration'] as int?
+  ..duration = (json['duration'] as num?)?.toInt()
   ..director = json['director'] as String?
   ..picture = json['picture'] as String?
   ..actors = (json['actors'] as List<dynamic>?)

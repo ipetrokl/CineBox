@@ -7,8 +7,8 @@ part of 'payment.dart';
 // **************************************************************************
 
 Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment()
-  ..id = json['id'] as int?
-  ..bookingId = json['bookingId'] as int?
+  ..id = (json['id'] as num?)?.toInt()
+  ..bookingId = (json['bookingId'] as num?)?.toInt()
   ..amount = (json['amount'] as num?)?.toDouble()
   ..paymentStatus = json['paymentStatus'] as String?;
 

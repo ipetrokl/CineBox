@@ -66,7 +66,6 @@ class _movieListScreenState extends State<MovieListScreen> {
         );
       });
     }
-    print("called initState");
     loadData();
   }
 

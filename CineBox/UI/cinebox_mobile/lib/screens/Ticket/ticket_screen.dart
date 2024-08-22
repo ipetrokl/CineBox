@@ -160,7 +160,7 @@ class _TicketScreenState extends State<TicketScreen> {
                                   ),
                                 ),
                                 Text(
-                                    DateFormat('dd.MMMM.yyyy.').format(ticket
+                                    DateFormat('dd.MMM.yyyy.').format(ticket
                                         .bookingSeat!
                                         .booking!
                                         .screening!
@@ -178,8 +178,7 @@ class _TicketScreenState extends State<TicketScreen> {
                                   ),
                                 ),
                                 Text(
-                                  ticket.bookingSeat!.booking!.screening!.hall!
-                                      .name!,
+                                  ticket.bookingSeat!.seat!.hall!.name!,
                                   style: const TextStyle(
                                     fontSize: 10,
                                   ),
@@ -246,15 +245,14 @@ class _TicketScreenState extends State<TicketScreen> {
                           Row(
                             children: [
                               const Text(
-                                "Screening: ",
+                                "Cinema: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                 ),
                               ),
                               Text(
-                                ticket
-                                    .bookingSeat!.booking!.screening!.category!,
+                                ticket.bookingSeat!.seat!.hall!.cinema!.name!,
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
@@ -277,28 +275,49 @@ class _TicketScreenState extends State<TicketScreen> {
                                 ),
                               ),
                             ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Screening: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                ticket
+                                    .bookingSeat!.booking!.screening!.category!,
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.memory(
-                          _formatQRCode(ticket),
-                          scale: 5,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          ticket.ticketCode!,
-                          style: const TextStyle(
-                            fontSize: 7,
+                  GestureDetector(
+                    onTap: () => _showQRCodeDialog(ticket),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.memory(
+                            _formatQRCode(ticket),
+                            scale: 5,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 3),
+                          Text(
+                            ticket.ticketCode!,
+                            style: const TextStyle(
+                              fontSize: 7,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -313,5 +332,46 @@ class _TicketScreenState extends State<TicketScreen> {
   Uint8List _formatQRCode(Ticket ticket) {
     Uint8List decodedBytes = base64Decode(ticket.qrCode!);
     return decodedBytes;
+  }
+
+  void _showQRCodeDialog(Ticket ticket) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white70,
+          insetPadding: EdgeInsets.all(10),
+          child: Stack(
+            children: [
+              Center(
+                child: Image.memory(
+                  _formatQRCode(ticket),
+                  scale: 1,
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

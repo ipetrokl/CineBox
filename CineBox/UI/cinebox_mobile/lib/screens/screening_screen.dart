@@ -65,8 +65,12 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
           .get(filter: {'screeningId': widget.screening.id});
 
       var bookingIds = bookingData.result.map((booking) => booking.id).toList();
-      var bookingSeatsData = await _bookingSeatProvider
-          .get(filter: {'bookingIds': bookingIds});
+
+      var bookingSeatsData;
+      if (bookingIds.isNotEmpty) {
+        bookingSeatsData =
+            await _bookingSeatProvider.get(filter: {'bookingIds': bookingIds});
+      }
       setState(() {
         seats = seatsData;
         bookings = bookingData;
@@ -78,7 +82,7 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
         }
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching seats: $e");
     }
   }
 
@@ -265,7 +269,7 @@ class _ScreeningScreenState extends State<ScreeningScreen> {
             },
             seats: seats!.result,
             selectedSeats: selectedSeats,
-            bookedSeats: bookingSeats!.result),
+            bookedSeats: bookingSeats?.result ?? []),
       );
     }
   }

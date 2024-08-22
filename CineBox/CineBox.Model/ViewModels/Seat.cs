@@ -12,5 +12,7 @@ namespace CineBox.Model.ViewModels
         public string Category { get; set; } = null!;
 
         public bool Status { get; set; }
+
+        public virtual Hall Hall { get; set; } = null!;
     }
 }

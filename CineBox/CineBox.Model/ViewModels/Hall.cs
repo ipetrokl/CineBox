@@ -8,6 +8,8 @@ namespace CineBox.Model.ViewModels
         public int CinemaId { get; set; }
 
         public string Name { get; set; } = null!;
+
+        public virtual Cinema Cinema { get; set; } = null!;
     }
 }
 

@@ -1,3 +1,4 @@
+import 'package:cinebox_mobile/models/Cinema/cinema.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'hall.g.dart';
@@ -7,6 +8,7 @@ class Hall {
   int? id;
   int? cinemaId;
   String? name;
+  Cinema? cinema;
 
   Hall();
 

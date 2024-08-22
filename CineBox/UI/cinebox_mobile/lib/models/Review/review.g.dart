@@ -7,9 +7,9 @@ part of 'review.dart';
 // **************************************************************************
 
 Review _$ReviewFromJson(Map<String, dynamic> json) => Review()
-  ..id = json['id'] as int?
-  ..userId = json['userId'] as int?
-  ..movieId = json['movieId'] as int?
+  ..id = (json['id'] as num?)?.toInt()
+  ..userId = (json['userId'] as num?)?.toInt()
+  ..movieId = (json['movieId'] as num?)?.toInt()
   ..rating = (json['rating'] as num?)?.toDouble()
   ..comment = json['comment'] as String?;
 

@@ -7,7 +7,7 @@ part of 'actor.dart';
 // **************************************************************************
 
 Actor _$ActorFromJson(Map<String, dynamic> json) => Actor()
-  ..id = json['id'] as int?
+  ..id = (json['id'] as num?)?.toInt()
   ..name = json['name'] as String?;
 
 Map<String, dynamic> _$ActorToJson(Actor instance) => <String, dynamic>{

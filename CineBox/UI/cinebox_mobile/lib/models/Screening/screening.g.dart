@@ -7,9 +7,9 @@ part of 'screening.dart';
 // **************************************************************************
 
 Screening _$ScreeningFromJson(Map<String, dynamic> json) => Screening(
-      json['id'] as int?,
-      json['movieId'] as int?,
-      json['hallId'] as int?,
+      (json['id'] as num?)?.toInt(),
+      (json['movieId'] as num?)?.toInt(),
+      (json['hallId'] as num?)?.toInt(),
       json['category'] as String?,
       json['screeningTime'] == null
           ? null

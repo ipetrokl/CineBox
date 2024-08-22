@@ -7,9 +7,9 @@ part of 'bookingSeat.dart';
 // **************************************************************************
 
 BookingSeat _$BookingSeatFromJson(Map<String, dynamic> json) => BookingSeat(
-      json['bookingSeatId'] as int?,
-      json['bookingId'] as int?,
-      json['seatId'] as int?,
+      (json['bookingSeatId'] as num?)?.toInt(),
+      (json['bookingId'] as num?)?.toInt(),
+      (json['seatId'] as num?)?.toInt(),
       json['booking'] == null
           ? null
           : Booking.fromJson(json['booking'] as Map<String, dynamic>),

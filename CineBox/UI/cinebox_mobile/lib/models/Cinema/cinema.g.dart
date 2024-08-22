@@ -7,7 +7,7 @@ part of 'cinema.dart';
 // **************************************************************************
 
 Cinema _$CinemaFromJson(Map<String, dynamic> json) => Cinema()
-  ..id = json['id'] as int?
+  ..id = (json['id'] as num?)?.toInt()
   ..name = json['name'] as String?
   ..location = json['location'] as String?;
 

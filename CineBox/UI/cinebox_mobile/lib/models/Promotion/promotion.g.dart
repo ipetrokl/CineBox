@@ -7,7 +7,7 @@ part of 'promotion.dart';
 // **************************************************************************
 
 Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion()
-  ..id = json['id'] as int?
+  ..id = (json['id'] as num?)?.toInt()
   ..code = json['code'] as String?
   ..discount = (json['discount'] as num?)?.toDouble()
   ..expirationDate = json['expirationDate'] == null

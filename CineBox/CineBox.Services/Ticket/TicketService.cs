@@ -39,6 +39,7 @@ namespace CineBox.Services.Ticket
                     .Include(x => x.BookingSeat)
                         .ThenInclude(b => b.Seat)
                             .ThenInclude(c => c.Hall)
+                                .ThenInclude(f => f.Cinema)
                     .Where(x => x.BookingSeat.Booking.Screening.ScreeningTime.AddHours(1) >= search.currentDate && x.UserId == search.UserId);
             }
 

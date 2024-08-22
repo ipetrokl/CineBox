@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineBox.Services.Migrations
 {
     [DbContext(typeof(CineBoxContext))]
-    [Migration("20240821125922_InitialCreate")]
+    [Migration("20240822135753_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -111,6 +111,14 @@ namespace CineBox.Services.Migrations
                             PromotionId = 2,
                             ScreeningId = 2,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Price = 25.00m,
+                            PromotionId = 1,
+                            ScreeningId = 1,
+                            UserId = 2
                         });
                 });
 
@@ -157,13 +165,25 @@ namespace CineBox.Services.Migrations
                         {
                             BookingSeatId = 3,
                             BookingId = 2,
-                            SeatId = 3
+                            SeatId = 84
                         },
                         new
                         {
                             BookingSeatId = 4,
                             BookingId = 2,
-                            SeatId = 4
+                            SeatId = 85
+                        },
+                        new
+                        {
+                            BookingSeatId = 5,
+                            BookingId = 3,
+                            SeatId = 10
+                        },
+                        new
+                        {
+                            BookingSeatId = 6,
+                            BookingId = 3,
+                            SeatId = 11
                         });
                 });
 
@@ -474,7 +494,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 1,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 8, 21, 14, 59, 21, 943, DateTimeKind.Local).AddTicks(7790),
+                            CreatedDate = new DateTime(2024, 8, 22, 15, 57, 53, 611, DateTimeKind.Local).AddTicks(2040),
                             Description = "25.11.2024. Cinebox Zagreb will not work, See you soon :)",
                             Name = "Public holiday"
                         },
@@ -482,7 +502,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 2,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 8, 21, 14, 59, 21, 943, DateTimeKind.Local).AddTicks(7800),
+                            CreatedDate = new DateTime(2024, 8, 22, 15, 57, 53, 611, DateTimeKind.Local).AddTicks(2040),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         },
@@ -490,7 +510,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 3,
                             CinemaId = 2,
-                            CreatedDate = new DateTime(2024, 8, 21, 14, 59, 21, 943, DateTimeKind.Local).AddTicks(7800),
+                            CreatedDate = new DateTime(2024, 8, 22, 15, 57, 53, 611, DateTimeKind.Local).AddTicks(2040),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         });
@@ -540,6 +560,13 @@ namespace CineBox.Services.Migrations
                             Id = 2,
                             Amount = 30.00m,
                             BookingId = 2,
+                            PaymentStatus = "successfully"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 25.00m,
+                            BookingId = 3,
                             PaymentStatus = "successfully"
                         });
                 });
@@ -759,7 +786,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 7, 24, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 8, 26, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -768,7 +795,313 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 7, 24, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 8, 26, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 27, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 8, 27, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 28, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 8, 28, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 29, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 8, 29, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 30, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 8, 30, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 31, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 8, 31, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 1, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 1, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 2, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 2, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 3, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 3, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 4, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 4, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 5, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 5, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Category = "4Dx",
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 6, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Category = "3D",
+                            HallId = 2,
+                            MovieId = 2,
+                            Price = 15.00m,
+                            ScreeningTime = new DateTime(2024, 9, 6, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 26, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 27, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 28, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 29, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 30, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 8, 31, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 1, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 2, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 3, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 4, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 5, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Category = "4Dx",
+                            HallId = 4,
+                            MovieId = 1,
+                            Price = 12.50m,
+                            ScreeningTime = new DateTime(2024, 9, 6, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -2087,6 +2420,646 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             SeatNumber = 80,
                             Status = true
+                        },
+                        new
+                        {
+                            Id = 161,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 1,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 162,
+                            Category = "Disabled",
+                            HallId = 4,
+                            SeatNumber = 2,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 163,
+                            Category = "Disabled",
+                            HallId = 4,
+                            SeatNumber = 3,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 164,
+                            Category = "Disabled",
+                            HallId = 4,
+                            SeatNumber = 4,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 165,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 5,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 166,
+                            Category = "Disabled",
+                            HallId = 4,
+                            SeatNumber = 6,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 167,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 7,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 168,
+                            Category = "Disabled",
+                            HallId = 4,
+                            SeatNumber = 8,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 169,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 9,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 170,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 10,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 171,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 11,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 172,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 12,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 173,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 13,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 174,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 14,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 175,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 15,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 176,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 16,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 177,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 17,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 178,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 18,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 179,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 19,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 180,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 20,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 181,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 21,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 182,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 22,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 183,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 23,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 184,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 24,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 185,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 25,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 186,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 26,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 187,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 27,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 188,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 28,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 189,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 29,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 190,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 30,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 191,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 31,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 192,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 32,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 193,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 33,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 194,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 34,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 195,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 35,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 196,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 36,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 197,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 37,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 198,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 38,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 199,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 39,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 200,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 40,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 201,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 41,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 202,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 42,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 203,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 43,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 204,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 44,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 205,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 45,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 206,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 46,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 207,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 47,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 208,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 48,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 209,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 49,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 210,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 50,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 211,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 51,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 212,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 52,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 213,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 53,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 214,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 54,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 215,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 55,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 216,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 56,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 217,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 57,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 218,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 58,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 219,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 59,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 220,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 60,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 221,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 61,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 222,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 62,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 223,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 63,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 224,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 64,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 225,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 65,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 226,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 66,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 227,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 67,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 228,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 68,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 229,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 69,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 230,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 70,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 231,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 71,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 232,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 72,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 233,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 73,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 234,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 74,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 235,
+                            Category = "Double",
+                            HallId = 4,
+                            SeatNumber = 75,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 236,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 76,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 237,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 77,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 238,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 78,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 239,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 79,
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 240,
+                            Category = "Single",
+                            HallId = 4,
+                            SeatNumber = 80,
+                            Status = true
                         });
                 });
 
@@ -2160,7 +3133,7 @@ namespace CineBox.Services.Migrations
                             Price = 15.00m,
                             QrCode = "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",
                             TicketCode = "E3BA0200440C",
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
@@ -2169,6 +3142,24 @@ namespace CineBox.Services.Migrations
                             Price = 15.00m,
                             QrCode = "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",
                             TicketCode = "03DD405DBBAE",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BookingSeatId = 5,
+                            Price = 12.50m,
+                            QrCode = "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",
+                            TicketCode = "B2A4E400EECE",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BookingSeatId = 6,
+                            Price = 12.50m,
+                            QrCode = "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",
+                            TicketCode = "4FA54FAA103C",
                             UserId = 2
                         });
                 });
@@ -2242,7 +3233,7 @@ namespace CineBox.Services.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "john@example.com",
+                            Email = "cineboxpetrovic@gmail.com",
                             Name = "John",
                             PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=",
                             PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==",
@@ -2262,6 +3253,18 @@ namespace CineBox.Services.Migrations
                             Status = true,
                             Surname = "Smith",
                             Username = "guest"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "cinebox20244@gmail.com",
+                            Name = "cinebox20244@gmail.com",
+                            PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=",
+                            PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==",
+                            Phone = "987-654-3210",
+                            Status = true,
+                            Surname = "xwiyktjxrcswohoa",
+                            Username = "support"
                         });
                 });
 
@@ -2298,14 +3301,14 @@ namespace CineBox.Services.Migrations
                         new
                         {
                             UsersRolesId = 1,
-                            DateOfModification = new DateTime(2024, 8, 21, 14, 59, 21, 943, DateTimeKind.Local).AddTicks(5040),
+                            DateOfModification = new DateTime(2024, 8, 22, 15, 57, 53, 610, DateTimeKind.Local).AddTicks(8680),
                             RoleId = 1,
                             UserId = 1
                         },
                         new
                         {
                             UsersRolesId = 2,
-                            DateOfModification = new DateTime(2024, 8, 21, 14, 59, 21, 943, DateTimeKind.Local).AddTicks(5070),
+                            DateOfModification = new DateTime(2024, 8, 22, 15, 57, 53, 610, DateTimeKind.Local).AddTicks(8770),
                             RoleId = 2,
                             UserId = 2
                         });

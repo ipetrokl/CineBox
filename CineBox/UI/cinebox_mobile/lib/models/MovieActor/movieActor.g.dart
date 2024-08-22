@@ -7,9 +7,9 @@ part of 'movieActor.dart';
 // **************************************************************************
 
 MovieActor _$MovieActorFromJson(Map<String, dynamic> json) => MovieActor()
-  ..id = json['id'] as int?
-  ..movieId = json['movieId'] as int?
-  ..actorId = json['actorId'] as int?;
+  ..id = (json['id'] as num?)?.toInt()
+  ..movieId = (json['movieId'] as num?)?.toInt()
+  ..actorId = (json['actorId'] as num?)?.toInt();
 
 Map<String, dynamic> _$MovieActorToJson(MovieActor instance) =>
     <String, dynamic>{

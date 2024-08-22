@@ -7,11 +7,11 @@ part of 'booking.dart';
 // **************************************************************************
 
 Booking _$BookingFromJson(Map<String, dynamic> json) => Booking(
-      json['id'] as int?,
-      json['userId'] as int?,
-      json['screeningId'] as int?,
+      (json['id'] as num?)?.toInt(),
+      (json['userId'] as num?)?.toInt(),
+      (json['screeningId'] as num?)?.toInt(),
       (json['price'] as num?)?.toDouble(),
-      json['promotionId'] as int?,
+      (json['promotionId'] as num?)?.toInt(),
     )
       ..screening = json['screening'] == null
           ? null

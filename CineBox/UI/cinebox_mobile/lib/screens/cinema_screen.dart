@@ -25,7 +25,6 @@ class _CinemaScreenState extends State<CinemaScreen> {
     super.initState();
     _cinemaProvider = context.read<CinemaProvider>();
     _cartProvider = context.read<CartProvider>();
-    print("called initState");
     loadData();
   }
 

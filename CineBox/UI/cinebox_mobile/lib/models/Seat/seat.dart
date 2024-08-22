@@ -1,3 +1,4 @@
+import 'package:cinebox_mobile/models/Hall/hall.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'seat.g.dart';
@@ -9,6 +10,7 @@ class Seat {
   int? seatNumber;
   String? category;
   bool? status;
+  Hall? hall;
 
   Seat();
 
