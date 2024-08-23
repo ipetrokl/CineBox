@@ -5,7 +5,6 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/role_provider.dart';
 import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +62,7 @@ class _UsersRoleDetailScreenState extends State<UsersRoleDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-        insetPadding: const EdgeInsets.all(200),
+        insetPadding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [

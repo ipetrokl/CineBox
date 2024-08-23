@@ -1,6 +1,4 @@
-import 'package:cinebox_desktop/models/UsersRole/usersRole.dart';
 import 'package:cinebox_desktop/providers/admin_provider.dart';
-import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/role_provider.dart';
 import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';

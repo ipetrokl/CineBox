@@ -4,10 +4,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/hall_provider.dart';
 import 'package:cinebox_desktop/providers/seat_provider.dart';
 import 'package:cinebox_desktop/screens/SeatScreens/seat_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class SeatListScreen extends StatefulWidget {

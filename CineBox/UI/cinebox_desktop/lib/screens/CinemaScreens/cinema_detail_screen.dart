@@ -1,6 +1,5 @@
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +40,7 @@ class _CinemaDetailScreenState extends State<CinemaDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-        insetPadding: const EdgeInsets.all(200),
+        insetPadding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [

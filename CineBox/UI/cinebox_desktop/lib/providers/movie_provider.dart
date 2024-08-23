@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 class MovieProvider extends BaseProvider<Movie> {
   MovieProvider() : super("Movie");

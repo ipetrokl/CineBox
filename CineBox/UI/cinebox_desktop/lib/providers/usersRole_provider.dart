@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cinebox_desktop/models/UsersRole/usersRole.dart';
 import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 
 class UsersRoleProvider extends BaseProvider<UsersRole> {

@@ -1,6 +1,5 @@
 import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +46,7 @@ class _UsersDetailScreenState extends State<UsersDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-        insetPadding: const EdgeInsets.all(200),
+        insetPadding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -59,20 +58,20 @@ class _UsersDetailScreenState extends State<UsersDetailScreen> {
                   ElevatedButton(
                       onPressed: () async {
                         _formKey.currentState?.saveAndValidate();
-          
+
                         try {
                           if (widget.users == null) {
                             await _usersProvider
                                 .insert(_formKey.currentState?.value);
                           } else {
-                            await _usersProvider.update(
-                                widget.users!.id!, _formKey.currentState?.value);
+                            await _usersProvider.update(widget.users!.id!,
+                                _formKey.currentState?.value);
                           }
-          
+
                           if (widget.onClose != null) {
                             widget.onClose!();
                           }
-          
+
                           showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -94,7 +93,8 @@ class _UsersDetailScreenState extends State<UsersDetailScreen> {
                                     content: Text(e.toString()),
                                     actions: [
                                       TextButton(
-                                          onPressed: () => Navigator.pop(context),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                           child: Text("OK"))
                                     ],
                                   ));

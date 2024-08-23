@@ -63,7 +63,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-      insetPadding: const EdgeInsets.all(200),
+      insetPadding: const EdgeInsets.all(100),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -75,25 +75,27 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 ElevatedButton(
                     onPressed: () async {
                       _formKey.currentState?.saveAndValidate();
-        
+
                       var request = Map.from(_formKey.currentState!.value);
                       request['picture'] = _base64Image;
-        
+
                       try {
                         if (widget.movie == null) {
                           await _movieProvider.insert(request);
                         } else {
-                          await _movieProvider.update(widget.movie!.id!, request);
+                          await _movieProvider.update(
+                              widget.movie!.id!, request);
                         }
                         if (widget.onClose != null) {
                           widget.onClose!();
                         }
-        
+
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: const Text("Success"),
-                            content: const Text("Screening saved successfully."),
+                            content:
+                                const Text("Screening saved successfully."),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
@@ -150,7 +152,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 FormBuilderDateTimePicker(
                   name: "performedFrom",
                   inputType: InputType.both,
-                  decoration: const InputDecoration(labelText: "Performed From"),
+                  decoration:
+                      const InputDecoration(labelText: "Performed From"),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDateTimePicker(

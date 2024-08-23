@@ -1,12 +1,8 @@
 import 'package:cinebox_desktop/models/Cinema/cinema.dart';
-import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/News/news.dart';
-import 'package:cinebox_desktop/models/Promotion/promotion.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/news_provider.dart';
-import 'package:cinebox_desktop/providers/promotion_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -60,7 +56,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-        insetPadding: const EdgeInsets.all(200),
+        insetPadding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [

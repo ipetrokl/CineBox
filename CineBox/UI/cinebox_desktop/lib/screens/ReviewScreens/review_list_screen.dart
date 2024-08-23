@@ -5,10 +5,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/review_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ReviewListScreen extends StatefulWidget {

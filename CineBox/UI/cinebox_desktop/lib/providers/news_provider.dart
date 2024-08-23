@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cinebox_desktop/models/News/news.dart';
 import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 
 class NewsProvider extends BaseProvider<News> {

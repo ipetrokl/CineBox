@@ -1,17 +1,12 @@
-import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/models/Hall/hall.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/Screening/screening.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
-import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/hall_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/screens/ScreeningScreens/screening_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ScreeningListScreen extends StatefulWidget {

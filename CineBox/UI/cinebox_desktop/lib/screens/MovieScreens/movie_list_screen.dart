@@ -1,13 +1,10 @@
 import 'dart:convert';
-
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:cinebox_desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

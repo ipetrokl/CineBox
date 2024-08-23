@@ -3,11 +3,7 @@ import 'package:cinebox_desktop/models/Payment/payment.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/payment_provider.dart';
-import 'package:cinebox_desktop/screens/HallScreens/hall_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class PaymentListScreen extends StatefulWidget {

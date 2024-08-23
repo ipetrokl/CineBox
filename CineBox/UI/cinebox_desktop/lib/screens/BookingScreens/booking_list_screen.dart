@@ -7,10 +7,7 @@ import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/promotion_provider.dart';
 import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class BookingListScreen extends StatefulWidget {

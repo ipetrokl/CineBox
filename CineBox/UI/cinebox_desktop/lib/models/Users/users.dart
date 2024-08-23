@@ -1,4 +1,3 @@
-import 'package:cinebox_desktop/models/UsersRole/usersRole.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'users.g.dart';

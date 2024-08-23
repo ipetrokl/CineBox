@@ -2,10 +2,7 @@ import 'package:cinebox_desktop/models/Actor/actor.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/actor_provider.dart';
 import 'package:cinebox_desktop/screens/ActorScreens/actor_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ActorListScreen extends StatefulWidget {
@@ -18,7 +15,6 @@ class ActorListScreen extends StatefulWidget {
 class _ActorListScreenState extends State<ActorListScreen> {
   SearchResult<Actor>? result;
   TextEditingController _ftsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   late ActorProvider _actorProvider;
 
   @override

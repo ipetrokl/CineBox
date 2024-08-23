@@ -1,14 +1,9 @@
-import 'package:cinebox_desktop/models/Booking/booking.dart';
 import 'package:cinebox_desktop/models/Ticket/ticket.dart';
 import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
-import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/ticket_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class TicketListScreen extends StatefulWidget {

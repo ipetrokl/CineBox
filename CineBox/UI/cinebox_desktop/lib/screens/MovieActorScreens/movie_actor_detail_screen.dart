@@ -61,7 +61,7 @@ class _MovieActorDetailScreenState extends State<MovieActorDetailScreen> {
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
-        insetPadding: const EdgeInsets.all(200),
+        insetPadding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [

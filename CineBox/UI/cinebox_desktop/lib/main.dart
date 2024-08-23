@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cinebox_desktop/providers/actor_provider.dart';
 import 'package:cinebox_desktop/providers/admin_provider.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
@@ -17,8 +19,6 @@ import 'package:cinebox_desktop/providers/ticket_provider.dart';
 import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/log_in_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:cinebox_desktop/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +57,7 @@ class MyMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: MyMaterialScrollBehavior(),
       title: 'Cinebox Material app',
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -67,6 +68,17 @@ class MyMaterialApp extends StatelessWidget {
         ),
       ),
       home: LoginPage(),
+    );
+  }
+}
+
+class MyMaterialScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
     );
   }
 }

@@ -2,13 +2,8 @@ import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/screens/GenreScreens/genre_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 class GenreListScreen extends StatefulWidget {
   const GenreListScreen({super.key});

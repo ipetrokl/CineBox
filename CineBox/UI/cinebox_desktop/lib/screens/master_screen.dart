@@ -1,8 +1,4 @@
-import 'package:cinebox_desktop/models/Cinema/cinema.dart';
 import 'package:cinebox_desktop/providers/admin_provider.dart';
-import 'package:cinebox_desktop/providers/role_provider.dart';
-import 'package:cinebox_desktop/providers/usersRole_provider.dart';
-import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/ActorScreens/actor_list_screen.dart';
 import 'package:cinebox_desktop/screens/BookingScreens/booking_list_screen.dart';
 import 'package:cinebox_desktop/screens/CinemaScreens/cinema_list_screen.dart';
@@ -20,8 +16,6 @@ import 'package:cinebox_desktop/screens/TicketScreens/ticket_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersRoleScreens/usersRole_list_screen.dart';
 import 'package:cinebox_desktop/screens/UsersScreens/users_list_screen.dart';
 import 'package:cinebox_desktop/screens/log_in_screen.dart';
-import 'package:cinebox_desktop/utils/util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

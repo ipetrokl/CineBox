@@ -2,10 +2,7 @@ import 'package:cinebox_desktop/models/Role/role.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/role_provider.dart';
 import 'package:cinebox_desktop/screens/RoleScreens/role_detail_screen.dart';
-import 'package:cinebox_desktop/screens/master_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class RoleListScreen extends StatefulWidget {
