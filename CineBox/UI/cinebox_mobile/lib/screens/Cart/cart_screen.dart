@@ -3,7 +3,6 @@ import 'package:cinebox_mobile/models/Cart/cart.dart';
 import 'package:cinebox_mobile/models/Movie/movie.dart';
 import 'package:cinebox_mobile/models/Screening/screening.dart';
 import 'package:cinebox_mobile/models/Seat/seat.dart';
-import 'package:cinebox_mobile/providers/booking_provider.dart';
 import 'package:cinebox_mobile/providers/cart_provider.dart';
 import 'package:cinebox_mobile/providers/cinema_provider.dart';
 import 'package:cinebox_mobile/providers/hall_provider.dart';
@@ -33,7 +32,6 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   late CartProvider _cartProvider;
-  late BookingProvider _bookingProvider;
 
   @override
   void initState() {
@@ -44,7 +42,6 @@ class _CartScreenState extends State<CartScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _cartProvider = context.watch<CartProvider>();
-    _bookingProvider = context.read<BookingProvider>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});
     });

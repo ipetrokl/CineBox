@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cinebox_mobile/models/Ticket/ticket.dart';
 import 'package:cinebox_mobile/providers/logged_in_user_provider.dart';
-import 'package:cinebox_mobile/providers/seat_provider.dart';
 import 'package:cinebox_mobile/providers/ticket_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
@@ -32,7 +31,6 @@ class TicketScreen extends StatefulWidget {
 class _TicketScreenState extends State<TicketScreen> {
   late TicketProvider _ticketProvider;
   late LoggedInUserProvider _loggedInUserProvider;
-  late SeatProvider _seatProvider;
   SearchResult<Ticket>? result;
 
   @override
@@ -40,7 +38,6 @@ class _TicketScreenState extends State<TicketScreen> {
     super.initState();
     _ticketProvider = context.read<TicketProvider>();
     _loggedInUserProvider = context.read<LoggedInUserProvider>();
-    _seatProvider = context.read<SeatProvider>();
     loadData();
   }
 
@@ -50,7 +47,6 @@ class _TicketScreenState extends State<TicketScreen> {
         'currentDate': DateTime.now(),
         'userId': _loggedInUserProvider.user!.id
       });
-      for (var seat in ticketdata.result) {}
       setState(() {
         result = ticketdata;
       });

@@ -516,11 +516,11 @@ class _BookingScreenState extends State<BookingScreen> {
 
       try {
         await Stripe.instance.presentPaymentSheet();
-      } on StripeException catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Payment failed, try again!")),
-          );
-      return;
+      } on StripeException {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Payment failed, try again!")),
+        );
+        return;
       }
 
       for (var item in _cartProvider.cart.items) {
