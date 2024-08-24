@@ -24,6 +24,7 @@ import 'package:cinebox_mobile/screens/Support/support_screen.dart';
 import 'package:cinebox_mobile/screens/Ticket/ticket_screen.dart';
 import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
+import 'package:cinebox_mobile/screens/profil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -39,7 +40,7 @@ void main() async {
   }
 
   Stripe.publishableKey = stripePublishableKey;
-  
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => MovieProvider()),
@@ -162,6 +163,17 @@ class MyMaterialApp extends StatelessWidget {
           final cinemaName = args['cinemaName'] as String;
           return MaterialPageRoute(
               builder: (context) => TicketScreen(
+                  cinemaId: cinemaId,
+                  initialDate: initialDate,
+                  cinemaName: cinemaName));
+        }
+        if (settings.name == ProfilScreen.routeName) {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final cinemaId = args['cinemaId'] as int;
+          final initialDate = args['initialDate'] as DateTime;
+          final cinemaName = args['cinemaName'] as String;
+          return MaterialPageRoute(
+              builder: (context) => ProfilScreen(
                   cinemaId: cinemaId,
                   initialDate: initialDate,
                   cinemaName: cinemaName));

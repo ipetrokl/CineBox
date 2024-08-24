@@ -24,6 +24,12 @@ namespace CineBox.Services.Users
             entity.PasswordHash = GenerateHash(entity.PasswordSalt, request.Password);
         }
 
+        public override async Task BeforeUpdate(User entity, UserUpdateRequest request)
+        {
+            entity.PasswordSalt = GenerateSalt();
+            entity.PasswordHash = GenerateHash(entity.PasswordSalt, request.Password);
+        }
+
         public static string GenerateSalt()
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

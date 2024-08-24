@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
@@ -13,6 +14,10 @@ namespace CineBox.Services
         }
 
         public virtual async Task BeforeInsert(TDb entity, TInsert insert)
+        {
+        }
+
+        public virtual async Task BeforeUpdate(TDb entity, TUpdate update)
         {
         }
 
@@ -35,7 +40,10 @@ namespace CineBox.Services
             var entity = await set.FindAsync(id);
 
             _mapper.Map(update, entity);
-
+            if (entity != null)
+            {
+                await BeforeUpdate(entity, update);
+            }
             await _context.SaveChangesAsync();
             return _mapper.Map<T>(entity);
         }

@@ -6,6 +6,7 @@ import 'package:cinebox_mobile/screens/Cart/cart_screen.dart';
 import 'package:cinebox_mobile/screens/Movies/movie_list_screen.dart';
 import 'package:cinebox_mobile/screens/Ticket/ticket_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
+import 'package:cinebox_mobile/screens/profil_screen.dart';
 import 'package:cinebox_mobile/utils/drawer.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:provider/provider.dart';
@@ -87,13 +88,32 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(widget.cinemaName)),
+        title: Center(
+            child: Padding(
+          padding: const EdgeInsets.only(left: 33),
+          child: Text(widget.cinemaName),
+        )),
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),
         actions: <Widget>[
+          Tooltip(
+            message: 'Profile',
+            child: IconButton(
+              iconSize: 23,
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.pushNamed(context, ProfilScreen.routeName,
+                    arguments: {
+                      'cinemaId': widget.cinemaId,
+                      'initialDate': widget.initialDate,
+                      'cinemaName': widget.cinemaName
+                    });
+              },
+            ),
+          ),
           Tooltip(
             message: 'Sign out',
             child: IconButton(
