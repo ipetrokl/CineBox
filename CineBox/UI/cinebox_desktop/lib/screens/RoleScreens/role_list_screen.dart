@@ -37,7 +37,7 @@ class _RoleListScreenState extends State<RoleListScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching data: $e");
     }
   }
 
@@ -148,10 +148,10 @@ class _RoleListScreenState extends State<RoleListScreen> {
         });
       }
     } catch (e) {
-      print("Error deleting genre: $e");
+      print("Error deleting data: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Failed to delete genre. Please try again."),
+          content: Text("Failed to delete data. Please try again."),
         ),
       );
     }

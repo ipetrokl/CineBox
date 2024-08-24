@@ -71,7 +71,7 @@ class _PromotionDetailScreenState extends State<PromotionDetailScreen> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: Text("Success"),
-                              content: Text("Screening saved successfully."),
+                              content: Text("Saved successfully."),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),

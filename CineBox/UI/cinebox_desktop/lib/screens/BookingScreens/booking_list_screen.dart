@@ -48,7 +48,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching data: $e");
     }
   }
 
@@ -69,7 +69,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(labelText: "Username"),
+              decoration: InputDecoration(labelText: "User name"),
               controller: _ftsController,
             ),
           ),
@@ -113,8 +113,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
               DataColumn(label: Text('Promotion Id')),
               DataColumn(label: Text('Price')),
             ],
-            source: DataTableSourceRows(
-                result?.result ?? [], _usersProvider, _screeningProvider, _promotionProvider),
+            source: DataTableSourceRows(result?.result ?? [], _usersProvider,
+                _screeningProvider, _promotionProvider),
           ),
         ),
       ),
@@ -128,8 +128,8 @@ class DataTableSourceRows extends DataTableSource {
   final ScreeningProvider screeningProvider;
   final PromotionProvider promotionProvider;
 
-  DataTableSourceRows(
-      this.bookings, this.usersProvider, this.screeningProvider, this.promotionProvider);
+  DataTableSourceRows(this.bookings, this.usersProvider, this.screeningProvider,
+      this.promotionProvider);
 
   @override
   @override

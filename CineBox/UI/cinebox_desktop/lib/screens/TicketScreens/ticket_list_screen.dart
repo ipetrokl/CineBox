@@ -40,7 +40,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching data: $e");
     }
   }
 

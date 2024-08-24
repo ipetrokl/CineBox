@@ -95,7 +95,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           builder: (BuildContext context) => AlertDialog(
                             title: const Text("Success"),
                             content:
-                                const Text("Screening saved successfully."),
+                                const Text("Saved successfully."),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),

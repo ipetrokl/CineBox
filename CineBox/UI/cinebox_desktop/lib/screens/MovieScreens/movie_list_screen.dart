@@ -43,7 +43,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
         result = data;
       });
     } catch (e) {
-      print("Error fetching movies: $e");
+      print("Error fetching data: $e");
     }
   }
 
@@ -170,10 +170,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
         });
       }
     } catch (e) {
-      print("Error deleting genre: $e");
+      print("Error deleting data: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Failed to delete genre. Please try again."),
+          content: Text("Failed to delete data. Please try again."),
         ),
       );
     }
