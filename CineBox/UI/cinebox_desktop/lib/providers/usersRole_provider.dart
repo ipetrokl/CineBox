@@ -22,7 +22,7 @@ class UsersRoleProvider extends BaseProvider<UsersRole> {
     var headers = createHeaders();
 
     var jsonRequest = jsonEncode(
-        {...request, 'dateOfModification': request['dateOfModification'].toIso8601String()});
+        {...request, 'dateOfModification': request['dateOfModification']?.toIso8601String()});
 
     // var jsonRequest = jsonEncode(request);
     var response = await http.post(uri, headers: headers, body: jsonRequest);

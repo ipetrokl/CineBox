@@ -103,7 +103,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
             ),
             columns: const [
               DataColumn(label: Text('ID')),
-              DataColumn(label: Text('User Id')),
+              DataColumn(label: Text('User')),
               DataColumn(label: Text('Ticket Code')),
               DataColumn(label: Text('QR Code')),
               DataColumn(label: Text('Price')),
@@ -137,7 +137,7 @@ class DataTableSourceRows extends DataTableSource {
             future: usersProvider.getById(ticket.userId!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data?.id.toString() ?? '');
+                return Text(snapshot.data?.username.toString() ?? '');
               } else {
                 return CircularProgressIndicator();
               }

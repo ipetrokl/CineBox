@@ -11,6 +11,9 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       json['bookingId'] as int?,
       (json['amount'] as num?)?.toDouble(),
       json['paymentStatus'] as String?,
+      json['booking'] == null
+          ? null
+          : Booking.fromJson(json['booking'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
@@ -18,4 +21,5 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'bookingId': instance.bookingId,
       'amount': instance.amount,
       'paymentStatus': instance.paymentStatus,
+      'booking': instance.booking,
     };

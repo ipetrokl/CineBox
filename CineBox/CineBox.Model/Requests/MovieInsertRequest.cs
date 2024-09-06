@@ -1,19 +1,26 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
     public partial class MovieInsertRequest
     {
-        public int GenreId { get; set; }
+        [Required(ErrorMessage = "The Genre is required")]
+        public int? GenreId { get; set; }
 
-        public string Title { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Title { get; set; }
 
-        public string Description { get; set; } = null!;
+        public string Description { get; set; } = "";
 
-        public DateTime PerformedFrom { get; set; }
+        [Required]
+        public DateTime? PerformedFrom { get; set; }
 
-        public DateTime PerformedTo { get; set; }
+        [Required]
+        public DateTime? PerformedTo { get; set; }
 
-        public string Director { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Director { get; set; }
 
         public byte[]? Picture { get; set; }
 

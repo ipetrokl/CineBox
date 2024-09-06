@@ -3,6 +3,7 @@ import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/promotion_provider.dart';
 import 'package:cinebox_desktop/screens/PromotionScreens/promotion_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PromotionListScreen extends StatefulWidget {
@@ -169,12 +170,17 @@ class DataTableSourceRows extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final promotion = promotions[index];
+    final DateTime? expirationDate = promotion.expirationDate;
+    final String formattedDate = expirationDate != null
+        ? DateFormat('yyyy-MM-dd').format(expirationDate)
+        : "";
+        
     return DataRow(
       cells: [
         DataCell(Text(promotion.id?.toString() ?? "")),
         DataCell(Text(promotion.code?.toString() ?? "")),
         DataCell(Text(promotion.discount?.toString() ?? "")),
-        DataCell(Text(promotion.expirationDate?.toString() ?? "")),
+        DataCell(Text(formattedDate)),
         DataCell(IconButton(
           icon: Icon(Icons.delete),
           onPressed: () => onDelete(promotion.id!),

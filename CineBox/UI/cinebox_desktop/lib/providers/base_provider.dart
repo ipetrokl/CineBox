@@ -117,14 +117,36 @@ abstract class BaseProvider<T> with ChangeNotifier {
     throw Exception("Method not implemented");
   }
 
-  bool isValidResponse(Response response) {
+  String getErrorMessage(Map<String, dynamic> errors) {
+    final errorMessages = <String>[];
+
+    errors.forEach((key, value) {
+      if (value is List && value.isNotEmpty) {
+        errorMessages.add("${value[0]}");
+      }
+    });
+
+    return errorMessages.join('\n');
+  }
+
+  bool isValidResponse(http.Response response) {
     if (response.statusCode < 299) {
       return true;
     } else if (response.statusCode == 401) {
-      throw new Exception("Unauthorized");
+      throw Exception("Unauthorized");
     } else {
-      print(response.body);
-      throw new Exception("Something had happened please try again");
+      final responseBody = jsonDecode(response.body);
+
+      if (responseBody.containsKey('errors')) {
+        final errors = responseBody['errors'];
+        final errorMessage = getErrorMessage(errors);
+
+        if (errorMessage.isNotEmpty) {
+          throw Exception('\n$errorMessage');
+        }
+      }
+
+      throw Exception("Something had happened please try again");
     }
   }
 

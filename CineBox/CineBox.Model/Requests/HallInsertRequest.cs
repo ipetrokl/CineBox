@@ -1,11 +1,15 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class HallInsertRequest
 	{
-        public int CinemaId { get; set; }
+        [Required(ErrorMessage = "The Cinema is required")]
+        public int? CinemaId { get; set; }
 
-        public string Name { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
     }
 }
 

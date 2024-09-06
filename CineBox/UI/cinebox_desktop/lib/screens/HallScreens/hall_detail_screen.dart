@@ -67,7 +67,7 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
                   ElevatedButton(
                       onPressed: () async {
                         _formKey.currentState?.saveAndValidate();
-          
+
                         try {
                           if (widget.hall == null) {
                             await _hallProvider
@@ -76,11 +76,11 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
                             await _hallProvider.update(
                                 widget.hall!.id!, _formKey.currentState?.value);
                           }
-          
+
                           if (widget.onClose != null) {
                             widget.onClose!();
                           }
-          
+
                           showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -102,7 +102,8 @@ class _HallDetailScreenState extends State<HallDetailScreen> {
                                     content: Text(e.toString()),
                                     actions: [
                                       TextButton(
-                                          onPressed: () => Navigator.pop(context),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                           child: Text("OK"))
                                     ],
                                   ));

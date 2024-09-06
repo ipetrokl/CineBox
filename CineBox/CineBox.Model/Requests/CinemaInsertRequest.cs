@@ -1,11 +1,15 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class CinemaInsertRequest
 	{
-        public string Name { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
 
-        public string Location { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Location { get; set; }
     }
 }
 

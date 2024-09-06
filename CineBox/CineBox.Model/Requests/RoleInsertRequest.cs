@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class RoleInsertRequest
 	{
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
 
-        public string Name { get; set; } = null!;
-
-        public string? Description { get; set; }
+        public string Description { get; set; } = "";
     }
 }
 

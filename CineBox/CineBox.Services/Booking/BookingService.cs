@@ -34,6 +34,15 @@ namespace CineBox.Services.Booking
 
             return filteredQuery;
         }
+
+        public override IQueryable<Database.Booking> AddInclude(IQueryable<Database.Booking> query, BookingSearchObject? search = null)
+        {
+            return query
+                 .Include(x => x.Screening)
+                    .ThenInclude(y => y.Movie)
+                 .Include(x => x.Promotion);
+
+        }
     }
 }
 

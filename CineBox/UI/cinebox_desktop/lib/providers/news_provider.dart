@@ -23,7 +23,7 @@ class NewsProvider extends BaseProvider<News> {
 
     var jsonRequest = jsonEncode({
       ...request,
-      'createdDate': request['createdDate'].toIso8601String()
+      'createdDate': request['createdDate']?.toIso8601String()
     });
 
     // var jsonRequest = jsonEncode(request);

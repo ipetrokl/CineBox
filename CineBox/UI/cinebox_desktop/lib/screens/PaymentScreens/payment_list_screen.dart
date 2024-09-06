@@ -1,8 +1,10 @@
 import 'package:cinebox_desktop/models/Booking/booking.dart';
 import 'package:cinebox_desktop/models/Payment/payment.dart';
+import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
 import 'package:cinebox_desktop/providers/payment_provider.dart';
+import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +20,7 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
   TextEditingController _ftsController = TextEditingController();
   late PaymentProvider _paymentProvider;
   late BookingProvider _bookingProvider;
+  late UsersProvider _userProvider;
 
   @override
   void didChangeDependencies() {
@@ -29,6 +32,7 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
     super.initState();
     _paymentProvider = context.read<PaymentProvider>();
     _bookingProvider = context.read<BookingProvider>();
+    _userProvider = context.read<UsersProvider>();
     _fetchData();
   }
 
@@ -104,10 +108,12 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
             columns: const [
               DataColumn(label: Text('ID')),
               DataColumn(label: Text('Booking')),
+              DataColumn(label: Text('User')),
               DataColumn(label: Text('Amount')),
               DataColumn(label: Text('Status')),
             ],
-            source: DataTableSourceRows(result?.result ?? [], _bookingProvider),
+            source: DataTableSourceRows(
+                result?.result ?? [], _bookingProvider, _userProvider),
             showCheckboxColumn: false,
           ),
         ),
@@ -119,8 +125,9 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
 class DataTableSourceRows extends DataTableSource {
   final List<Payment> payments;
   final BookingProvider bookingProvider;
+  final UsersProvider usersProvider;
 
-  DataTableSourceRows(this.payments, this.bookingProvider);
+  DataTableSourceRows(this.payments, this.bookingProvider, this.usersProvider);
 
   @override
   DataRow getRow(int index) {
@@ -134,6 +141,18 @@ class DataTableSourceRows extends DataTableSource {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(snapshot.data?.id.toString() ?? '');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+        DataCell(
+          FutureBuilder<Users?>(
+            future: usersProvider.getById(payment.booking!.userId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data?.username.toString() ?? '');
               } else {
                 return CircularProgressIndicator();
               }

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class ActorInsertRequest
 	{
-        public string? Name { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
     }
 }
 

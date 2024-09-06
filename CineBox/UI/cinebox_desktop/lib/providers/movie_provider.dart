@@ -21,8 +21,8 @@ class MovieProvider extends BaseProvider<Movie> {
 
     var jsonRequest = jsonEncode({
       ...request,
-      'performedFrom': request['performedFrom'].toIso8601String(),
-      'performedTo': request['performedTo'].toIso8601String()
+      'performedFrom': request['performedFrom']?.toIso8601String(),
+      'performedTo': request['performedTo']?.toIso8601String()
     });
 
     // var jsonRequest = jsonEncode(request);

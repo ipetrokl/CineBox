@@ -1,4 +1,4 @@
-
+import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'screening.g.dart';
@@ -11,8 +11,10 @@ class Screening {
   String? category;
   DateTime? screeningTime;
   double? price;
+  Movie? movie;
 
-  Screening(this.id, this.movieId, this.hallId, this.category, this.screeningTime);
+  Screening(
+      this.id, this.movieId, this.hallId, this.category, this.screeningTime, this.movie);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

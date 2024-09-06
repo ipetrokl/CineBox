@@ -1,14 +1,11 @@
 import 'package:cinebox_desktop/models/Booking/booking.dart';
-import 'package:cinebox_desktop/models/Promotion/promotion.dart';
-import 'package:cinebox_desktop/models/Screening/screening.dart';
 import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
-import 'package:cinebox_desktop/providers/promotion_provider.dart';
-import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class BookingListScreen extends StatefulWidget {
   const BookingListScreen({super.key});
@@ -22,8 +19,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
   TextEditingController _ftsController = TextEditingController();
   late BookingProvider _bookingProvider;
   late UsersProvider _usersProvider;
-  late ScreeningProvider _screeningProvider;
-  late PromotionProvider _promotionProvider;
 
   @override
   void didChangeDependencies() {
@@ -35,8 +30,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
     super.initState();
     _bookingProvider = context.read<BookingProvider>();
     _usersProvider = context.read<UsersProvider>();
-    _screeningProvider = context.read<ScreeningProvider>();
-    _promotionProvider = context.read<PromotionProvider>();
     _fetchData();
   }
 
@@ -109,12 +102,12 @@ class _BookingListScreenState extends State<BookingListScreen> {
             columns: const [
               DataColumn(label: Text('ID')),
               DataColumn(label: Text('User')),
-              DataColumn(label: Text('Screening Id')),
-              DataColumn(label: Text('Promotion Id')),
+              DataColumn(label: Text('Movie')),
+              DataColumn(label: Text('Screening time')),
+              DataColumn(label: Text('Promotion')),
               DataColumn(label: Text('Price')),
             ],
-            source: DataTableSourceRows(result?.result ?? [], _usersProvider,
-                _screeningProvider, _promotionProvider),
+            source: DataTableSourceRows(result?.result ?? [], _usersProvider),
           ),
         ),
       ),
@@ -125,16 +118,19 @@ class _BookingListScreenState extends State<BookingListScreen> {
 class DataTableSourceRows extends DataTableSource {
   final List<Booking> bookings;
   final UsersProvider usersProvider;
-  final ScreeningProvider screeningProvider;
-  final PromotionProvider promotionProvider;
 
-  DataTableSourceRows(this.bookings, this.usersProvider, this.screeningProvider,
-      this.promotionProvider);
+  DataTableSourceRows(this.bookings, this.usersProvider);
 
   @override
   @override
   DataRow getRow(int index) {
     final booking = bookings[index];
+    final DateTime? screeningTime = booking.screening?.screeningTime;
+
+    final String formattedDate = screeningTime != null
+        ? DateFormat('yyyy-MM-dd HH:mm').format(screeningTime)
+        : "";
+
     return DataRow(
       cells: [
         DataCell(Text(booking.id?.toString() ?? "")),
@@ -150,30 +146,9 @@ class DataTableSourceRows extends DataTableSource {
             },
           ),
         ),
-        DataCell(
-          FutureBuilder<Screening?>(
-            future: screeningProvider.getById(booking.screeningId!),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data?.id.toString() ?? '');
-              } else {
-                return CircularProgressIndicator();
-              }
-            },
-          ),
-        ),
-        DataCell(
-          FutureBuilder<Promotion?>(
-            future: promotionProvider.getById(booking.promotionId!),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data?.id.toString() ?? '');
-              } else {
-                return CircularProgressIndicator();
-              }
-            },
-          ),
-        ),
+        DataCell(Text(booking.screening?.movie?.title ?? "")),
+        DataCell(Text(formattedDate)),
+        DataCell(Text(booking.promotion?.code ?? "")),
         DataCell(Text(booking.price?.toString() ?? "")),
       ],
     );

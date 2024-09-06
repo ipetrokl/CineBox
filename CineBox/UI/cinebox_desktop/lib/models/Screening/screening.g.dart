@@ -14,6 +14,9 @@ Screening _$ScreeningFromJson(Map<String, dynamic> json) => Screening(
       json['screeningTime'] == null
           ? null
           : DateTime.parse(json['screeningTime'] as String),
+      json['movie'] == null
+          ? null
+          : Movie.fromJson(json['movie'] as Map<String, dynamic>),
     )..price = (json['price'] as num?)?.toDouble();
 
 Map<String, dynamic> _$ScreeningToJson(Screening instance) => <String, dynamic>{
@@ -23,4 +26,5 @@ Map<String, dynamic> _$ScreeningToJson(Screening instance) => <String, dynamic>{
       'category': instance.category,
       'screeningTime': instance.screeningTime?.toIso8601String(),
       'price': instance.price,
+      'movie': instance.movie,
     };

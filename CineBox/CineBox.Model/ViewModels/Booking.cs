@@ -14,6 +14,8 @@ namespace CineBox.Model.ViewModels
         public int PromotionId { get; set; }
 
         public virtual Screening Screening { get; set; } = null!;
+
+        public virtual Promotion Promotion { get; set; } = null!;
     }
 }
 

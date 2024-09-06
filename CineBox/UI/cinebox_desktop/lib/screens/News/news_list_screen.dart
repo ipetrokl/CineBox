@@ -7,6 +7,7 @@ import 'package:cinebox_desktop/screens/News/news_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NewsListScreen extends StatefulWidget {
@@ -124,7 +125,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
               DataColumn(label: Text('Created Date')),
               DataColumn(label: Text('Actions')),
             ],
-            source: DataTableSourceRows(result?.result ?? [], _cinemaProvider, _deleteRecord, _navigateToDetail),
+            source: DataTableSourceRows(result?.result ?? [], _cinemaProvider,
+                _deleteRecord, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -168,15 +170,20 @@ class _NewsListScreenState extends State<NewsListScreen> {
 class DataTableSourceRows extends DataTableSource {
   final List<News> newses;
   final CinemaProvider cinemaProvider;
-    final Function(int) onDelete;
+  final Function(int) onDelete;
   final Function(News) onRowSelected;
 
-  DataTableSourceRows(this.newses, this.cinemaProvider, this.onDelete, this.onRowSelected);
+  DataTableSourceRows(
+      this.newses, this.cinemaProvider, this.onDelete, this.onRowSelected);
 
   @override
   @override
   DataRow getRow(int index) {
     final news = newses[index];
+    final DateTime? createdDate = news.createdDate;
+    final String formattedDate =
+        createdDate != null ? DateFormat('yyyy-MM-dd').format(createdDate) : "";
+
     return DataRow(
       cells: [
         DataCell(Text(news.id?.toString() ?? "")),
@@ -194,7 +201,7 @@ class DataTableSourceRows extends DataTableSource {
         ),
         DataCell(Text(news.name ?? '')),
         DataCell(Text(news.description ?? '')),
-        DataCell(Text(news.createdDate?.toString() ?? '')),
+        DataCell(Text(formattedDate)),
         DataCell(IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () => onDelete(news.id!),

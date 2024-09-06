@@ -55,6 +55,13 @@ namespace CineBox.Services.Screening
 
             return filteredQuery;
         }
+
+        public override IQueryable<Database.Screening> AddInclude(IQueryable<Database.Screening> query, ScreeningSearchObject? search = null)
+        {
+            return query
+                 .Include(x => x.Movie);
+
+        }
     }
 }
 

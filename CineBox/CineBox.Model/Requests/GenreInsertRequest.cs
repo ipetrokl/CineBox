@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class GenreInsertRequest
 	{
-        public string Name { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
     }
 }
 

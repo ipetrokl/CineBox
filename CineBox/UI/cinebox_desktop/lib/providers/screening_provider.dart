@@ -21,7 +21,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
 
     var jsonRequest = jsonEncode({
       ...request,
-      'screeningTime': request['screeningTime'].toIso8601String()
+      'screeningTime': request['screeningTime']?.toIso8601String()
     });
 
     // var jsonRequest = jsonEncode(request);

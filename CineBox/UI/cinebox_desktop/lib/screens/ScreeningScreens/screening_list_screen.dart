@@ -8,6 +8,7 @@ import 'package:cinebox_desktop/providers/screening_provider.dart';
 import 'package:cinebox_desktop/screens/ScreeningScreens/screening_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class ScreeningListScreen extends StatefulWidget {
   const ScreeningListScreen({super.key});
@@ -193,6 +194,11 @@ class DataTableSourceRows extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final screening = screenings[index];
+    final DateTime? screeningTime = screening.screeningTime;
+    final String formattedDate = screeningTime != null
+        ? DateFormat('yyyy-MM-dd HH:mm').format(screeningTime)
+        : "";
+
     return DataRow(
       cells: [
         DataCell(Text(screening.id?.toString() ?? "")),
@@ -221,7 +227,7 @@ class DataTableSourceRows extends DataTableSource {
           ),
         ),
         DataCell(Text(screening.category?.toString() ?? "")),
-        DataCell(Text(screening.screeningTime?.toString() ?? "")),
+        DataCell(Text(formattedDate)),
         DataCell(Text(screening.price?.toString() ?? "")),
         DataCell(IconButton(
           icon: Icon(Icons.delete),

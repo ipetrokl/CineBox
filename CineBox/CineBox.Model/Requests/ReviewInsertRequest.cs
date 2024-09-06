@@ -9,7 +9,7 @@ namespace CineBox.Model.Requests
 
         public int Rating { get; set; }
 
-        public string Comment { get; set; } = null!;
+        public string Comment { get; set; } = "";
     }
 }
 

@@ -1,12 +1,17 @@
-﻿namespace CineBox.Model.Requests;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CineBox.Model.Requests;
 
 public class SeatInsertRequest
 {
-    public int HallId { get; set; }
+    [Required(ErrorMessage = "The Hall is required")]
+    public int? HallId { get; set; }
 
-    public int SeatNumber { get; set; }
+    [Required(AllowEmptyStrings = false)]
+    public int? SeatNumber { get; set; }
 
-    public string Category { get; set; } = null!;
+    [Required(AllowEmptyStrings = false)]
+    public string Category { get; set; }
 
     public bool Status { get; set; }
 }

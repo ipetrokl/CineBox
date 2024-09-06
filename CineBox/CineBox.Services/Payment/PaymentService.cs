@@ -64,6 +64,13 @@ namespace CineBox.Services.Payment
 
             return filteredQuery;
         }
+
+        public override IQueryable<Database.Payment> AddInclude(IQueryable<Database.Payment> query, PaymentSearchObject? search = null)
+        {
+            return query
+                 .Include(x => x.Booking);
+
+        }
     }
 }
 

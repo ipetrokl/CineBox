@@ -6,6 +6,7 @@ import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -192,13 +193,21 @@ class DataTableSourceRows extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final movie = movies[index];
+    final DateTime? performedFrom = movie.performedFrom;
+    final DateTime? performedTo = movie.performedTo;
+    final String formattedPerformedFrom = performedFrom != null
+        ? DateFormat('yyyy-MM-dd').format(performedFrom)
+        : "";
+    final String formattedPerformedTo =
+        performedTo != null ? DateFormat('yyyy-MM-dd').format(performedTo) : "";
+
     return DataRow(
       cells: [
         DataCell(Text(movie.id?.toString() ?? '')),
         DataCell(Text(movie.title ?? '')),
         DataCell(Text(movie.description ?? '')),
-        DataCell(Text(movie.performedFrom?.toString() ?? '')),
-        DataCell(Text(movie.performedTo?.toString() ?? '')),
+        DataCell(Text(formattedPerformedFrom)),
+        DataCell(Text(formattedPerformedTo)),
         DataCell(FutureBuilder<Genre?>(
           future: genreProvider.getById(movie.genreId!),
           builder: (context, snapshot) {

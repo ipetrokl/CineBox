@@ -10,6 +10,8 @@ namespace CineBox.Model.ViewModels
         public decimal Amount { get; set; }
 
         public string PaymentStatus { get; set; } = null!;
+
+        public virtual Booking Booking { get; set; } = null!;
     }
 }
 

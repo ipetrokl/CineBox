@@ -7,6 +7,7 @@ import 'package:cinebox_desktop/providers/usersRole_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/UsersRoleScreens/usersRole_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UsersRoleListScreen extends StatefulWidget {
@@ -158,6 +159,11 @@ class DataTableSourceRows extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final usersRole = usersRoles[index];
+    final DateTime? dateOfModification = usersRole.dateOfModification;
+    final String formattedDate = dateOfModification != null
+        ? DateFormat('yyyy-MM-dd HH:mm').format(dateOfModification)
+        : "";
+
     return DataRow(
       cells: [
         DataCell(Text(usersRole.usersRolesId?.toString() ?? "")),
@@ -185,7 +191,7 @@ class DataTableSourceRows extends DataTableSource {
             },
           ),
         ),
-        DataCell(Text(usersRole.dateOfModification?.toString() ?? "")),
+        DataCell(Text(formattedDate)),
         DataCell(IconButton(
           icon: Icon(Icons.delete),
           onPressed: () => onDelete(usersRole.usersRolesId!),

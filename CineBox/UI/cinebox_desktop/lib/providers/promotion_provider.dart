@@ -22,7 +22,7 @@ class PromotionProvider extends BaseProvider<Promotion> {
     var headers = createHeaders();
 
     var jsonRequest = jsonEncode(
-        {...request, 'expirationDate': request['expirationDate'].toIso8601String()});
+        {...request, 'expirationDate': request['expirationDate']?.toIso8601String()});
 
     // var jsonRequest = jsonEncode(request);
     var response = await http.post(uri, headers: headers, body: jsonRequest);

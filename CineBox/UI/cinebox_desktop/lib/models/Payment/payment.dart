@@ -1,3 +1,4 @@
+import 'package:cinebox_desktop/models/Booking/booking.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment.g.dart';
@@ -8,8 +9,9 @@ class Payment {
   int? bookingId;
   double? amount;
   String? paymentStatus;
+  Booking? booking;
 
-  Payment(this.id, this.bookingId, this.amount, this.paymentStatus);
+  Payment(this.id, this.bookingId, this.amount, this.paymentStatus, this.booking);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
