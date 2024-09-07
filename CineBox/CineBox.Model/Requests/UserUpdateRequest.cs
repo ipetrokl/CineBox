@@ -1,21 +1,35 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CineBox.Model.Requests
 {
 	public class UserUpdateRequest
 	{
-        public string Name { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
 
-        public string Surname { get; set; } = null!;
+        [Required(AllowEmptyStrings = false)]
+        public string Surname { get; set; }
 
-        public string? Email { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; }
 
-        public string? Phone { get; set; }
+        [Required(ErrorMessage = "The Phone number is required")]
+        [RegularExpression(@"^\+?\d{9,15}$", ErrorMessage = "Invalid phone number format")]
+        public string Phone { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
-        public string? Password { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 4)]
+        [DataType(DataType.Password)]
+        [Compare("PasswordConfirmation", ErrorMessage = "Passwords do not match.")]
+        public string Password { get; set; }
 
-        public string? PasswordConfirmation { get; set; }
+        [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        public string PasswordConfirmation { get; set; }
     }
 }
 

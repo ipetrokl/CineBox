@@ -12,7 +12,7 @@ namespace CineBox.Model.Requests
         public string Surname { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "The Phone number is required")]
