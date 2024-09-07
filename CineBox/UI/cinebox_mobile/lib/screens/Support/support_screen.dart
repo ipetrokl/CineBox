@@ -94,7 +94,9 @@ class _SupportScreenState extends State<SupportScreen> {
       cinemaName: widget.cinemaName,
       child: Column(
         children: [
-          _buildSupport(),
+          Expanded(
+            child: _buildSupport(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -152,44 +154,42 @@ class _SupportScreenState extends State<SupportScreen> {
   FormBuilder _buildSupport() {
     return FormBuilder(
       key: _formKey,
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Text(
-                    "Email Support",
-                    style: TextStyle(
-                        fontSize: 20, color: Colors.black.withAlpha(160)),
-                  ),
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Text(
+                  "Email Support",
+                  style: TextStyle(
+                      fontSize: 20, color: Colors.black.withAlpha(160)),
                 ),
-                SizedBox(height: 30),
-                FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Name and Surname"),
-                  name: 'nameAndSurname',
+              ),
+              SizedBox(height: 30),
+              FormBuilderTextField(
+                decoration: InputDecoration(labelText: "Name and Surname"),
+                name: 'nameAndSurname',
+              ),
+              SizedBox(height: 15),
+              FormBuilderTextField(
+                decoration: InputDecoration(labelText: "Email"),
+                name: 'email',
+              ),
+              SizedBox(height: 35),
+              FormBuilderTextField(
+                decoration: const InputDecoration(
+                  labelText: "Here write for our support",
+                  border: OutlineInputBorder(),
+                  alignLabelWithHint: true,
                 ),
-                SizedBox(height: 15),
-                FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Email"),
-                  name: 'email',
-                ),
-                SizedBox(height: 35),
-                FormBuilderTextField(
-                  decoration: const InputDecoration(
-                    labelText: "Here write for our support",
-                    border: OutlineInputBorder(),
-                    alignLabelWithHint: true,
-                  ),
-                  name: 'content',
-                  minLines: 5,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                ),
-              ],
-            ),
+                name: 'content',
+                minLines: 5,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+              ),
+            ],
           ),
         ),
       ),

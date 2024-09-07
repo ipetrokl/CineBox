@@ -60,7 +60,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
       cinemaName: widget.cinemaName,
       child: Column(
         children: [
-          _buildSupport(),
+          Expanded(
+            child: _buildProfile(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -111,49 +113,47 @@ class _ProfilScreenState extends State<ProfilScreen> {
     );
   }
 
-  FormBuilder _buildSupport() {
+  FormBuilder _buildProfile() {
     final user = result?.result.first;
 
     return FormBuilder(
       key: _formKey,
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Text(
-                    "Profil",
-                    style: TextStyle(
-                        fontSize: 30, color: Colors.black.withAlpha(160)),
-                  ),
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Text(
+                  "Profil",
+                  style: TextStyle(
+                      fontSize: 30, color: Colors.black.withAlpha(160)),
                 ),
-                SizedBox(height: 10),
-                const Divider(
-                    thickness: 1, color: Color.fromARGB(200, 21, 36, 118)),
-                SizedBox(height: 10),
-                Center(
-                  child: Text(
-                    user?.username ?? "Username",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black.withAlpha(160),
-                        fontWeight: FontWeight.bold),
-                  ),
+              ),
+              SizedBox(height: 10),
+              const Divider(
+                  thickness: 1, color: Color.fromARGB(200, 21, 36, 118)),
+              SizedBox(height: 10),
+              Center(
+                child: Text(
+                  user?.username ?? "Username",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black.withAlpha(160),
+                      fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 30),
-                _buildReadOnlyField("Name", user?.name ?? ''),
-                const SizedBox(height: 30),
-                _buildReadOnlyField("Surname", user?.surname ?? ''),
-                const SizedBox(height: 30),
-                _buildReadOnlyField("Email", user?.email ?? ''),
-                const SizedBox(height: 30),
-                _buildReadOnlyField("Phone", user?.phone ?? ''),
-                const SizedBox(height: 30),
-              ],
-            ),
+              ),
+              const SizedBox(height: 30),
+              _buildReadOnlyField("Name", user?.name ?? ''),
+              const SizedBox(height: 30),
+              _buildReadOnlyField("Surname", user?.surname ?? ''),
+              const SizedBox(height: 30),
+              _buildReadOnlyField("Email", user?.email ?? ''),
+              const SizedBox(height: 30),
+              _buildReadOnlyField("Phone", user?.phone ?? ''),
+              const SizedBox(height: 30),
+            ],
           ),
         ),
       ),
