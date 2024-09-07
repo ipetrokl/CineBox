@@ -104,17 +104,31 @@ class _SupportScreenState extends State<SupportScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState?.saveAndValidate() ?? false) {
-                    final name =
-                        _formKey.currentState?.fields['nameAndSurname']?.value;
-                    final email = _formKey.currentState?.fields['email']?.value;
+                    final name = _formKey
+                            .currentState?.fields['nameAndSurname']?.value ??
+                        '';
+                    final email =
+                        _formKey.currentState?.fields['email']?.value ?? '';
                     final content =
-                        _formKey.currentState?.fields['content']?.value;
+                        _formKey.currentState?.fields['content']?.value ?? '';
 
-                    await _sendEmail(name, email, content);
+                    if (name.isNotEmpty &&
+                        email.isNotEmpty &&
+                        content.isNotEmpty) {
+                      await _sendEmail(name, email, content);
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Email sent successfully!')),
-                    );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Email sent successfully!')),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Validation failed. Please check your input.'),
+                        ),
+                      );
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

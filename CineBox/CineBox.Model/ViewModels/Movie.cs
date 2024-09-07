@@ -20,6 +20,8 @@ namespace CineBox.Model.ViewModels
         public byte[]? Picture { get; set; }
 
         public byte[]? PictureThumb { get; set; }
+
+        public virtual Genre Genre { get; set; } = null!;
     }
 }
 

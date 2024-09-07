@@ -12,6 +12,8 @@ namespace CineBox.Model.ViewModels
         public int Rating { get; set; }
 
         public string Comment { get; set; } = null!;
+
+        public virtual Movie Movie { get; set; } = null!;
     }
 }
 

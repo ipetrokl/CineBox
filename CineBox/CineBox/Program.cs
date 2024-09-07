@@ -49,6 +49,7 @@ builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<StripePaymentService>();
 builder.Services.AddTransient<PayPalPaymentService>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
+builder.Services.AddTransient<RecommendationService>();
 
 
 builder.Services.AddControllers();

@@ -25,7 +25,20 @@ namespace CineBox.Services.Review
                     .Where(x => x.User.Name.Contains(search.FTS) || x.User.Username.Contains(search.FTS) || x.Comment.Contains(search.FTS));
             }
 
+            if (search?.UserId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.UserId == search.UserId);
+            }
+
             return filteredQuery;
+        }
+
+        public override IQueryable<Database.Review> AddInclude(IQueryable<Database.Review> query, ReviewSearchObject? search = null)
+        {
+            return query
+                 .Include(x => x.Movie)
+                    .ThenInclude(y => y.Genre);
+
         }
     }
 }

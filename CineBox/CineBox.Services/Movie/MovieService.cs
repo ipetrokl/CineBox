@@ -3,6 +3,7 @@ using AutoMapper;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CineBox.Services.Movie
@@ -38,6 +39,11 @@ namespace CineBox.Services.Movie
                 filteredQuery = filteredQuery.Where(x => search.SelectedDate >= x.PerformedFrom && search.SelectedDate <= x.PerformedTo);
             }
 
+            if (search?.SelectedDate != null && search?.GenreId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => search.SelectedDate >= x.PerformedFrom && search.SelectedDate <= x.PerformedTo && x.GenreId == search.GenreId);
+            }
+
             filteredQuery = filteredQuery
                 .Select(movie => new
                 {
@@ -49,6 +55,13 @@ namespace CineBox.Services.Movie
                 .Select(m => m.Movie);
 
             return filteredQuery;
+        }
+
+        public override IQueryable<Database.Movie> AddInclude(IQueryable<Database.Movie> query, MovieSearchObject? search = null)
+        {
+            return query
+                 .Include(x => x.Genre);
+
         }
     }
 }
