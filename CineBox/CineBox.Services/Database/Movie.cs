@@ -19,13 +19,13 @@ public partial class Movie
 
     public string Director { get; set; } = null!;
 
-    public byte[]? Picture { get; set; }
-
-    public byte[]? PictureThumb { get; set; }
+    public int? PictureId { get; set; }
 
     public virtual Genre Genre { get; set; } = null!;
 
     public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+
+    public virtual Picture? Picture { get; set; }
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 

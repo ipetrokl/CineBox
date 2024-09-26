@@ -6,8 +6,8 @@ namespace MailService
 {
     public class EmailSender : IEmailSender
     {
-        private readonly string _outlookMail = Environment.GetEnvironmentVariable("OUTLOOK_MAIL") ?? "cineb0x@outlook.com";
-        private readonly string _outlookPass = Environment.GetEnvironmentVariable("OUTLOOK_PASS") ?? "C!neb0xx";
+        private readonly string _outlookMail = Environment.GetEnvironmentVariable("SENDER_MAIL") ?? "cineboxsender@gmail.com";
+        private readonly string _outlookPass = Environment.GetEnvironmentVariable("SENDER_PASS") ?? "coyr oncp ygks wlat";
 
         public EmailSender()
         {
@@ -15,7 +15,7 @@ namespace MailService
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var client = new SmtpClient("smtp.office365.com", 587)
+            var client = new SmtpClient("smtp.gmail.com", 587)
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,

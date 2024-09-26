@@ -10,6 +10,7 @@ import 'package:cinebox_desktop/providers/movie_actor_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/news_provider.dart';
 import 'package:cinebox_desktop/providers/payment_provider.dart';
+import 'package:cinebox_desktop/providers/picture_provider.dart';
 import 'package:cinebox_desktop/providers/promotion_provider.dart';
 import 'package:cinebox_desktop/providers/review_provider.dart';
 import 'package:cinebox_desktop/providers/role_provider.dart';
@@ -46,6 +47,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => RoleProvider()),
       ChangeNotifierProvider(create: (_) => UsersRoleProvider()),
       ChangeNotifierProvider(create: (_) => NewsProvider()),
+      ChangeNotifierProvider(create: (_) => PictureProvider()),
     ],
     child: const MyMaterialApp(),
   ));

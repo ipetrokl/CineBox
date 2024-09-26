@@ -18,7 +18,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
           ? null
           : DateTime.parse(json['performedTo'] as String),
       json['director'] as String?,
-      json['picture'] as String?,
+      json['pictureId'] as int?,
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
@@ -29,5 +29,5 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'performedFrom': instance.performedFrom?.toIso8601String(),
       'performedTo': instance.performedTo?.toIso8601String(),
       'director': instance.director,
-      'picture': instance.picture,
+      'pictureId': instance.pictureId,
     };

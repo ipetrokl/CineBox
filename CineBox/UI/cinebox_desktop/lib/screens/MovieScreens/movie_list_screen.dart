@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
+import 'package:cinebox_desktop/providers/picture_provider.dart';
 import 'package:cinebox_desktop/screens/MovieScreens/movie_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:cinebox_desktop/models/Picture/picture.dart' as MyAppPicture;
 
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({super.key});
@@ -22,6 +25,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
+  late PictureProvider _pictureProvider;
 
   @override
   void didChangeDependencies() {
@@ -33,6 +37,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     super.initState();
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
+    _pictureProvider = context.read<PictureProvider>();
     _fetchData();
   }
 
@@ -140,7 +145,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _genreProvider,
-                _deleteRecord, _navigateToDetail),
+                _pictureProvider, _deleteRecord, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -184,11 +189,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
 class DataTableSourceRows extends DataTableSource {
   final List<Movie> movies;
   final GenreProvider genreProvider;
+  final PictureProvider pictureProvider;
   final Function(int) onDelete;
   final Function(Movie) onRowSelected;
 
-  DataTableSourceRows(
-      this.movies, this.genreProvider, this.onDelete, this.onRowSelected);
+  DataTableSourceRows(this.movies, this.genreProvider, this.pictureProvider,
+      this.onDelete, this.onRowSelected);
 
   @override
   DataRow getRow(int index) {
@@ -220,19 +226,33 @@ class DataTableSourceRows extends DataTableSource {
         )),
         DataCell(Text(movie.director ?? '')),
         DataCell(
-          Container(
-            width: 40,
-            height: 45,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image(
-                image: movie.picture != null && movie.picture != ""
-                    ? MemoryImage(base64Decode(movie.picture!))
-                    : AssetImage("assets/images/empty.jpg")
-                        as ImageProvider<Object>,
-                fit: BoxFit.cover,
-              ),
-            ),
+          FutureBuilder<MyAppPicture.Picture?>(
+            future: movie.pictureId != null
+                ? pictureProvider.getById(movie.pictureId!)
+                : null,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  width: 40,
+                  height: 45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image(
+                      image: snapshot.data?.picture1 != null &&
+                              snapshot.data?.picture1 != ""
+                          ? MemoryImage(base64Decode(snapshot.data!.picture1!))
+                          : AssetImage("assets/images/empty.jpg")
+                              as ImageProvider<Object>,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error loading picture');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
           ),
         ),
         DataCell(IconButton(

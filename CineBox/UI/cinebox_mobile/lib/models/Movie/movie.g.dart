@@ -19,10 +19,13 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie()
       : DateTime.parse(json['performedTo'] as String)
   ..duration = (json['duration'] as num?)?.toInt()
   ..director = json['director'] as String?
-  ..picture = json['picture'] as String?
+  ..pictureId = (json['pictureId'] as num?)?.toInt()
   ..actors = (json['actors'] as List<dynamic>?)
       ?.map((e) => Actor.fromJson(e as Map<String, dynamic>))
-      .toList();
+      .toList()
+  ..picture = json['picture'] == null
+      ? null
+      : Picture.fromJson(json['picture'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'id': instance.id,
@@ -33,6 +36,7 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'performedTo': instance.performedTo?.toIso8601String(),
       'duration': instance.duration,
       'director': instance.director,
-      'picture': instance.picture,
+      'pictureId': instance.pictureId,
       'actors': instance.actors,
+      'picture': instance.picture,
     };

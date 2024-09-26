@@ -55,6 +55,8 @@ services:
     depends_on:
       - cinebox-sql
       - cinebox-rabbitmq
+    volumes:
+      - ./SeedImages:/app/SeedImages
 
   mail-service:
     restart: on-failure
@@ -66,8 +68,8 @@ services:
       - RABBITMQ_USERNAME=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASS}
       - RABBITMQ_VIRTUALHOST=/
-      - OUTLOOK_MAIL=${MAIL_SERVICE_MAIL}
-      - OUTLOOK_PASS=${MAIL_SERVICE_PASS}
+      - SENDER_MAIL=${MAIL_SERVICE_MAIL}
+      - SENDER_PASS=${MAIL_SERVICE_PASS}
     depends_on:
       - cinebox-rabbitmq
       - cinebox-sql

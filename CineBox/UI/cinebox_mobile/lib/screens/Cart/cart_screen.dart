@@ -173,7 +173,7 @@ class _CartScreenState extends State<CartScreen> {
                   child: Image(
                     image:
                         item.movie.picture != null && item.movie.picture != ""
-                            ? MemoryImage(base64Decode(item.movie.picture!))
+                            ? MemoryImage(base64Decode(item.movie.picture!.picture1!))
                             : const AssetImage("assets/images/empty.jpg")
                                 as ImageProvider<Object>,
                     fit: BoxFit.cover,

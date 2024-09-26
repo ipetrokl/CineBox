@@ -1,4 +1,5 @@
 import 'package:cinebox_mobile/models/Actor/actor.dart';
+import 'package:cinebox_mobile/models/Picture/picture.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
@@ -13,8 +14,9 @@ class Movie {
   DateTime? performedTo;
   int? duration;
   String? director;
-  String? picture;
+  int? pictureId;
   List<Actor>? actors;
+  Picture? picture;
 
   Movie();
 

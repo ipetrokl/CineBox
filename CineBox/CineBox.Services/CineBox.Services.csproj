@@ -43,6 +43,8 @@
     <None Remove="UserRole\" />
     <None Remove="News\" />
     <None Remove="Messaging\" />
+    <None Remove="Picture\" />
+    <None Remove="Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Users\" />
@@ -63,5 +65,7 @@
     <Folder Include="UserRole\" />
     <Folder Include="News\" />
     <Folder Include="Messaging\" />
+    <Folder Include="Picture\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
 </Project>

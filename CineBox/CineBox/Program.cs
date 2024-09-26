@@ -12,6 +12,7 @@ using CineBox.Services.Movie;
 using CineBox.Services.MovieActor;
 using CineBox.Services.News;
 using CineBox.Services.Payment;
+using CineBox.Services.Picture;
 using CineBox.Services.Promotion;
 using CineBox.Services.Review;
 using CineBox.Services.Role;
@@ -50,6 +51,7 @@ builder.Services.AddTransient<StripePaymentService>();
 builder.Services.AddTransient<PayPalPaymentService>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 builder.Services.AddTransient<RecommendationService>();
+builder.Services.AddTransient<IPictureService, PictureService>();
 
 
 builder.Services.AddControllers();

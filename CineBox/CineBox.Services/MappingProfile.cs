@@ -83,6 +83,10 @@ namespace CineBox.Services
             CreateMap<Database.News, Model.ViewModels.News>();
             CreateMap<NewsInsertRequest, Database.News>();
             CreateMap<NewsUpdateRequest, Database.News>();
+            //Picture
+            CreateMap<Database.Picture, Model.ViewModels.Picture>();
+            CreateMap<PictureInsertRequest, Database.Picture>();
+            CreateMap<PictureUpdateRequest, Database.Picture>();
 
         }
     }

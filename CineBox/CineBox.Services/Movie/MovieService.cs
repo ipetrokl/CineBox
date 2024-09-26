@@ -60,8 +60,8 @@ namespace CineBox.Services.Movie
         public override IQueryable<Database.Movie> AddInclude(IQueryable<Database.Movie> query, MovieSearchObject? search = null)
         {
             return query
-                 .Include(x => x.Genre);
-
+                 .Include(x => x.Genre)
+                 .Include(x => x.Picture);
         }
     }
 }

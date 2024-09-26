@@ -323,8 +323,8 @@ class _movieListScreenState extends State<MovieListScreen> {
                           bottomLeft: Radius.circular(8),
                         ),
                         child: Image(
-                          image: movie.picture != null && movie.picture != ""
-                              ? MemoryImage(base64Decode(movie.picture!))
+                          image: movie.picture!.picture1 != null && movie.picture!.picture1 != ""
+                              ? MemoryImage(base64Decode(movie.picture!.picture1!))
                               : const AssetImage("assets/images/empty.jpg")
                                   as ImageProvider<Object>,
                           fit: BoxFit.cover,

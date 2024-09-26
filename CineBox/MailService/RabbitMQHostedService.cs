@@ -50,30 +50,27 @@ namespace MailService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                try
+                using (var bus = RabbitHutch.CreateBus($"host={_host};virtualHost={_virtualhost};username={_username};password={_password}"))
                 {
-                    using (var bus = RabbitHutch.CreateBus($"host={_host};virtualHost={_virtualhost};username={_username};password={_password}"))
+                    bus.PubSub.Subscribe<ReservationNotifier>("New_Reservations", HandleMessage);
+                    Console.WriteLine("Listening for reservations.");
+
+                    while (!stoppingToken.IsCancellationRequested)
                     {
-                        bus.PubSub.Subscribe<ReservationNotifier>("New_Reservations", HandleMessage);
-                        Console.WriteLine("Listening for reservations.");
                         await Task.Delay(TimeSpan.FromSeconds(7), stoppingToken);
                     }
-
-
                 }
-                catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
-                {
-                    // Gracefully handle cancellation
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions
-                    Console.WriteLine($"Error in RabbitMQ listener: {ex.Message}");
-                }
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                // Gracefully handle cancellation
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                Console.WriteLine($"Error in RabbitMQ listener: {ex.Message}");
             }
         }
 

@@ -1,3 +1,4 @@
+import 'package:cinebox_desktop/models/Picture/picture.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// This allows the `User` class to access private members in
@@ -14,10 +15,10 @@ class Movie {
   DateTime? performedFrom;
   DateTime? performedTo;
   String? director;
-  String? picture;
+  int? pictureId;
 
   Movie(this.id, this.genreId, this.title, this.description, this.performedFrom,
-      this.performedTo, this.director, this.picture);
+      this.performedTo, this.director, this.pictureId);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

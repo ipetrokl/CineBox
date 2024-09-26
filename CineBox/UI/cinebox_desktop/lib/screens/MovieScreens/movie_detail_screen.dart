@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
+import 'package:cinebox_desktop/models/Picture/picture.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:cinebox_desktop/providers/picture_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +26,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Map<String, dynamic> _initialValue = {};
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
+  late PictureProvider _pictureProvider;
   SearchResult<Genre>? genreResult;
+  SearchResult<Picture>? pictureResult;
   bool isLoading = true;
 
   @override
@@ -39,11 +40,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       'description': widget.movie?.description,
       'performedFrom': widget.movie?.performedFrom,
       'performedTo': widget.movie?.performedTo,
-      'director': widget.movie?.director
+      'director': widget.movie?.director,
+      'pictureId': widget.movie?.pictureId.toString()
     };
 
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
+    _pictureProvider = context.read<PictureProvider>();
     initForm();
   }
 
@@ -54,6 +57,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   Future initForm() async {
     genreResult = await _genreProvider.get();
+    pictureResult = await _pictureProvider.get();
     setState(() {
       isLoading = false;
     });
@@ -77,7 +81,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       _formKey.currentState?.saveAndValidate();
 
                       var request = Map.from(_formKey.currentState!.value);
-                      request['picture'] = _base64Image;
 
                       try {
                         if (widget.movie == null) {
@@ -94,8 +97,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: const Text("Success"),
-                            content:
-                                const Text("Saved successfully."),
+                            content: const Text("Saved successfully."),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
@@ -188,36 +190,34 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   name: 'director',
                 ),
                 const SizedBox(height: 20),
-                FormBuilderField(
-                  name: "imageId",
-                  builder: (field) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Choose image",
-                        errorText: field.errorText,
-                      ),
-                      child: ListTile(
-                        leading: _image != null
-                            ? Image.file(_image!, width: 50, height: 50)
-                            : const Icon(Icons.photo),
-                        title: const Text("Select image"),
-                        trailing: const Icon(Icons.file_upload),
-                        onTap: () async {
-                          var result = await FilePicker.platform
-                              .pickFiles(type: FileType.image);
-
-                          if (result != null &&
-                              result.files.single.path != null) {
-                            setState(() {
-                              _image = File(result.files.single.path!);
-                              _base64Image =
-                                  base64Encode(_image!.readAsBytesSync());
-                            });
-                          }
-                        },
-                      ),
-                    );
-                  },
+                FormBuilderDropdown<String>(
+                  name: 'pictureId',
+                  decoration: InputDecoration(
+                    labelText: 'Picture',
+                    suffix: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _formKey.currentState!.fields['pictureId']?.reset();
+                      },
+                    ),
+                  ),
+                  items: pictureResult?.result.map((item) {
+                        final imageBytes = item.picture1 != null
+                            ? base64Decode(item.picture1!)
+                            : null;
+                        return DropdownMenuItem(
+                          value: item.id.toString(),
+                          child: Row(
+                            children: [
+                              if (imageBytes != null)
+                                Image.memory(imageBytes, width: 40, height: 40),
+                              SizedBox(width: 8),
+                              Text(item.id.toString()),
+                            ],
+                          ),
+                        );
+                      }).toList() ??
+                      [],
                 ),
               ],
             ),
@@ -225,19 +225,5 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         ),
       ),
     );
-  }
-
-  File? _image;
-  String? _base64Image;
-
-  Future getImage() async {
-    var result = await FilePicker.platform.pickFiles(type: FileType.image);
-
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        _image = File(result.files.single.path!);
-        _base64Image = base64Encode(_image!.readAsBytesSync());
-      });
-    }
   }
 }

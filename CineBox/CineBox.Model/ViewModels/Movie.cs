@@ -17,11 +17,11 @@ namespace CineBox.Model.ViewModels
 
         public string Director { get; set; } = null!;
 
-        public byte[]? Picture { get; set; }
-
-        public byte[]? PictureThumb { get; set; }
+        public int? PictureId { get; set; }
 
         public virtual Genre Genre { get; set; } = null!;
+
+        public virtual Picture? Picture { get; set; }
     }
 }
 

@@ -35,6 +35,8 @@ public partial class CineBoxContext : DbContext
 
     public virtual DbSet<Payment> Payments { get; set; }
 
+    public virtual DbSet<Picture> Pictures { get; set; }
+
     public virtual DbSet<Promotion> Promotions { get; set; }
 
     public virtual DbSet<Review> Reviews { get; set; }
@@ -58,7 +60,6 @@ public partial class CineBoxContext : DbContext
             optionsBuilder.UseSqlServer("Data Source=localhost, 1402;Initial Catalog=Cinebox; user=sa; Password=Av@ntur@1; TrustServerCertificate=True");
         }
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Actor>(entity =>
@@ -209,8 +210,6 @@ public partial class CineBoxContext : DbContext
             entity.Property(e => e.PerformedTo)
                 .HasColumnType("date")
                 .HasColumnName("performed_to");
-            entity.Property(e => e.Picture).HasColumnName("picture");
-            entity.Property(e => e.PictureThumb).HasColumnName("pictureThumb");
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -220,6 +219,10 @@ public partial class CineBoxContext : DbContext
                 .HasForeignKey(d => d.GenreId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Movie__genre_id__412EB0B6");
+
+            entity.HasOne(d => d.Picture).WithMany(p => p.Movies)
+                .HasForeignKey(d => d.PictureId)
+                .HasConstraintName("FK__Movie__PictureId__01142BA1");
         });
 
         modelBuilder.Entity<MovieActor>(entity =>
@@ -294,6 +297,16 @@ public partial class CineBoxContext : DbContext
                 .HasForeignKey(d => d.BookingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Payment__booking__534D60F1");
+        });
+
+        modelBuilder.Entity<Picture>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Picture__3213E83F8F5325C4");
+
+            entity.ToTable("Picture");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Picture1).HasColumnName("picture");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
