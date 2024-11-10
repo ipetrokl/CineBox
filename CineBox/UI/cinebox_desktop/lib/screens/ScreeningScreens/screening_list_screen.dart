@@ -131,7 +131,6 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
               child: Text('Screenings'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Movie')),
               DataColumn(label: Text('Hall')),
               DataColumn(label: Text('Category')),
@@ -140,7 +139,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _movieProvider,
-                _hallProvider, _deleteRecord, _navigateToDetail),
+                _hallProvider, _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -157,6 +156,34 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content:
+              const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -201,7 +228,6 @@ class DataTableSourceRows extends DataTableSource {
 
     return DataRow(
       cells: [
-        DataCell(Text(screening.id?.toString() ?? "")),
         DataCell(
           FutureBuilder<Movie?>(
             future: movieProvider.getById(screening.movieId!),

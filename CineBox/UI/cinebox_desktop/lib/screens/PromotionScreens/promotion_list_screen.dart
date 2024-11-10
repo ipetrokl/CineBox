@@ -112,14 +112,13 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
               child: Text('Promotions'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Code')),
               DataColumn(label: Text('Discount')),
               DataColumn(label: Text('Expiration Date')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -136,6 +135,33 @@ class _PromotionListScreenState extends State<PromotionListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -174,10 +200,9 @@ class DataTableSourceRows extends DataTableSource {
     final String formattedDate = expirationDate != null
         ? DateFormat('yyyy-MM-dd').format(expirationDate)
         : "";
-        
+
     return DataRow(
       cells: [
-        DataCell(Text(promotion.id?.toString() ?? "")),
         DataCell(Text(promotion.code?.toString() ?? "")),
         DataCell(Text(promotion.discount?.toString() ?? "")),
         DataCell(Text(formattedDate)),

@@ -2,6 +2,7 @@ import 'package:cinebox_desktop/models/Role/role.dart';
 import 'package:cinebox_desktop/providers/role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -41,64 +42,82 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
         insetPadding: const EdgeInsets.all(100),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildForm(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 70)),
-                  ElevatedButton(
-                      onPressed: () async {
-                        _formKey.currentState?.saveAndValidate();
-          
-                        try {
-                          if (widget.role == null) {
-                            await _roleProvider
-                                .insert(_formKey.currentState?.value);
-                          } else {
-                            await _roleProvider.update(
-                                widget.role!.id!, _formKey.currentState?.value);
+        child: Stack(children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildForm(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 70)),
+                    ElevatedButton(
+                        onPressed: () async {
+                          _formKey.currentState?.save();
+
+                          if (_formKey.currentState?.validate() ?? false) {
+                            try {
+                              if (widget.role == null) {
+                                await _roleProvider
+                                    .insert(_formKey.currentState?.value);
+                              } else {
+                                await _roleProvider.update(widget.role!.id!,
+                                    _formKey.currentState?.value);
+                              }
+
+                              _formKey.currentState?.reset();
+
+                              if (widget.onClose != null) {
+                                widget.onClose!();
+                              }
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text("Success"),
+                                  content: Text("Saved successfully."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("OK"),
+                                    )
+                                  ],
+                                ),
+                              );
+                            } on Exception catch (e) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: Text("Error"),
+                                        content: Text(e.toString()),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text("OK"))
+                                        ],
+                                      ));
+                            }
                           }
-          
-                          if (widget.onClose != null) {
-                            widget.onClose!();
-                          }
-          
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: Text("Success"),
-                              content: Text("Saved successfully."),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("OK"),
-                                )
-                              ],
-                            ),
-                          );
-                        } on Exception catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    title: Text("Error"),
-                                    content: Text(e.toString()),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: Text("OK"))
-                                    ],
-                                  ));
-                        }
-                      },
-                      child: Text("Save"))
-                ],
-              ),
-            ],
+                        },
+                        child: Text("Save"))
+                  ],
+                ),
+              ],
+            ),
           ),
-        ));
+          Positioned(
+            right: 5,
+            top: 5,
+            child: IconButton(
+              icon: const Icon(Icons.close, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ]));
   }
 
   FormBuilder _buildForm() {
@@ -116,11 +135,19 @@ class _RoleDetailScreenState extends State<RoleDetailScreen> {
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Name"),
                   name: 'name',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Name is required'),
+                  ]),
                 ),
                 SizedBox(height: 20),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Description"),
                   name: 'description',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Description is required'),
+                  ]),
                 ),
               ],
             ),

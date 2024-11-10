@@ -7,6 +7,7 @@ import 'package:cinebox_desktop/providers/movie_actor_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -62,64 +63,85 @@ class _MovieActorDetailScreenState extends State<MovieActorDetailScreen> {
     return Dialog(
         backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
         insetPadding: const EdgeInsets.all(100),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              isLoading ? Container() : _buildForm(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 70)),
-                  ElevatedButton(
-                      onPressed: () async {
-                        _formKey.currentState?.saveAndValidate();
-          
-                        try {
-                          if (widget.movieActor == null) {
-                            await _movieActorProvider
-                                .insert(_formKey.currentState?.value);
-                          } else {
-                            await _movieActorProvider.update(
-                                widget.movieActor!.id!, _formKey.currentState?.value);
+        child: Stack(children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                isLoading ? Container() : _buildForm(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 70)),
+                    ElevatedButton(
+                        onPressed: () async {
+                          _formKey.currentState?.save();
+
+                          if (_formKey.currentState?.validate() ?? false) {
+                            try {
+                              if (widget.movieActor == null) {
+                                await _movieActorProvider
+                                    .insert(_formKey.currentState?.value);
+                              } else {
+                                await _movieActorProvider.update(
+                                    widget.movieActor!.id!,
+                                    _formKey.currentState?.value);
+                              }
+
+                              _formKey.currentState?.reset();
+                              _formKey.currentState?.fields['movieId']?.reset();
+                              _formKey.currentState?.fields['actorId']?.reset();
+
+                              if (widget.onClose != null) {
+                                widget.onClose!();
+                              }
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text("Success"),
+                                  content: Text("Saved successfully."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("OK"),
+                                    )
+                                  ],
+                                ),
+                              );
+                            } on Exception catch (e) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: Text("Error"),
+                                        content: Text(e.toString()),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text("OK"))
+                                        ],
+                                      ));
+                            }
                           }
-          
-                          if (widget.onClose != null) {
-                            widget.onClose!();
-                          }
-          
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: Text("Success"),
-                              content: Text("Saved successfully."),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("OK"),
-                                )
-                              ],
-                            ),
-                          );
-                        } on Exception catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    title: Text("Error"),
-                                    content: Text(e.toString()),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: Text("OK"))
-                                    ],
-                                  ));
-                        }
-                      },
-                      child: Text("Save"))
-                ],
-              ),
-            ],
+                        },
+                        child: Text("Save"))
+                  ],
+                ),
+              ],
+            ),
           ),
-        ));
+          Positioned(
+            right: 5,
+            top: 5,
+            child: IconButton(
+              icon: const Icon(Icons.close, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ]));
   }
 
   FormBuilder _buildForm() {
@@ -146,6 +168,10 @@ class _MovieActorDetailScreenState extends State<MovieActorDetailScreen> {
                     ),
                     hintText: 'Select Movie',
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Movie is required'),
+                  ]),
                   items: movieResult?.result
                           .map((item) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,
@@ -167,6 +193,10 @@ class _MovieActorDetailScreenState extends State<MovieActorDetailScreen> {
                     ),
                     hintText: 'Select Actor',
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Actor is required'),
+                  ]),
                   items: actorResult?.result
                           .map((item) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,

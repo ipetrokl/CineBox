@@ -102,7 +102,6 @@ class _TicketListScreenState extends State<TicketListScreen> {
               child: Text('Tickets'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('User')),
               DataColumn(label: Text('Ticket Code')),
               DataColumn(label: Text('QR Code')),
@@ -131,7 +130,6 @@ class DataTableSourceRows extends DataTableSource {
     final ticket = tickets[index];
     return DataRow(
       cells: [
-        DataCell(Text(ticket.id?.toString() ?? "")),
         DataCell(
           FutureBuilder<Users?>(
             future: usersProvider.getById(ticket.userId!),

@@ -100,7 +100,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
               child: Text('Bookings'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('User')),
               DataColumn(label: Text('Movie')),
               DataColumn(label: Text('Screening time')),
@@ -133,7 +132,6 @@ class DataTableSourceRows extends DataTableSource {
 
     return DataRow(
       cells: [
-        DataCell(Text(booking.id?.toString() ?? "")),
         DataCell(
           FutureBuilder<Users?>(
             future: usersProvider.getById(booking.userId!),

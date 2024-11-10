@@ -111,13 +111,12 @@ class _RoleListScreenState extends State<RoleListScreen> {
               child: Text('Roles'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Name')),
               DataColumn(label: Text('Description')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -134,6 +133,33 @@ class _RoleListScreenState extends State<RoleListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -170,7 +196,6 @@ class DataTableSourceRows extends DataTableSource {
     final role = roles[index];
     return DataRow(
       cells: [
-        DataCell(Text(role.id?.toString() ?? "")),
         DataCell(Text(role.name?.toString() ?? "")),
         DataCell(Text(role.description?.toString() ?? "")),
         DataCell(IconButton(

@@ -98,14 +98,13 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
               child: Text('UsersRoles'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('User')),
               DataColumn(label: Text('Role')),
               DataColumn(label: Text('Date Of Modification')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _usersProvider,
-                _roleProvider, _deleteRecord, _navigateToDetail),
+                _roleProvider, _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -122,6 +121,33 @@ class _UsersRoleListScreenState extends State<UsersRoleListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -166,7 +192,6 @@ class DataTableSourceRows extends DataTableSource {
 
     return DataRow(
       cells: [
-        DataCell(Text(usersRole.usersRolesId?.toString() ?? "")),
         DataCell(
           FutureBuilder<Users?>(
             future: usersProvider.getById(usersRole.userId!),

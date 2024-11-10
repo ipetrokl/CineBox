@@ -134,7 +134,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
               child: Text('Movies'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Title')),
               DataColumn(label: Text('Description')),
               DataColumn(label: Text('Performed From')),
@@ -145,7 +144,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _genreProvider,
-                _pictureProvider, _deleteRecord, _navigateToDetail),
+                _pictureProvider, _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -162,6 +161,34 @@ class _MovieListScreenState extends State<MovieListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content:
+              const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -209,7 +236,6 @@ class DataTableSourceRows extends DataTableSource {
 
     return DataRow(
       cells: [
-        DataCell(Text(movie.id?.toString() ?? '')),
         DataCell(Text(movie.title ?? '')),
         DataCell(Text(movie.description ?? '')),
         DataCell(Text(formattedPerformedFrom)),

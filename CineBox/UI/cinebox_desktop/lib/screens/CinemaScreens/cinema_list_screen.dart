@@ -122,13 +122,12 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
               child: Text('Cinemas'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Name')),
               DataColumn(label: Text('Location')),
               DataColumn(label: Text('Actions')),
             ],
-            source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+            source: DataTableSourceRows(result?.result ?? [],
+                _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -145,6 +144,33 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -181,7 +207,6 @@ class DataTableSourceRows extends DataTableSource {
     final cinema = cinemas[index];
     return DataRow(
       cells: [
-        DataCell(Text(cinema.id?.toString() ?? "")),
         DataCell(Text(cinema.name?.toString() ?? "")),
         DataCell(Text(cinema.location?.toString() ?? "")),
         DataCell(IconButton(

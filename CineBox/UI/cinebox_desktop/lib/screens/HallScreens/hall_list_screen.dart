@@ -115,13 +115,12 @@ class _HallListScreenState extends State<HallListScreen> {
               child: Text('Halls'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Cinema')),
               DataColumn(label: Text('Name')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _cinemaProvider,
-                _deleteRecord, _navigateToDetail),
+                _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -138,6 +137,34 @@ class _HallListScreenState extends State<HallListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content:
+              const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -176,7 +203,6 @@ class DataTableSourceRows extends DataTableSource {
     final hall = halls[index];
     return DataRow(
       cells: [
-        DataCell(Text(hall.id?.toString() ?? "")),
         DataCell(
           FutureBuilder<Cinema?>(
             future: cinemaProvider.getById(hall.cinemaId!),

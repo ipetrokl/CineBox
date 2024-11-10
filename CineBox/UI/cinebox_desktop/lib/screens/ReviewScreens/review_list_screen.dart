@@ -106,7 +106,6 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
               child: Text('Reviews'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('User')),
               DataColumn(label: Text('Movie')),
               DataColumn(label: Text('Rating')),
@@ -114,12 +113,39 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(result?.result ?? [], _usersProvider,
-                _movieProvider, _deleteRecord),
+                _movieProvider, _showDeleteConfirmationDialog),
             showCheckboxColumn: false,
           ),
         ),
       ),
     ));
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _deleteRecord(int id) async {
@@ -157,7 +183,6 @@ class DataTableSourceRows extends DataTableSource {
     final review = reviews[index];
     return DataRow(
       cells: [
-        DataCell(Text(review.id?.toString() ?? "")),
         DataCell(
           FutureBuilder<Users?>(
             future: usersProvider.getById(review.userId!),

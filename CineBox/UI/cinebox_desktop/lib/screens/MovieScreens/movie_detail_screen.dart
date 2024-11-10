@@ -8,6 +8,7 @@ import 'package:cinebox_desktop/providers/movie_provider.dart';
 import 'package:cinebox_desktop/providers/picture_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -68,63 +69,87 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     return Dialog(
       backgroundColor: const Color.fromRGBO(214, 212, 203, 1),
       insetPadding: const EdgeInsets.all(100),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            isLoading ? const SizedBox() : _buildForm(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
               children: [
-                const Padding(padding: EdgeInsets.only(top: 70)),
-                ElevatedButton(
-                    onPressed: () async {
-                      _formKey.currentState?.saveAndValidate();
+                isLoading ? const SizedBox() : _buildForm(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(padding: EdgeInsets.only(top: 70)),
+                    ElevatedButton(
+                        onPressed: () async {
+                          _formKey.currentState?.save();
 
-                      var request = Map.from(_formKey.currentState!.value);
+                          var request = Map.from(_formKey.currentState!.value);
 
-                      try {
-                        if (widget.movie == null) {
-                          await _movieProvider.insert(request);
-                        } else {
-                          await _movieProvider.update(
-                              widget.movie!.id!, request);
-                        }
-                        if (widget.onClose != null) {
-                          widget.onClose!();
-                        }
+                          if (_formKey.currentState?.validate() ?? false) {
+                            try {
+                              if (widget.movie == null) {
+                                await _movieProvider.insert(request);
+                              } else {
+                                await _movieProvider.update(
+                                    widget.movie!.id!, request);
+                              }
 
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Success"),
-                            content: const Text("Saved successfully."),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("OK"),
-                              )
-                            ],
-                          ),
-                        );
-                      } on Exception catch (e) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: const Text("Error"),
-                                  content: Text(e.toString()),
+                              _formKey.currentState?.reset();
+                              _formKey.currentState?.fields['genreId']?.reset();
+                              _formKey.currentState?.fields['pictureId']
+                                  ?.reset();
+
+                              if (widget.onClose != null) {
+                                widget.onClose!();
+                              }
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text("Success"),
+                                  content: const Text("Saved successfully."),
                                   actions: [
                                     TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("OK"))
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("OK"),
+                                    )
                                   ],
-                                ));
-                      }
-                    },
-                    child: const Text("Save"))
+                                ),
+                              );
+                            } on Exception catch (e) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: const Text("Error"),
+                                        content: Text(e.toString()),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text("OK"))
+                                        ],
+                                      ));
+                            }
+                          }
+                        },
+                        child: const Text("Save"))
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            right: 5,
+            top: 5,
+            child: IconButton(
+              icon: const Icon(Icons.close, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -144,11 +169,19 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 FormBuilderTextField(
                   decoration: const InputDecoration(labelText: "Title"),
                   name: 'title',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Title is required'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderTextField(
                   decoration: const InputDecoration(labelText: "Description"),
                   name: 'description',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Description is required'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDateTimePicker(
@@ -156,12 +189,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   inputType: InputType.both,
                   decoration:
                       const InputDecoration(labelText: "Performed From"),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Performed from is required'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDateTimePicker(
                   name: "performedTo",
                   inputType: InputType.both,
                   decoration: const InputDecoration(labelText: "Performed To"),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Performed to is required'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDropdown<String>(
@@ -175,6 +216,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       },
                     ),
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Genre is required'),
+                  ]),
                   items: genreResult?.result
                           .map((item) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,
@@ -188,6 +233,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 FormBuilderTextField(
                   decoration: const InputDecoration(labelText: "Director"),
                   name: 'director',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Director is required'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
                 FormBuilderDropdown<String>(
@@ -201,6 +250,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       },
                     ),
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Picture is required'),
+                  ]),
                   items: pictureResult?.result.map((item) {
                         final imageBytes = item.picture1 != null
                             ? base64Decode(item.picture1!)

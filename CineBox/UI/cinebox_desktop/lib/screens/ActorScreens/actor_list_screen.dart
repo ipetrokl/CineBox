@@ -111,12 +111,11 @@ class _ActorListScreenState extends State<ActorListScreen> {
               child: Text('Actors'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Name')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -133,6 +132,33 @@ class _ActorListScreenState extends State<ActorListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -169,7 +195,6 @@ class DataTableSourceRows extends DataTableSource {
     final actor = actors[index];
     return DataRow(
       cells: [
-        DataCell(Text(actor.id?.toString() ?? '')),
         DataCell(Text(actor.name ?? '')),
         DataCell(IconButton(
           icon: const Icon(Icons.delete),

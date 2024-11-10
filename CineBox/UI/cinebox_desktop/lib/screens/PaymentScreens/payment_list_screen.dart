@@ -106,8 +106,6 @@ class _PaymentListScreenState extends State<PaymentListScreen> {
               child: Text('Payments'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
-              DataColumn(label: Text('Booking')),
               DataColumn(label: Text('User')),
               DataColumn(label: Text('Amount')),
               DataColumn(label: Text('Status')),
@@ -134,19 +132,6 @@ class DataTableSourceRows extends DataTableSource {
     final payment = payments[index];
     return DataRow(
       cells: [
-        DataCell(Text(payment.id?.toString() ?? "")),
-        DataCell(
-          FutureBuilder<Booking?>(
-            future: bookingProvider.getById(payment.bookingId!),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data?.id.toString() ?? '');
-              } else {
-                return CircularProgressIndicator();
-              }
-            },
-          ),
-        ),
         DataCell(
           FutureBuilder<Users?>(
             future: usersProvider.getById(payment.booking!.userId!),

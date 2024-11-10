@@ -88,12 +88,11 @@ class _PictureListScreenState extends State<PictureListScreen> {
               child: Text('Pictures'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Picture')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -110,6 +109,33 @@ class _PictureListScreenState extends State<PictureListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -146,7 +172,6 @@ class DataTableSourceRows extends DataTableSource {
     final picture = pictures[index];
     return DataRow(
       cells: [
-        DataCell(Text(picture.id?.toString() ?? '')),
         DataCell(
           Container(
             width: 40,

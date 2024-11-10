@@ -111,7 +111,6 @@ class _UsersListScreenState extends State<UsersListScreen> {
               child: Text('Users'),
             ),
             columns: const [
-              DataColumn(label: Text('ID')),
               DataColumn(label: Text('Name')),
               DataColumn(label: Text('Surname')),
               DataColumn(label: Text('Email')),
@@ -121,7 +120,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _deleteRecord, _navigateToDetail),
+                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -138,6 +137,33 @@ class _UsersListScreenState extends State<UsersListScreen> {
           _fetchData();
         },
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to delete this record?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRecord(id);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -174,7 +200,6 @@ class DataTableSourceRows extends DataTableSource {
     final users = userses[index];
     return DataRow(
       cells: [
-        DataCell(Text(users.id?.toString() ?? "")),
         DataCell(Text(users.name?.toString() ?? "")),
         DataCell(Text(users.surname?.toString() ?? "")),
         DataCell(Text(users.email?.toString() ?? "")),
