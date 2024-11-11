@@ -2,8 +2,8 @@ import 'package:cinebox_mobile/models/Users/users.dart';
 import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
-
 
 class RegisterScreen extends StatefulWidget {
   Users? users;
@@ -53,40 +53,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(padding: EdgeInsets.only(top: 70)),
               ElevatedButton(
                   onPressed: () async {
+                    _formKey.currentState?.save();
 
-                    _formKey.currentState?.saveAndValidate();
+                    if (_formKey.currentState?.validate() ?? false) {
+                      try {
+                        if (widget.users == null) {
+                          await _usersProvider
+                              .registerUser(_formKey.currentState?.value);
+                        }
 
-                    try {
-                      if (widget.users == null) {
-                        await _usersProvider
-                            .registerUser(_formKey.currentState?.value);
-                      }
-
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: Text("Success"),
-                          content: Text("Registrated, you can sign in now"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text("OK"),
-                            )
-                          ],
-                        ),
-                      );
-                    } on Exception catch (e) {
-                      showDialog(
+                        showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                                title: Text("Error"),
-                                content: Text(e.toString()),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text("OK"))
-                                ],
-                              ));
+                            title: Text("Success"),
+                            content: Text("Registrated, you can sign in now"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("OK"),
+                              )
+                            ],
+                          ),
+                        );
+                      } on Exception catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("OK"))
+                                  ],
+                                ));
+                      }
                     }
                   },
                   child: Text("Save"))
@@ -112,31 +116,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Name"),
                   name: 'name',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Name is required'),
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Surname"),
                   name: 'surname',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Surname is required'),
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Email"),
                   name: 'email',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Email is required'),
+                    FormBuilderValidators.email(
+                        errorText: 'Invalid email format')
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Phone"),
                   name: 'phone',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Phone is required'),
+                    FormBuilderValidators.numeric(),
+                    FormBuilderValidators.phoneNumber(
+                        errorText:
+                            'Invalid phone number format, e.g. 387111111')
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Username"),
                   name: 'username',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Username is required'),
+                    FormBuilderValidators.minLength(4,
+                        errorText: "Must be min 4 length")
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Password"),
                   name: 'password',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Password is required'),
+                    FormBuilderValidators.minLength(4,
+                        errorText: "Must be min 4 length"),
+                    FormBuilderValidators.maxLength(50,
+                        errorText: "Must be max 50 length")
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration:
                       InputDecoration(labelText: "Password Confirmation"),
                   name: 'passwordConfirmation',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Password Confirmation is required'),
+                    (val) {
+                      if (val !=
+                          _formKey.currentState?.fields['password']?.value) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                  ]),
                 ),
               ],
             ),

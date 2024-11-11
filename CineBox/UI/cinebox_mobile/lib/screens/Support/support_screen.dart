@@ -5,6 +5,7 @@ import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:provider/provider.dart';
@@ -105,25 +106,25 @@ class _SupportScreenState extends State<SupportScreen> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState?.saveAndValidate() ?? false) {
-                    final name = _formKey
-                            .currentState?.fields['nameAndSurname']?.value ??
-                        '';
-                    final email =
-                        _formKey.currentState?.fields['email']?.value ?? '';
-                    final content =
-                        _formKey.currentState?.fields['content']?.value ?? '';
+                  _formKey.currentState?.save();
 
-                    if (name.isNotEmpty &&
-                        email.isNotEmpty &&
-                        content.isNotEmpty) {
-                      await _sendEmail(name, email, content);
+                  if (_formKey.currentState?.validate() ?? false) {
+                    try {
+                      final name = _formKey
+                              .currentState?.fields['nameAndSurname']?.value ??
+                          '';
+                      final email =
+                          _formKey.currentState?.fields['email']?.value ?? '';
+                      final content =
+                          _formKey.currentState?.fields['content']?.value ?? '';
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Email sent successfully!')),
-                      );
-                    } else {
+                        await _sendEmail(name, email, content);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Email sent successfully!')),
+                        );
+                    } on Exception catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
@@ -131,13 +132,6 @@ class _SupportScreenState extends State<SupportScreen> {
                         ),
                       );
                     }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content:
-                            Text('Validation failed. Please check your input.'),
-                      ),
-                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -171,11 +165,20 @@ class _SupportScreenState extends State<SupportScreen> {
               FormBuilderTextField(
                 decoration: InputDecoration(labelText: "Name and Surname"),
                 name: 'nameAndSurname',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Name and Surname are required'),
+                ]),
               ),
               SizedBox(height: 15),
               FormBuilderTextField(
                 decoration: InputDecoration(labelText: "Email"),
                 name: 'email',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Email is required'),
+                  FormBuilderValidators.email()
+                ]),
               ),
               SizedBox(height: 35),
               FormBuilderTextField(
@@ -188,6 +191,10 @@ class _SupportScreenState extends State<SupportScreen> {
                 minLines: 5,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Content is required'),
+                ]),
               ),
             ],
           ),

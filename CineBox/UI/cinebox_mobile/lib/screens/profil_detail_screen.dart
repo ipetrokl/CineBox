@@ -3,6 +3,7 @@ import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -63,7 +64,9 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                         ),
                         backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
                     onPressed: () async {
-                      if (_formKey.currentState?.saveAndValidate() ?? false) {
+                      _formKey.currentState?.save();
+
+                      if (_formKey.currentState?.validate() ?? false) {
                         final formData = Map<String, dynamic>.from(
                             _formKey.currentState!.value);
 
@@ -90,7 +93,10 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                               content: Text("Profile data saved successfully."),
                               actions: [
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
                                   child: Text("OK"),
                                 )
                               ],
@@ -111,13 +117,6 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                             ),
                           );
                         }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'Validation failed. Please check your input.'),
-                          ),
-                        );
                       }
                     },
                     child: Text("Save"),
@@ -144,18 +143,40 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Name"),
                   name: 'name',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Name is required'),
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Surname"),
                   name: 'surname',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Surname is required'),
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Email"),
                   name: 'email',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Email is required'),
+                    FormBuilderValidators.email(
+                        errorText: 'Invalid email format')
+                  ]),
                 ),
                 FormBuilderTextField(
                   decoration: InputDecoration(labelText: "Phone"),
                   name: 'phone',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Phone is required'),
+                    FormBuilderValidators.numeric(),
+                    FormBuilderValidators.phoneNumber(
+                        errorText:
+                            'Invalid phone number format, e.g. 387111111')
+                  ]),
                 ),
                 FormBuilderCheckbox(
                   name: 'status',

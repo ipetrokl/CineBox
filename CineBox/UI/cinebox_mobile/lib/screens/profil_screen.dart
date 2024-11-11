@@ -50,6 +50,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
     }
   }
 
+  void _openPasswordChangeDialog(Users user) {
+    showDialog(
+      context: context,
+      builder: (_) => ProfilEditPasswordScreen(
+        users: user,
+        onClose: () {
+          loadData();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = result?.result.first;
@@ -95,15 +107,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                       backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (_) => ProfilEditPasswordScreen(
-                        users: user,
-                        onClose: () {
-                          loadData();
-                        },
-                      ),
-                    );
+                    if (user != null) {
+                      await _showCurrentPasswordDialog(user);
+                    }
                   },
                   child: const Text("Change password"))
             ],
@@ -197,5 +203,56 @@ class _ProfilScreenState extends State<ProfilScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _showCurrentPasswordDialog(Users user) async {
+    final currentPasswordController = TextEditingController();
+    bool isPasswordCorrect = false;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Enter Current Password"),
+          content: FormBuilderTextField(
+            controller: currentPasswordController,
+            obscureText: true,
+            decoration: InputDecoration(labelText: "Current Password"),
+            name: 'password',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (currentPasswordController.text == Authorization.password) {
+                  isPasswordCorrect = true;
+                  Navigator.pop(context);
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: Text("Failed"),
+                            content: Text("Incorrect current password"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("OK"))
+                            ],
+                          ));
+                }
+              },
+              child: Text("Confirm"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (isPasswordCorrect) {
+      _openPasswordChangeDialog(user);
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:cinebox_mobile/providers/review_provider.dart';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -28,7 +29,7 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
   late MovieProvider _movieProvider;
   SearchResult<Movie>? movieResult;
   bool isLoading = true;
-  int? _selectedRating;
+  int? _selectedRating = 1;
 
   @override
   void initState() {
@@ -79,49 +80,53 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
                       backgroundColor: const Color.fromARGB(255, 21, 36, 118),
                     ),
                     onPressed: () async {
-                      _formKey.currentState?.saveAndValidate();
+                      _formKey.currentState?.save();
 
-                      try {
-                        if (widget.review == null) {
-                          var request = Map.from(_formKey.currentState!.value);
-                          request['userId'] = Provider.of<LoggedInUserProvider>(
-                                  context,
-                                  listen: false)
-                              .user!
-                              .id;
-                          request['movieId'] = widget.movieId;
-                          request['rating'] = _selectedRating;
-                          await _reviewProvider.insert(request);
-                        }
-                        if (widget.onClose != null) {
-                          widget.onClose!();
-                        }
+                      if (_formKey.currentState?.validate() ?? false) {
+                        try {
+                          if (widget.review == null) {
+                            var request =
+                                Map.from(_formKey.currentState!.value);
+                            request['userId'] =
+                                Provider.of<LoggedInUserProvider>(context,
+                                        listen: false)
+                                    .user!
+                                    .id;
+                            request['movieId'] = widget.movieId;
+                            request['rating'] = _selectedRating;
+                            await _reviewProvider.insert(request);
+                          }
+                          if (widget.onClose != null) {
+                            widget.onClose!();
+                          }
 
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Success"),
-                            content: const Text("Review saved successfully."),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("OK"),
-                              )
-                            ],
-                          ),
-                        );
-                      } on Exception catch (e) {
-                        showDialog(
+                          showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                                  title: const Text("Error"),
-                                  content: Text(e.toString()),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("OK"))
-                                  ],
-                                ));
+                              title: const Text("Success"),
+                              content: const Text("Review saved successfully."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text("OK"),
+                                )
+                              ],
+                            ),
+                          );
+                        } on Exception catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text("OK"))
+                                    ],
+                                  ));
+                        }
                       }
                     },
                     child: const Text("Save"))
@@ -159,6 +164,10 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
                 FormBuilderTextField(
                   decoration: const InputDecoration(labelText: "Comment"),
                   name: 'comment',
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: 'Comment is required'),
+                  ]),
                 ),
               ],
             ),
