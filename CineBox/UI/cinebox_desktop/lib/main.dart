@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cinebox_desktop/providers/actor_provider.dart';
 import 'package:cinebox_desktop/providers/admin_provider.dart';
 import 'package:cinebox_desktop/providers/booking_provider.dart';
+import 'package:cinebox_desktop/providers/booking_seat_provider.dart';
 import 'package:cinebox_desktop/providers/cinema_provider.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/hall_provider.dart';
@@ -48,6 +49,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => UsersRoleProvider()),
       ChangeNotifierProvider(create: (_) => NewsProvider()),
       ChangeNotifierProvider(create: (_) => PictureProvider()),
+      ChangeNotifierProvider(create: (_) => BookingSeatProvider()),
     ],
     child: const MyMaterialApp(),
   ));

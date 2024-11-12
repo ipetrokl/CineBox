@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CineBox.Model.Reports;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
@@ -70,6 +71,46 @@ namespace CineBox.Services.Screening
                  .Include(x => x.Movie);
 
         }
+
+        public async Task<List<ScreeningBookingReport>> GetTopScreeningTimesAsync()
+        {
+            try
+            {
+                var result = await _context.Screenings
+                    .Include(s => s.Movie)
+                    .Join(_context.Bookings, s => s.Id, b => b.ScreeningId, (screening, booking) => new { screening, booking })
+                    .Join(_context.BookingSeats, b => b.booking.Id, bs => bs.BookingId, (booking, bookingSeat) => new { booking, bookingSeat })
+                    .GroupBy(x => new
+                    {
+                        ScreeningTime = x.booking.screening.ScreeningTime.Hour,
+                        MovieName = x.booking.screening.Movie.Title
+                    })
+                    .Select(g => new
+                    {
+                        ScreeningTime = g.Key.ScreeningTime,
+                        MovieTitle = g.Key.MovieName,
+                        TotalBookedSeats = g.Sum(x => 1)
+                    })
+                    .ToListAsync();
+
+                var finalResult = result.Select(r => new ScreeningBookingReport
+                {
+                    ScreeningTime = r.ScreeningTime.ToString(),
+                    MovieTitle = r.MovieTitle,
+                    TotalBookedSeats = r.TotalBookedSeats
+                })
+                .OrderByDescending(r => r.TotalBookedSeats)
+                .ToList();
+
+                return finalResult;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<ScreeningBookingReport>();
+            }
+        }
+
     }
 }
 

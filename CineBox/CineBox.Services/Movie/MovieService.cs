@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CineBox.Model.Reports;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
@@ -62,6 +63,25 @@ namespace CineBox.Services.Movie
             return query
                  .Include(x => x.Genre)
                  .Include(x => x.Picture);
+        }
+
+        public async Task<List<MoviePopularityReport>> GetTopBookedMoviesAsync()
+        {
+            var result = await _context.Movies
+                .Join(_context.Screenings, m => m.Id, s => s.MovieId, (movie, screening) => new { movie, screening })
+                .Join(_context.Bookings, x => x.screening.Id, b => b.ScreeningId, (x, booking) => new { x.movie, booking })
+                .Join(_context.BookingSeats, b => b.booking.Id, bs => bs.BookingId, (booking, bookingSeat) => new { booking, bookingSeat })
+                .GroupBy(x => x.booking.movie)
+                .Select(g => new MoviePopularityReport
+                {
+                    MovieName = g.Key.Title,
+                    BookingCount = g.Sum(x => 1)
+                })
+                .OrderByDescending(m => m.BookingCount)
+                .Take(3)
+                .ToListAsync();
+
+            return result;
         }
     }
 }

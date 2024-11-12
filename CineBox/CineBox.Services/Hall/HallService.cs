@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CineBox.Model.Reports;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
@@ -31,6 +32,27 @@ namespace CineBox.Services.Hall
             }
 
             return filteredQuery;
+        }
+
+        public async Task<List<HallOccupancyReport>> GetHallOccupancyReportAsync(DateTime selectedDate, int cinemaId)
+        {
+            var result = await _context.Cinemas
+                .Where(c => c.Id == cinemaId)
+                .Include(c => c.Halls)
+                    .ThenInclude(h => h.Seats)
+                .SelectMany(c => c.Halls, (cinema, hall) => new { Cinema = cinema, Hall = hall })
+                .Select(h => new HallOccupancyReport
+                {
+                    HallName = h.Hall.Name,
+                    OccupiedSeats = h.Hall.Seats
+                        .Where(s => s.BookingSeats
+                            .Any(bs => bs.Booking.Screening.ScreeningTime.Date == selectedDate.Date))
+                        .Count(),
+                    TotalSeats = h.Hall.Seats.Count()
+                })
+                .ToListAsync();
+
+            return result;
         }
     }
 }

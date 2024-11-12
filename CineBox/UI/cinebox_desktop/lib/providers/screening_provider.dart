@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cinebox_desktop/models/Reports/terminOccupiedReport.dart';
 import 'package:cinebox_desktop/models/Screening/screening.dart';
 import 'package:cinebox_desktop/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
@@ -56,6 +57,22 @@ class ScreeningProvider extends BaseProvider<Screening> {
       return fromJson(data);
     } else {
       throw new Exception("Unknown error");
+    }
+  }
+
+  Future<List<TerminOccupiedReport>> fetchTerminOccupiedReport() async {
+    final String url = 'http://localhost:7137/Screening/termins';
+
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => TerminOccupiedReport.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load termins report');
     }
   }
 }

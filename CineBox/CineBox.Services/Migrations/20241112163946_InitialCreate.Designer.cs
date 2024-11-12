@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineBox.Services.Migrations
 {
     [DbContext(typeof(CineBoxContext))]
-    [Migration("20240926005239_InitialCreate")]
+    [Migration("20241112163946_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -390,8 +390,8 @@ namespace CineBox.Services.Migrations
                             Description = "A mind-bending thriller",
                             Director = "Christopher Nolan",
                             GenreId = 1,
-                            PerformedFrom = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PerformedTo = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedFrom = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedTo = new DateTime(2024, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PictureId = 1,
                             Title = "Inception"
                         },
@@ -401,8 +401,8 @@ namespace CineBox.Services.Migrations
                             Description = "A romantic disaster film",
                             Director = "James Cameron",
                             GenreId = 1,
-                            PerformedFrom = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PerformedTo = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedFrom = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedTo = new DateTime(2024, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PictureId = 1,
                             Title = "Titanic"
                         },
@@ -412,8 +412,8 @@ namespace CineBox.Services.Migrations
                             Description = "Test1",
                             Director = "James Cameron",
                             GenreId = 1,
-                            PerformedFrom = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PerformedTo = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedFrom = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedTo = new DateTime(2024, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PictureId = 1,
                             Title = "Test1"
                         },
@@ -423,8 +423,8 @@ namespace CineBox.Services.Migrations
                             Description = "Test2",
                             Director = "James Cameron",
                             GenreId = 2,
-                            PerformedFrom = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PerformedTo = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedFrom = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PerformedTo = new DateTime(2024, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PictureId = 1,
                             Title = "Test2"
                         });
@@ -513,7 +513,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 1,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 9, 26, 2, 52, 38, 969, DateTimeKind.Local).AddTicks(9600),
+                            CreatedDate = new DateTime(2024, 11, 12, 17, 39, 46, 743, DateTimeKind.Local).AddTicks(2460),
                             Description = "25.11.2024. Cinebox Zagreb will not work, See you soon :)",
                             Name = "Public holiday"
                         },
@@ -521,7 +521,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 2,
                             CinemaId = 1,
-                            CreatedDate = new DateTime(2024, 9, 26, 2, 52, 38, 969, DateTimeKind.Local).AddTicks(9610),
+                            CreatedDate = new DateTime(2024, 11, 12, 17, 39, 46, 743, DateTimeKind.Local).AddTicks(2460),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         },
@@ -529,7 +529,7 @@ namespace CineBox.Services.Migrations
                         {
                             Id = 3,
                             CinemaId = 2,
-                            CreatedDate = new DateTime(2024, 9, 26, 2, 52, 38, 969, DateTimeKind.Local).AddTicks(9610),
+                            CreatedDate = new DateTime(2024, 11, 12, 17, 39, 46, 743, DateTimeKind.Local).AddTicks(2470),
                             Description = "From 01.07.2024. CineBox will have a new working time 18:00 - 02:00",
                             Name = "New working time"
                         });
@@ -658,14 +658,14 @@ namespace CineBox.Services.Migrations
                             Id = 2,
                             Code = "Summer20",
                             Discount = 20.00m,
-                            ExpirationDate = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ExpirationDate = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             Code = "Summer25",
                             Discount = 25.00m,
-                            ExpirationDate = new DateTime(2024, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ExpirationDate = new DateTime(2025, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -831,7 +831,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -840,7 +840,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -849,7 +849,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -858,7 +858,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -867,7 +867,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -876,7 +876,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -885,7 +885,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -894,7 +894,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -903,7 +903,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -912,7 +912,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -921,7 +921,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -930,7 +930,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -939,7 +939,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -948,7 +948,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -957,7 +957,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -966,7 +966,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -975,7 +975,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -984,7 +984,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -993,7 +993,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1002,7 +1002,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1011,7 +1011,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1020,7 +1020,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1029,7 +1029,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1038,7 +1038,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1047,7 +1047,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1056,7 +1056,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1065,7 +1065,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1074,7 +1074,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1083,7 +1083,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1092,7 +1092,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1101,7 +1101,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1110,7 +1110,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1119,7 +1119,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1128,7 +1128,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1137,7 +1137,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1146,7 +1146,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1155,7 +1155,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1164,7 +1164,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1173,7 +1173,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1182,7 +1182,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1191,7 +1191,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1200,7 +1200,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1209,7 +1209,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1218,7 +1218,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1227,7 +1227,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 13, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 24, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1236,7 +1236,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 13, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 24, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1245,7 +1245,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 13, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 24, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1254,7 +1254,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 13, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 24, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1263,7 +1263,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 14, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 25, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1272,7 +1272,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 14, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 25, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1281,7 +1281,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 14, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 25, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1290,7 +1290,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 14, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 25, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1299,7 +1299,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 15, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 26, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1308,7 +1308,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 15, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 26, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1317,7 +1317,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 15, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 26, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1326,7 +1326,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 15, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 26, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1335,7 +1335,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 16, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 27, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1344,7 +1344,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 16, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 27, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1353,7 +1353,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 16, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 27, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1362,7 +1362,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 16, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 27, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1371,7 +1371,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 17, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 28, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1380,7 +1380,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 17, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 28, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1389,7 +1389,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 17, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 28, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1398,7 +1398,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 17, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 28, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1407,7 +1407,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 18, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 29, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1416,7 +1416,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 18, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 29, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1425,7 +1425,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 18, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 29, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1434,7 +1434,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 18, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 29, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1443,7 +1443,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 19, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 30, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1452,7 +1452,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 19, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 30, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1461,7 +1461,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 19, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 30, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1470,7 +1470,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 19, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 30, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1479,7 +1479,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 20, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 1, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1488,7 +1488,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 20, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 1, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1497,7 +1497,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 20, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 1, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1506,7 +1506,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 20, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 1, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1515,7 +1515,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 21, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 2, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1524,7 +1524,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 21, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 2, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1533,7 +1533,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 21, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 2, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1542,7 +1542,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 21, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 2, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1551,7 +1551,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 22, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 3, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1560,7 +1560,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 22, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 3, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1569,7 +1569,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 22, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 3, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1578,7 +1578,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 22, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 3, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1587,7 +1587,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 23, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 4, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1596,7 +1596,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 23, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 4, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1605,7 +1605,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 23, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 4, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1614,7 +1614,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 23, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 4, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1623,7 +1623,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 24, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 5, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1632,7 +1632,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 24, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 5, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1641,7 +1641,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 24, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 5, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1650,7 +1650,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 24, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 5, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1659,7 +1659,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 25, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 6, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1668,7 +1668,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 25, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 6, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1677,7 +1677,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 25, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 6, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1686,7 +1686,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 25, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 6, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1695,7 +1695,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 26, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 7, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1704,7 +1704,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 26, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 7, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1713,7 +1713,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 26, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 7, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1722,7 +1722,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 26, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 7, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1731,7 +1731,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 27, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 8, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1740,7 +1740,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 27, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 8, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1749,7 +1749,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 27, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 8, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1758,7 +1758,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 27, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 8, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1767,7 +1767,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 28, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 9, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1776,7 +1776,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 28, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 9, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1785,7 +1785,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 28, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 9, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1794,7 +1794,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 28, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 9, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1803,7 +1803,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 29, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 10, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1812,7 +1812,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 29, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 10, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1821,7 +1821,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 29, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 10, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1830,7 +1830,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 29, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 10, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1839,7 +1839,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 30, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 11, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1848,7 +1848,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 30, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 11, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1857,7 +1857,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 30, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 11, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1866,7 +1866,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 30, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 11, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1875,7 +1875,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 31, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 12, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1884,7 +1884,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 2,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 31, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 12, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1893,7 +1893,7 @@ namespace CineBox.Services.Migrations
                             HallId = 1,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 31, 18, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 12, 18, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1902,7 +1902,7 @@ namespace CineBox.Services.Migrations
                             HallId = 2,
                             MovieId = 4,
                             Price = 15.00m,
-                            ScreeningTime = new DateTime(2024, 10, 31, 19, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 12, 12, 19, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1911,7 +1911,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1920,7 +1920,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1929,7 +1929,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1938,7 +1938,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1947,7 +1947,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1956,7 +1956,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1965,7 +1965,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1974,7 +1974,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1983,7 +1983,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -1992,7 +1992,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2001,7 +2001,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2010,7 +2010,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 13, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 24, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2019,7 +2019,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 1,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 14, 20, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 25, 20, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2028,7 +2028,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 2, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 13, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2037,7 +2037,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 3, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 14, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2046,7 +2046,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 4, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 15, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2055,7 +2055,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 5, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 16, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2064,7 +2064,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 6, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 17, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2073,7 +2073,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 7, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 18, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2082,7 +2082,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 8, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 19, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2091,7 +2091,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 9, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 20, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2100,7 +2100,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 10, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 21, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2109,7 +2109,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 11, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 22, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2118,7 +2118,7 @@ namespace CineBox.Services.Migrations
                             HallId = 4,
                             MovieId = 3,
                             Price = 12.50m,
-                            ScreeningTime = new DateTime(2024, 10, 12, 22, 0, 0, 0, DateTimeKind.Unspecified)
+                            ScreeningTime = new DateTime(2024, 11, 23, 22, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -4254,7 +4254,7 @@ namespace CineBox.Services.Migrations
                             Name = "John",
                             PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=",
                             PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==",
-                            Phone = "123-456-7890",
+                            Phone = "1234567890",
                             Status = true,
                             Surname = "Doe",
                             Username = "test"
@@ -4266,7 +4266,7 @@ namespace CineBox.Services.Migrations
                             Name = "Jane",
                             PasswordHash = "CX9GC3inZ7AA7itor/taR6ozGQM=",
                             PasswordSalt = "YzSwhwHPu3+++d+LsG4kiA==",
-                            Phone = "987-654-3210",
+                            Phone = "9876543210",
                             Status = true,
                             Surname = "Smith",
                             Username = "guest"
@@ -4278,7 +4278,7 @@ namespace CineBox.Services.Migrations
                             Name = "cinebox20244@gmail.com",
                             PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=",
                             PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==",
-                            Phone = "987-654-3210",
+                            Phone = "9876543210",
                             Status = true,
                             Surname = "xwiyktjxrcswohoa",
                             Username = "support"
@@ -4318,14 +4318,14 @@ namespace CineBox.Services.Migrations
                         new
                         {
                             UsersRolesId = 1,
-                            DateOfModification = new DateTime(2024, 9, 26, 2, 52, 38, 969, DateTimeKind.Local).AddTicks(7090),
+                            DateOfModification = new DateTime(2024, 11, 12, 17, 39, 46, 743, DateTimeKind.Local).AddTicks(490),
                             RoleId = 1,
                             UserId = 1
                         },
                         new
                         {
                             UsersRolesId = 2,
-                            DateOfModification = new DateTime(2024, 9, 26, 2, 52, 38, 969, DateTimeKind.Local).AddTicks(7140),
+                            DateOfModification = new DateTime(2024, 11, 12, 17, 39, 46, 743, DateTimeKind.Local).AddTicks(520),
                             RoleId = 2,
                             UserId = 2
                         });
