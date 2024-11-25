@@ -1,3 +1,4 @@
+import 'package:cinebox_mobile/models/Picture/picture.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'users.g.dart';
@@ -13,6 +14,8 @@ class Users {
   String? password;
   String? passwordConfirmation;
   bool? status;
+  int? pictureId;
+  Picture? picture;
 
   Users();
 

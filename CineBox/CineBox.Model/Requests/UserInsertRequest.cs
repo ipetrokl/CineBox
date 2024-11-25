@@ -34,6 +34,8 @@ namespace CineBox.Model.Requests
         [Required]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string PasswordConfirmation { get; set; }
+
+        public byte[]? PictureData { get; set; }
     }
 }
 

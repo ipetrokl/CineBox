@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:cinebox_desktop/models/Genre/genre.dart';
 import 'package:cinebox_desktop/models/Movie/movie.dart';
 import 'package:cinebox_desktop/models/Picture/picture.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
 import 'package:cinebox_desktop/providers/genre_provider.dart';
 import 'package:cinebox_desktop/providers/movie_provider.dart';
-import 'package:cinebox_desktop/providers/picture_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -27,10 +28,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Map<String, dynamic> _initialValue = {};
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
-  late PictureProvider _pictureProvider;
   SearchResult<Genre>? genreResult;
-  SearchResult<Picture>? pictureResult;
   bool isLoading = true;
+  File? _selectedImage;
+  String? _base64Image;
 
   @override
   void initState() {
@@ -41,13 +42,11 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       'description': widget.movie?.description,
       'performedFrom': widget.movie?.performedFrom,
       'performedTo': widget.movie?.performedTo,
-      'director': widget.movie?.director,
-      'pictureId': widget.movie?.pictureId.toString()
+      'director': widget.movie?.director
     };
 
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
-    _pictureProvider = context.read<PictureProvider>();
     initForm();
   }
 
@@ -58,7 +57,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   Future initForm() async {
     genreResult = await _genreProvider.get();
-    pictureResult = await _pictureProvider.get();
     setState(() {
       isLoading = false;
     });
@@ -83,15 +81,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         onPressed: () async {
                           _formKey.currentState?.save();
 
-                          var request = Map.from(_formKey.currentState!.value);
+                          final formData = Map<String, dynamic>.from(
+                              _formKey.currentState!.value);
+
+                          if (_base64Image != null) {
+                            formData['pictureData'] = _base64Image;
+                          }
 
                           if (_formKey.currentState?.validate() ?? false) {
                             try {
                               if (widget.movie == null) {
-                                await _movieProvider.insert(request);
+                                await _movieProvider.insert(formData);
                               } else {
                                 await _movieProvider.update(
-                                    widget.movie!.id!, request);
+                                    widget.movie!.id!, formData);
                               }
 
                               _formKey.currentState?.reset();
@@ -239,38 +242,24 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   ]),
                 ),
                 const SizedBox(height: 20),
-                FormBuilderDropdown<String>(
-                  name: 'pictureId',
-                  decoration: InputDecoration(
-                    labelText: 'Picture',
-                    suffix: IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        _formKey.currentState!.fields['pictureId']?.reset();
-                      },
-                    ),
-                  ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(
-                        errorText: 'Picture is required'),
-                  ]),
-                  items: pictureResult?.result.map((item) {
-                        final imageBytes = item.picture1 != null
-                            ? base64Decode(item.picture1!)
-                            : null;
-                        return DropdownMenuItem(
-                          value: item.id.toString(),
-                          child: Row(
-                            children: [
-                              if (imageBytes != null)
-                                Image.memory(imageBytes, width: 40, height: 40),
-                              SizedBox(width: 8),
-                              Text(item.id.toString()),
-                            ],
-                          ),
-                        );
-                      }).toList() ??
-                      [],
+                ListTile(
+                  leading: _selectedImage != null
+                      ? Image.file(_selectedImage!, width: 50, height: 50)
+                      : const Icon(Icons.photo),
+                  title: const Text("Select image"),
+                  trailing: const Icon(Icons.file_upload),
+                  onTap: () async {
+                    final result = await FilePicker.platform.pickFiles(
+                      type: FileType.image,
+                    );
+                    if (result != null && result.files.single.path != null) {
+                      setState(() {
+                        _selectedImage = File(result.files.single.path!);
+                        _base64Image =
+                            base64Encode(_selectedImage!.readAsBytesSync());
+                      });
+                    }
+                  },
                 ),
               ],
             ),

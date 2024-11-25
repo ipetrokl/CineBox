@@ -10,10 +10,17 @@ namespace CineBox.Services.Database
     {
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
+            var img = PictureHelper.ConvertImageToByteArray("SeedImages/Titanic.png");
+
+            modelBuilder.Entity<Picture>().HasData(
+                new Picture { Id = 1, Picture1 = img },
+                new Picture { Id = 2, Picture1 = img }
+            );
+
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "test", PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==", Email = "cineboxpetrovic@gmail.com", Name = "John", Surname = "Doe", Phone = "1234567890", Status = true },
-                new User { Id = 2, Username = "guest", PasswordHash = "CX9GC3inZ7AA7itor/taR6ozGQM=", PasswordSalt = "YzSwhwHPu3+++d+LsG4kiA==", Email = "jane@example.com", Name = "Jane", Surname = "Smith", Phone = "9876543210", Status = true },
-                new User { Id = 3, Username = "support", PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==", Email = "cinebox20244@gmail.com", Name = "cinebox20244@gmail.com", Surname = "xwiyktjxrcswohoa", Phone = "9876543210", Status = true }
+                new User { Id = 1, Username = "test", PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==", Email = "cineboxpetrovic@gmail.com", Name = "John", Surname = "Doe", Phone = "1234567890", Status = true, PictureId = 2 },
+                new User { Id = 2, Username = "guest", PasswordHash = "CX9GC3inZ7AA7itor/taR6ozGQM=", PasswordSalt = "YzSwhwHPu3+++d+LsG4kiA==", Email = "jane@example.com", Name = "Jane", Surname = "Smith", Phone = "9876543210", Status = true, PictureId = 2 },
+                new User { Id = 3, Username = "support", PasswordHash = "6YN5P1X5LBm8BrXPRbgxo9gOhRc=", PasswordSalt = "AE9YsGCoSj4H1vy1RUHkng==", Email = "cinebox20244@gmail.com", Name = "cinebox20244@gmail.com", Surname = "xwiyktjxrcswohoa", Phone = "9876543210", Status = true, PictureId = 2 }
             );
 
             modelBuilder.Entity<Role>().HasData(
@@ -48,12 +55,6 @@ namespace CineBox.Services.Database
                 new Hall { Id = 4, CinemaId = 2, Name = "Hall 1" },
                 new Hall { Id = 5, CinemaId = 2, Name = "Hall 2" },
                 new Hall { Id = 6, CinemaId = 2, Name = "Hall 3" }
-            );
-
-            var img = PictureHelper.ConvertImageToByteArray("SeedImages/Titanic.png");
-
-            modelBuilder.Entity<Picture>().HasData(
-                new Picture { Id = 1, Picture1 = img }
             );
 
             modelBuilder.Entity<Movie>().HasData(

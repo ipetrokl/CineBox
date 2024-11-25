@@ -4,6 +4,7 @@ using CineBox.Model.Reports;
 using CineBox.Model.Requests;
 using CineBox.Model.SearchObjects;
 using CineBox.Services.Database;
+using CineBox.Services.Picture;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -11,9 +12,11 @@ namespace CineBox.Services.Movie
 {
     public class MovieService : BaseCRUDService<Model.ViewModels.Movie, Database.Movie, MovieSearchObject, MovieInsertRequest, MovieUpdateRequest>, IMovieService
     {
+        private readonly IPictureService _pictureService;
 
-        public MovieService(ILogger<BaseService<Model.ViewModels.Movie, Database.Movie, MovieSearchObject>> logger, CineBoxContext context, IMapper mapper) : base(logger, context, mapper)
+        public MovieService(ILogger<BaseService<Model.ViewModels.Movie, Database.Movie, MovieSearchObject>> logger, CineBoxContext context, IMapper mapper, IPictureService pictureService) : base(logger, context, mapper)
         {
+            _pictureService = pictureService;
         }
 
         public override IQueryable<Database.Movie> AddFilter(IQueryable<Database.Movie> query, MovieSearchObject? search = null)
@@ -82,6 +85,82 @@ namespace CineBox.Services.Movie
                 .ToListAsync();
 
             return result;
+        }
+
+        public override async Task BeforeInsert(Database.Movie movieEntity, MovieInsertRequest insertRequest)
+        {
+            if (insertRequest.PictureData != null && insertRequest.PictureData.Length > 0)
+            {
+                var pictureInsertRequest = new PictureInsertRequest
+                {
+                    Picture1 = insertRequest.PictureData
+                };
+
+                var picture = await _pictureService.Insert(pictureInsertRequest);
+
+                movieEntity.PictureId = picture.Id;
+            }
+        }
+
+        public override async Task BeforeUpdate(Database.Movie movieEntity, MovieUpdateRequest updateRequest)
+        {
+            if (updateRequest.PictureData != null && updateRequest.PictureData.Length > 0)
+            {
+                if (movieEntity.PictureId.HasValue)
+                {
+                    var pictureUpdateRequest = new PictureUpdateRequest
+                    {
+                        Picture1 = updateRequest.PictureData
+                    };
+
+                    await _pictureService.Update(movieEntity.PictureId.Value, pictureUpdateRequest);
+                }
+                else
+                {
+                    var pictureInsertRequest = new PictureInsertRequest
+                    {
+                        Picture1 = updateRequest.PictureData
+                    };
+
+                    var picture = await _pictureService.Insert(pictureInsertRequest);
+                    movieEntity.PictureId = picture.Id;
+                }
+            }
+        }
+
+        public override async Task<bool> Delete(int id)
+        {
+            var movieEntity = await _context.Movies
+                .Include(m => m.Picture)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (movieEntity == null)
+            {
+                return false;
+            }
+
+            if (movieEntity.PictureId.HasValue)
+            {
+                var pictureId = movieEntity.PictureId.Value;
+
+                var pictureUsageCount = await _context.Movies
+                    .Where(m => m.PictureId == pictureId)
+                    .CountAsync();
+
+                if (pictureUsageCount == 1)
+                {
+                    var pictureEntity = await _context.Pictures.FindAsync(pictureId);
+                    if (pictureEntity != null)
+                    {
+                        _context.Pictures.Remove(pictureEntity);
+                    }
+                }
+            }
+
+            _context.Movies.Remove(movieEntity);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

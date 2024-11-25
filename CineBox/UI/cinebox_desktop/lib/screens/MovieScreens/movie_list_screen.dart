@@ -143,8 +143,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
               DataColumn(label: Text('Picture')),
               DataColumn(label: Text('Actions')),
             ],
-            source: DataTableSourceRows(result?.result ?? [], _genreProvider,
-                _pictureProvider, _showDeleteConfirmationDialog, _navigateToDetail),
+            source: DataTableSourceRows(
+                result?.result ?? [],
+                _genreProvider,
+                _pictureProvider,
+                _showDeleteConfirmationDialog,
+                _navigateToDetail),
             showCheckboxColumn: false,
           ),
         ),
@@ -170,8 +174,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirmation"),
-          content:
-              const Text("Are you sure you want to delete this record?"),
+          content: const Text("Are you sure you want to delete this record?"),
           actions: [
             TextButton(
               onPressed: () {
@@ -276,7 +279,18 @@ class DataTableSourceRows extends DataTableSource {
               } else if (snapshot.hasError) {
                 return Text('Error loading picture');
               } else {
-                return CircularProgressIndicator();
+                return Container(
+                  width: 40,
+                  height: 45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: const Image(
+                      image: AssetImage("assets/images/empty.jpg")
+                          as ImageProvider<Object>,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
               }
             },
           ),

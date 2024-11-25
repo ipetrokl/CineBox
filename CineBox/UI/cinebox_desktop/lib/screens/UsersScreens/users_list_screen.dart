@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:cinebox_desktop/models/Users/users.dart';
 import 'package:cinebox_desktop/models/search_result.dart';
+import 'package:cinebox_desktop/providers/picture_provider.dart';
 import 'package:cinebox_desktop/providers/users_provider.dart';
 import 'package:cinebox_desktop/screens/UsersScreens/users_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cinebox_desktop/models/Picture/picture.dart' as MyAppPicture;
 
 class UsersListScreen extends StatefulWidget {
   const UsersListScreen({super.key});
@@ -16,6 +20,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
   SearchResult<Users>? result;
   TextEditingController _ftsController = TextEditingController();
   late UsersProvider _usersProvider;
+  late PictureProvider _pictureProvider;
 
   @override
   void didChangeDependencies() {
@@ -26,6 +31,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
   void initState() {
     super.initState();
     _usersProvider = context.read<UsersProvider>();
+    _pictureProvider = context.read<PictureProvider>();
     _fetchData();
   }
 
@@ -117,10 +123,14 @@ class _UsersListScreenState extends State<UsersListScreen> {
               DataColumn(label: Text('Phone')),
               DataColumn(label: Text('Username')),
               DataColumn(label: Text('Status')),
+              DataColumn(label: Text('Picture')),
               DataColumn(label: Text('Actions')),
             ],
             source: DataTableSourceRows(
-                result?.result ?? [], _showDeleteConfirmationDialog, _navigateToDetail),
+                result?.result ?? [],
+                _showDeleteConfirmationDialog,
+                _navigateToDetail,
+                _pictureProvider),
             showCheckboxColumn: false,
           ),
         ),
@@ -192,8 +202,10 @@ class DataTableSourceRows extends DataTableSource {
   final List<Users> userses;
   final Function(int) onDelete;
   final Function(Users) onRowSelected;
+  final PictureProvider pictureProvider;
 
-  DataTableSourceRows(this.userses, this.onDelete, this.onRowSelected);
+  DataTableSourceRows(
+      this.userses, this.onDelete, this.onRowSelected, this.pictureProvider);
 
   @override
   DataRow getRow(int index) {
@@ -206,6 +218,47 @@ class DataTableSourceRows extends DataTableSource {
         DataCell(Text(users.phone?.toString() ?? "")),
         DataCell(Text(users.username?.toString() ?? "")),
         DataCell(Text(users.status?.toString() ?? "")),
+        DataCell(
+          FutureBuilder<MyAppPicture.Picture?>(
+            future: users.pictureId != null
+                ? pictureProvider.getById(users.pictureId!)
+                : null,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  width: 40,
+                  height: 45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image(
+                      image: snapshot.data?.picture1 != null &&
+                              snapshot.data?.picture1 != ""
+                          ? MemoryImage(base64Decode(snapshot.data!.picture1!))
+                          : AssetImage("assets/images/empty.jpg")
+                              as ImageProvider<Object>,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error loading picture');
+              } else {
+                return Container(
+                  width: 40,
+                  height: 45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: const Image(
+                      image: AssetImage("assets/images/empty.jpg")
+                          as ImageProvider<Object>,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ),
         DataCell(IconButton(
           icon: Icon(Icons.delete),
           onPressed: () => onDelete(users.id!),

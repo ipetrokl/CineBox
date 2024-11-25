@@ -23,7 +23,7 @@ namespace CineBox.Model.Requests
         public string Director { get; set; }
 
         [Required(ErrorMessage = "The Picture is required")]
-        public int? PictureId { get; set; }
+        public byte[]? PictureData { get; set; }
     }
 }
 

@@ -10,15 +10,19 @@ namespace CineBox.Services
 		{
 			//User
 			CreateMap<Database.User, Model.ViewModels.User>();
-			CreateMap<UserInsertRequest, Database.User>();
-			CreateMap<UserUpdateRequest, Database.User>();
-			//Roles
+			CreateMap<UserInsertRequest, Database.User>()
+                .ForMember(dest => dest.PictureId, opt => opt.Ignore());
+            CreateMap<UserUpdateRequest, Database.User>()
+                .ForMember(dest => dest.PictureId, opt => opt.Ignore());
+            //Roles
             CreateMap<Database.UsersRole, Model.ViewModels.UsersRole>();
             CreateMap<Database.Role, Model.ViewModels.Role>();
 			//Movie
 			CreateMap<Database.Movie, Model.ViewModels.Movie>();
-            CreateMap<MovieInsertRequest, Database.Movie>();
-            CreateMap<MovieUpdateRequest, Database.Movie>();
+            CreateMap<MovieInsertRequest, Database.Movie>()
+                .ForMember(dest => dest.PictureId, opt => opt.Ignore());
+            CreateMap<MovieUpdateRequest, Database.Movie>()
+                .ForMember(dest => dest.PictureId, opt => opt.Ignore());
             //Cinema
             CreateMap<Database.Cinema, Model.ViewModels.Cinema>();
             CreateMap<CinemaInsertRequest, Database.Cinema>();

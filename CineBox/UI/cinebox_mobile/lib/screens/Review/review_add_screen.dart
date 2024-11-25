@@ -107,7 +107,12 @@ class _ReviewAddScreenState extends State<ReviewAddScreen> {
                               content: const Text("Review saved successfully."),
                               actions: [
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.pop(
+                                        context);
+                                    Navigator.pop(
+                                        context);
+                                  },
                                   child: const Text("OK"),
                                 )
                               ],

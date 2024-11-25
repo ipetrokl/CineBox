@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cinebox_mobile/models/Users/users.dart';
 import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/screens/master_screen.dart';
@@ -125,7 +127,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
     return FormBuilder(
       key: _formKey,
       child: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,6 +143,30 @@ class _ProfilScreenState extends State<ProfilScreen> {
               const Divider(
                   thickness: 1, color: Color.fromARGB(200, 21, 36, 118)),
               SizedBox(height: 10),
+              Center(
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 230,
+                    width: 140,
+                    child: Container(
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: Image(
+                          image: user?.picture?.picture1 != null &&
+                                  user!.picture!.picture1 != ""
+                              ? MemoryImage(
+                                  base64Decode(user.picture!.picture1!))
+                              : const AssetImage("assets/images/empty.jpg")
+                                  as ImageProvider<Object>,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Center(
                 child: Text(
                   user?.username ?? "Username",

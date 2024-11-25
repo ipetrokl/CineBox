@@ -16,6 +16,7 @@ Users _$UsersFromJson(Map<String, dynamic> json) => Users(
       json['password'] as String?,
       json['passwordConfirmation'] as String?,
       json['status'] as bool?,
+      json['pictureId'] as int?,
     );
 
 Map<String, dynamic> _$UsersToJson(Users instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$UsersToJson(Users instance) => <String, dynamic>{
       'password': instance.password,
       'passwordConfirmation': instance.passwordConfirmation,
       'status': instance.status,
+      'pictureId': instance.pictureId,
     };

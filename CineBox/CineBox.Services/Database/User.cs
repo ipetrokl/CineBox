@@ -23,6 +23,8 @@ public partial class User
 
     public bool Status { get; set; }
 
+    public int? PictureId { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
@@ -30,4 +32,6 @@ public partial class User
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 
     public virtual ICollection<UsersRole> UsersRoles { get; set; } = new List<UsersRole>();
+
+    public virtual Picture? Picture { get; set; }
 }

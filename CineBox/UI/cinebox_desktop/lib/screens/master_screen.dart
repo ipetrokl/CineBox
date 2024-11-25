@@ -7,7 +7,6 @@ import 'package:cinebox_desktop/screens/HallScreens/hall_list_screen.dart';
 import 'package:cinebox_desktop/screens/MovieActorScreens/movie_actor_list_screen.dart';
 import 'package:cinebox_desktop/screens/News/news_list_screen.dart';
 import 'package:cinebox_desktop/screens/PaymentScreens/payment_list_screen.dart';
-import 'package:cinebox_desktop/screens/PictureScreens/picture_list_screen.dart';
 import 'package:cinebox_desktop/screens/PromotionScreens/promotion_list_screen.dart';
 import 'package:cinebox_desktop/screens/ReportScreens/reports_screen.dart';
 import 'package:cinebox_desktop/screens/ReviewScreens/review_list_screen.dart';
@@ -294,22 +293,6 @@ class _MasterScreenState extends State<MasterScreen> {
                       context.read<NavigatorProvider>().navigate(
                             screen: const TicketListScreen(),
                             title: 'Tickets',
-                          );
-                    },
-                  ),
-                  ListTile(
-                    title: const Text(
-                      "Picture",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onTap: () {
-                      context.read<NavigatorProvider>().navigate(
-                            screen: const PictureListScreen(),
-                            title: 'Pictures',
                           );
                     },
                   ),

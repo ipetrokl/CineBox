@@ -17,7 +17,11 @@ namespace CineBox.Model.ViewModels
 
         public bool Status { get; set; }
 
+        public int? PictureId { get; set; }
+
         public virtual ICollection<UsersRole> UsersRoles { get; set; } = new List<UsersRole>();
+
+        public virtual Picture? Picture { get; set; }
     }
 }
 

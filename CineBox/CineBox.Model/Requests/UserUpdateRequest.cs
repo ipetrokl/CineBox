@@ -21,15 +21,11 @@ namespace CineBox.Model.Requests
 
         public bool Status { get; set; } = true;
 
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        [DataType(DataType.Password)]
-        [Compare("PasswordConfirmation", ErrorMessage = "Passwords do not match.")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
+        
+        public string? PasswordConfirmation { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string PasswordConfirmation { get; set; }
+        public byte[]? PictureData { get; set; }
     }
 }
 

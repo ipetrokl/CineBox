@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cinebox_mobile/models/Users/users.dart';
 import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/utils/util.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -21,6 +25,8 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   Map<String, dynamic> _initialValue = {};
   late UsersProvider _usersProvider;
+  File? _selectedImage;
+  String? _base64Image;
 
   @override
   void initState() {
@@ -73,6 +79,10 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                         formData['password'] = Authorization.password ?? '';
                         formData['passwordConfirmation'] =
                             Authorization.password ?? '';
+
+                        if (_base64Image != null) {
+                          formData['pictureData'] = _base64Image;
+                        }
 
                         try {
                           if (widget.users == null) {
@@ -186,6 +196,27 @@ class _ProfilDetailScreenState extends State<ProfilDetailScreen> {
                     setState(() {
                       _initialValue['active'] = value;
                     });
+                  },
+                ),
+                ListTile(
+                  leading: _selectedImage != null
+                      ? Image.file(_selectedImage!, width: 50, height: 50)
+                      : const Icon(Icons.photo,
+                          color: Color.fromRGBO(97, 72, 199, 1)),
+                  title: const Text("Select image"),
+                  trailing: const Icon(Icons.file_upload,
+                      color: Color.fromRGBO(97, 72, 199, 1)),
+                  onTap: () async {
+                    final result = await FilePicker.platform.pickFiles(
+                      type: FileType.image,
+                    );
+                    if (result != null && result.files.single.path != null) {
+                      setState(() {
+                        _selectedImage = File(result.files.single.path!);
+                        _base64Image =
+                            base64Encode(_selectedImage!.readAsBytesSync());
+                      });
+                    }
                   },
                 ),
               ],

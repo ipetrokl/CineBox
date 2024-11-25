@@ -13,9 +13,10 @@ class Users {
   String? password;
   String? passwordConfirmation;
   bool? status;
+  int? pictureId;
 
   Users(this.id, this.name, this.surname, this.email, this.phone, this.username,
-      this.password, this.passwordConfirmation, this.status);
+      this.password, this.passwordConfirmation, this.status, this.pictureId);
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.

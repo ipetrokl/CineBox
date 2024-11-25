@@ -3,6 +3,7 @@ import 'package:cinebox_mobile/providers/users_provider.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 typedef OnDialogClose = void Function();
@@ -64,7 +65,9 @@ class _ProfilEditPasswordScreenState extends State<ProfilEditPasswordScreen> {
                         ),
                         backgroundColor: const Color.fromRGBO(97, 72, 199, 1)),
                     onPressed: () async {
-                      if (_formKey.currentState?.saveAndValidate() ?? false) {
+                      _formKey.currentState?.save();
+
+                      if (_formKey.currentState?.validate() ?? false) {
                         final formData = Map<String, dynamic>.from(
                             _formKey.currentState!.value);
 
@@ -75,14 +78,6 @@ class _ProfilEditPasswordScreenState extends State<ProfilEditPasswordScreen> {
                         formData['status'] = widget.users?.status ?? false;
 
                         try {
-                          if (formData['password'].toString().compareTo(
-                                  formData['passwordConfirmation']
-                                      .toString()) !=
-                              0) {
-                            throw new Exception(
-                                "Password and Password Confirmation need to be equal!");
-                          }
-
                           if (widget.users == null) {
                             await _usersProvider.insert(formData);
                           } else {
@@ -126,13 +121,6 @@ class _ProfilEditPasswordScreenState extends State<ProfilEditPasswordScreen> {
                             ),
                           );
                         }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'Validation failed. Please check your input.'),
-                          ),
-                        );
                       }
                     },
                     child: Text("Save"),
@@ -157,14 +145,29 @@ class _ProfilEditPasswordScreenState extends State<ProfilEditPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FormBuilderTextField(
-                  decoration: InputDecoration(labelText: "Password"),
-                  name: 'password',
-                ),
+                    decoration: InputDecoration(labelText: "Password"),
+                    name: 'password',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Password is required'),
+                      FormBuilderValidators.minLength(4),
+                      FormBuilderValidators.maxLength(50),
+                    ])),
                 FormBuilderTextField(
-                  decoration:
-                      InputDecoration(labelText: "Password Confirmation"),
-                  name: 'passwordConfirmation',
-                ),
+                    decoration:
+                        InputDecoration(labelText: "Password Confirmation"),
+                    name: 'passwordConfirmation',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Password Confirmation is required'),
+                      (val) {
+                        if (val !=
+                            _formKey.currentState?.fields['password']?.value) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ])),
               ],
             ),
           ),
