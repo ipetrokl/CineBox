@@ -1,14 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:cinebox_mobile/models/Payment/payment.dart';
 import 'package:cinebox_mobile/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentProvider extends BaseProvider<Payment> {
-  final String _baseURL = Platform.isIOS
-      ? "http://localhost:7137" // iOS
-      : "http://10.0.2.2:7137"; // Android
-
   PaymentProvider() : super("Payment");
 
   @override
@@ -17,7 +12,7 @@ class PaymentProvider extends BaseProvider<Payment> {
   }
 
   Future<String> createPaymentIntent(double amount) async {
-    var url = "$_baseURL/Payment/create-payment-intent";
+    var url = "${BaseProvider.baseUrl}Payment/create-payment-intent";
     var uri = Uri.parse(url);
 
     var body = jsonEncode({'amount': amount});
@@ -39,7 +34,7 @@ class PaymentProvider extends BaseProvider<Payment> {
   }
 
   Future<String> createPayPalPayment(double amount) async {
-    var url = "$_baseURL/Payment/create-paypal-payment";
+    var url = "${BaseProvider.baseUrl}Payment/create-paypal-payment";
     var uri = Uri.parse(url);
 
     var body = jsonEncode({

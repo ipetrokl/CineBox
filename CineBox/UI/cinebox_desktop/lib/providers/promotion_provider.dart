@@ -16,7 +16,7 @@ class PromotionProvider extends BaseProvider<Promotion> {
 
   @override
   Future<Promotion> insert(request) async {
-    var url = "http://localhost:7137/Promotion";
+    var url = "${BaseProvider.baseUrl}Promotion";
 
     var uri = Uri.parse(url);
     var headers = createHeaders();
@@ -38,7 +38,7 @@ class PromotionProvider extends BaseProvider<Promotion> {
 
   @override
   Future<Promotion> update(int id, [request]) async {
-    var url = "http://localhost:7137/Promotion/$id";
+    var url = "${BaseProvider.baseUrl}Promotion/$id";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 

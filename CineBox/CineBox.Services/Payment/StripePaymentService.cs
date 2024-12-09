@@ -7,7 +7,7 @@ namespace CineBox.Services.Payment
 	{
         public StripePaymentService()
         {
-            StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("Stripe__ApiKey") ?? "sk_test_51PJftNCAqDQvgEGdk2nBewQDfGsLxBWhNmpZnT57RhIFRs4p4nBuYXLS8qNKvgJI5Q3s463GCADUyM4qvGhNe9W000hy47MQkZ";
+            StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY") ?? "";
         }
 
         public async Task<PaymentIntent> CreatePaymentIntent(decimal amount, string currency = "eur")

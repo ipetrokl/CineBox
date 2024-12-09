@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:cinebox_mobile/utils/search_result.dart';
 import 'package:cinebox_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +9,13 @@ abstract class BaseProvider<T> with ChangeNotifier {
   static String? _baseURL;
   String _endPoint = " ";
 
+  static String? get baseUrl => _baseURL;
+
   BaseProvider(String endpoint) {
     _endPoint = endpoint;
-    _baseURL = Platform.isIOS
-        ? "http://localhost:7137/" // iOS
-        : "http://10.0.2.2:7137/"; // Android
 
-    //Iphone test
-    //defaultValue: "http://192.168.1.65:7137/");
+    _baseURL = const String.fromEnvironment("baseUrl",
+        defaultValue: "http://10.0.2.2:7137/");
   }
 
   Future<SearchResult<T>> get({dynamic filter}) async {

@@ -37,42 +37,42 @@ PODS:
   - SDWebImage (5.17.0):
     - SDWebImage/Core (= 5.17.0)
   - SDWebImage/Core (5.17.0)
-  - Stripe (23.22.1):
-    - StripeApplePay (= 23.22.1)
-    - StripeCore (= 23.22.1)
-    - StripePayments (= 23.22.1)
-    - StripePaymentsUI (= 23.22.1)
-    - StripeUICore (= 23.22.1)
+  - Stripe (23.27.2):
+    - StripeApplePay (= 23.27.2)
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripePaymentsUI (= 23.27.2)
+    - StripeUICore (= 23.27.2)
   - stripe_ios (0.0.1):
     - Flutter
-    - Stripe (~> 23.22.0)
-    - StripeApplePay (~> 23.22.0)
-    - StripeFinancialConnections (~> 23.22.0)
-    - StripePayments (~> 23.22.0)
-    - StripePaymentSheet (~> 23.22.0)
-    - StripePaymentsUI (~> 23.22.0)
-  - StripeApplePay (23.22.1):
-    - StripeCore (= 23.22.1)
-  - StripeCore (23.22.1)
-  - StripeFinancialConnections (23.22.1):
-    - StripeCore (= 23.22.1)
-    - StripeUICore (= 23.22.1)
-  - StripePayments (23.22.1):
-    - StripeCore (= 23.22.1)
-    - StripePayments/Stripe3DS2 (= 23.22.1)
-  - StripePayments/Stripe3DS2 (23.22.1):
-    - StripeCore (= 23.22.1)
-  - StripePaymentSheet (23.22.1):
-    - StripeApplePay (= 23.22.1)
-    - StripeCore (= 23.22.1)
-    - StripePayments (= 23.22.1)
-    - StripePaymentsUI (= 23.22.1)
-  - StripePaymentsUI (23.22.1):
-    - StripeCore (= 23.22.1)
-    - StripePayments (= 23.22.1)
-    - StripeUICore (= 23.22.1)
-  - StripeUICore (23.22.1):
-    - StripeCore (= 23.22.1)
+    - Stripe (~> 23.27.0)
+    - StripeApplePay (~> 23.27.0)
+    - StripeFinancialConnections (~> 23.27.0)
+    - StripePayments (~> 23.27.0)
+    - StripePaymentSheet (~> 23.27.0)
+    - StripePaymentsUI (~> 23.27.0)
+  - StripeApplePay (23.27.2):
+    - StripeCore (= 23.27.2)
+  - StripeCore (23.27.2)
+  - StripeFinancialConnections (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripeUICore (= 23.27.2)
+  - StripePayments (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripePayments/Stripe3DS2 (= 23.27.2)
+  - StripePayments/Stripe3DS2 (23.27.2):
+    - StripeCore (= 23.27.2)
+  - StripePaymentSheet (23.27.2):
+    - StripeApplePay (= 23.27.2)
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripePaymentsUI (= 23.27.2)
+  - StripePaymentsUI (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripeUICore (= 23.27.2)
+  - StripeUICore (23.27.2):
+    - StripeCore (= 23.27.2)
   - SwiftyGif (5.4.4)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -119,19 +119,19 @@ SPEC CHECKSUMS:
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
-  Stripe: b65e9f748f8f51b51e015b0d72f5474dc0708788
-  stripe_ios: 433385aa051f8965915d495744946ee5a5d657db
-  StripeApplePay: 4a2fef6cd4e1e9b2c0849919fc7b3a9c5c3684b1
-  StripeCore: e1f6cd91d1487c0f6b5db81b42aec860420f75c9
-  StripeFinancialConnections: d223a44613e6982cedd552c5950edc9b4901c90a
-  StripePayments: 76144e9e6b5fee859954238a175f859043562659
-  StripePaymentSheet: a25d920bb3bb5e2580696476482dc7df9cb5e4e2
-  StripePaymentsUI: 66088abec88754bbdd522ef227dfdbb2265a653e
-  StripeUICore: b193c7d35e9cd1b04bc9ed4a6fb8c548fcee83fa
+  Stripe: ec902be2e477aa8c6cfb758f4ed9a4603c4b5d63
+  stripe_ios: 03c617acee72e48a2d055d096a4b0ed2afebb256
+  StripeApplePay: 55e0fe7095d18bc6d8390cab176692c801d865c6
+  StripeCore: 55c1fb4ec4edd61243c59839cef592b0ac4c469a
+  StripeFinancialConnections: e646628ca798faa26bf794d8dc76c17ddb8405e4
+  StripePayments: 1702ca63bf83c5170330bc4fbf587acb869a7da1
+  StripePaymentSheet: bf96500ca25dadf72079e4f256d827955dd7d1ef
+  StripePaymentsUI: a51fd3468d9944b602f79ddae26d83e6dd2d9048
+  StripeUICore: 436db87a21e3bb45b7a6a90c114a6d21c35b4be0
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
-  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
+  webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 6d23a6c87d28f725778a80478aed4125dafc3267
 
 COCOAPODS: 1.15.2

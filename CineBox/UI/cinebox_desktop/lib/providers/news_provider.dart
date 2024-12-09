@@ -16,7 +16,7 @@ class NewsProvider extends BaseProvider<News> {
 
   @override
   Future<News> insert(request) async {
-    var url = "http://localhost:7137/News";
+    var url = "${BaseProvider.baseUrl}News";
 
     var uri = Uri.parse(url);
     var headers = createHeaders();
@@ -40,7 +40,7 @@ class NewsProvider extends BaseProvider<News> {
 
   @override
   Future<News> update(int id, [request]) async {
-    var url = "http://localhost:7137/News/$id";
+    var url = "${BaseProvider.baseUrl}News/$id";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 

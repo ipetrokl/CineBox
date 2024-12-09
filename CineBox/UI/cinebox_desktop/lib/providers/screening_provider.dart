@@ -15,7 +15,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
 
   @override
   Future<Screening> insert(request) async {
-    var url = "http://localhost:7137/Screening";
+    var url = "${BaseProvider.baseUrl}Screening";
 
     var uri = Uri.parse(url);
     var headers = createHeaders();
@@ -39,7 +39,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
 
   @override
   Future<Screening> update(int id, [request]) async {
-    var url = "http://localhost:7137/Screening/$id";
+    var url = "${BaseProvider.baseUrl}Screening/$id";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
@@ -61,7 +61,7 @@ class ScreeningProvider extends BaseProvider<Screening> {
   }
 
   Future<List<TerminOccupiedReport>> fetchTerminOccupiedReport() async {
-    final String url = 'http://localhost:7137/Screening/termins';
+    final String url = '${BaseProvider.baseUrl}Screening/termins';
 
     var uri = Uri.parse(url);
     var headers = createHeaders();

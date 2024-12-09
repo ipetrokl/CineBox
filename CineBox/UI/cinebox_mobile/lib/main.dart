@@ -26,20 +26,13 @@ import 'package:cinebox_mobile/screens/cinema_screen.dart';
 import 'package:cinebox_mobile/screens/log_in_screen.dart';
 import 'package:cinebox_mobile/screens/profil_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-  final stripePublishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'];
 
-  if (stripePublishableKey == null) {
-    throw Exception('STRIPE_PUBLISHABLE_KEY is not set in .env file');
-  }
-
-  Stripe.publishableKey = stripePublishableKey;
+  Stripe.publishableKey =
+      const String.fromEnvironment('STRIPE_PUBLISHABLE_KEY', defaultValue: "pk_test_51PJftNCAqDQvgEGdStJJ2cR34K5D4pfNeBdzoWmLf4QWcIhuGRakIClYXZ7mF5j9lX0Ckc0sW37gi07WbOln6gyO00XrpOnDVK");
 
   runApp(MultiProvider(
     providers: [

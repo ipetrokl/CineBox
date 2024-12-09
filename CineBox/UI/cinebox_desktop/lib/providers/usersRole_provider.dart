@@ -16,7 +16,7 @@ class UsersRoleProvider extends BaseProvider<UsersRole> {
 
   @override
   Future<UsersRole> insert(request) async {
-    var url = "http://localhost:7137/UsersRole";
+    var url = "${BaseProvider.baseUrl}UsersRole";
 
     var uri = Uri.parse(url);
     var headers = createHeaders();
@@ -38,7 +38,7 @@ class UsersRoleProvider extends BaseProvider<UsersRole> {
 
   @override
   Future<UsersRole> update(int id, [request]) async {
-    var url = "http://localhost:7137/UsersRole/$id";
+    var url = "${BaseProvider.baseUrl}UsersRole/$id";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 

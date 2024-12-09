@@ -16,7 +16,7 @@ class HallProvider extends BaseProvider<Hall> {
   Future<List<HallOccupancyReport>> fetchHallOccupancyReport(
       DateTime selectedDate, int cinemaId) async {
     final String url =
-        'http://localhost:7137/Hall/occupancy?selectedDate=${selectedDate.toIso8601String()}&cinemaId=$cinemaId';
+        '${BaseProvider.baseUrl}Hall/occupancy?selectedDate=${selectedDate.toIso8601String()}&cinemaId=$cinemaId';
 
     var uri = Uri.parse(url);
     var headers = createHeaders();

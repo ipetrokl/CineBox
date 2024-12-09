@@ -13,13 +13,9 @@ class MovieProvider extends BaseProvider<Movie> {
   }
 
   Future<List<Movie>> getRecommendedMovies(int userId, DateTime selectedDate) async {
-    String _baseURL = Platform.isIOS
-        ? "http://localhost:7137/" // iOS
-        : "http://10.0.2.2:7137/"; // Android
-
     String _endPoint = "Movie/GetRecommendedMovies/$userId/$selectedDate";
 
-    var url = "$_baseURL$_endPoint";
+    var url = "${BaseProvider.baseUrl}$_endPoint";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
