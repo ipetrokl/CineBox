@@ -2,8 +2,8 @@
 
 ### Setup Instructions
 
-Open a terminal inside the solution folder.
-Run the following commands:
+1. Open a terminal inside the solution folder.
+2. Run the following commands:
 - set STRIPE_SECRET_KEY=YourSecretKey
 - docker-compose up -d --build
 
