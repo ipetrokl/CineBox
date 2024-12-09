@@ -17,6 +17,11 @@
 - Lozinka: guest
 
 ### Mobile Aplikacija
+
+  ##Using Stripe Keys
+  If you want to use your own Stripe keys, use the following commands:
+   - flutter run --dart-define=STRIPE_PUBLISHABLE_KEY=YourPublishableKey
+
 - Korisničko ime: test
 - Lozinka: test
 
