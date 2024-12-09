@@ -23,8 +23,8 @@
    - flutter run --dart-define=STRIPE_PUBLISHABLE_KEY=YourPublishableKey
   
   #### Credentials:
-    - Korisničko ime: test
-    - Lozinka: test
+  - Korisničko ime: test
+  - Lozinka: test
 
 ### Mobile Aplikacija (Plaćanje)
  #### Kreditna kartica
