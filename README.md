@@ -18,7 +18,7 @@
 
 ### Mobile Aplikacija
 
-  ##Using Stripe Keys
+  ####Using Stripe Keys
   If you want to use your own Stripe keys, use the following commands:
    - flutter run --dart-define=STRIPE_PUBLISHABLE_KEY=YourPublishableKey
 
@@ -35,7 +35,7 @@
   - Email: cinebox@gmail.com
   - Password: C!neb0xx
 
-###NOTE: Za "MailingService" potrebno izvršiti plaćanje u mobilnoj aplikaciji, nakon čega servis šalje mail potvrde plaćanja.
+####NOTE: Za "MailingService" potrebno izvršiti plaćanje u mobilnoj aplikaciji, nakon čega servis šalje mail potvrde plaćanja.
 
 ### Email za provjeru rada mailing servisa 
 - Email: cineboxpetrovic@gmail.com
