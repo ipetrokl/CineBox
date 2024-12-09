@@ -1,5 +1,13 @@
 ## Kredencijali za pristup aplikacijama
 
+### Setup Instructions
+
+Open a terminal inside the solution folder.
+Run the following commands:
+- set STRIPE_SECRET_KEY=YourSecretKey
+- docker-compose up -d --build
+
+
 ### Desktop Aplikacija (Rola: Admin)
 - Korisničko ime: test
 - Lozinka: test
